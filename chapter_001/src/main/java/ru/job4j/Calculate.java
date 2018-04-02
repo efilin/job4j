@@ -1,3 +1,5 @@
+package ru.job4j;
+
 /**
  * Package for calculate task.
  *
@@ -5,8 +7,6 @@
  * @version $Id$
  * @since 0.1
  */
-
-package ru.job4j;
 
 public class Calculate {
 	/**
