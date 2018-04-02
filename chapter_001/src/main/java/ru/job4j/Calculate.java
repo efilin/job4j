@@ -7,7 +7,7 @@ package ru.job4j;
  * @version $Id$
  * @since 0.1
  */
-
+//test
 public class Calculate {
 	/**
 	 * Main.
