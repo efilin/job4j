@@ -5,11 +5,14 @@ public class Triangle {
     private Point b;
     private Point c;
 
+
+
     public Triangle(Point a, Point b, Point c) {
         this.a = a;
         this.b = b;
         this.c = c;
     }
+
 
     /**
      * Метод вычисления полупериметра по длинам сторон.
@@ -24,7 +27,7 @@ public class Triangle {
      * @return Перимент.
      */
     public double period(double ab, double ac, double bc) {
-        return -1;
+        return (ab + ac + bc)/2;
     }
 
     //Используя формулу Герона.
@@ -36,12 +39,14 @@ public class Triangle {
      * @return Вернуть прощадь, если треугольник существует или -1, если треугольника нет.
      */
     public double area() {
-        double rsl = -1;
+        double rsl =  -1;
         double ab = this.a.distanceTo(this.b);
         double ac = this.a.distanceTo(this.c);
         double bc = this.b.distanceTo(this.c);
         double p = this.period(ab, ac, bc);
         if (this.exist(ab, ac, bc)) {
+
+            rsl = Math.sqrt(p*(p-ab)*(p-ac)*(p-bc));
             // написать формулу для расчета площади треугольника.
             //rsl = ...
         }
@@ -60,6 +65,8 @@ public class Triangle {
      * @return
      */
     private boolean exist(double ab, double ac, double bc) {
+        if (ab == 0 )
+
         return false;
     }
 }
