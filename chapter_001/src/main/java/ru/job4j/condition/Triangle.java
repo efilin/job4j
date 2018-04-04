@@ -1,5 +1,11 @@
 package ru.job4j.condition;
 
+/**
+ * @author  Eugeniy Filin (2727fas@gmail.com)
+ * @version $Id$
+ * @since 0.1
+ */
+
 public class Triangle {
     private Point a;
     private Point b;
@@ -65,8 +71,12 @@ public class Triangle {
      * @return
      */
     private boolean exist(double ab, double ac, double bc) {
-        if (ab == 0 )
-
-        return false;
+        if (ab == 0 | ac==0 | bc==0) {
+            return false;
+        } else if (ab==ac+bc | ac==ab+bc | bc==ab+ac) {
+            return false;
+        }else{
+            return true;
+        }
     }
 }

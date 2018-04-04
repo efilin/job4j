@@ -4,6 +4,12 @@ import org.junit.Test;
 import static org.hamcrest.number.IsCloseTo.closeTo;
 import static org.junit.Assert.*;
 
+/**
+ * @author  Eugeniy Filin (2727fas@gmail.com)
+ * @version $Id$
+ * @since 0.1
+ */
+
 public class TriangleTest {
     @Test
     public void whenAreaSetThreePointsThenTriangleArea() {
