@@ -36,8 +36,6 @@ public class Triangle {
         return (ab + ac + bc) / 2;
     }
 
-    //Используя формулу Герона.
-
 
     /**
      * Метод должен вычислить площадь треугольника.
@@ -63,16 +61,14 @@ public class Triangle {
      * Метод проверяет можно ли построить треугольник с такими длинами сторон.
      *
      * Подумайте какое надо написать условие, чтобы определить можно ли построить треугольник.
-     * ab!=0, ac!=0, bc!=0
-     * ab!=ac+cb, ac!=ab+cb, bc!=ab+ac
      * @param ab Длина от точки a b.
      * @param ac Длина от точки a c.
      * @param bc Длина от точки b c.
      * @return
      */
     private boolean exist(double ab, double ac, double bc) {
-        if (ab == 0 | ac == 0 | bc == 0 | ab == ac + bc | ac == ab + bc | bc == ab + ac) {
-            return false;
+        if ( ab >= ac + bc || ac >= ab + bc || bc >= ab + ac) {
+            return  false;
         } else {
             return true;
         }
