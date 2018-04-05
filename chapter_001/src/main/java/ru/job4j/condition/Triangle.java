@@ -33,7 +33,7 @@ public class Triangle {
      * @return Перимент.
      */
     public double period(double ab, double ac, double bc) {
-        return (ab + ac + bc)/2;
+        return (ab + ac + bc) / 2;
     }
 
     //Используя формулу Герона.
@@ -52,7 +52,7 @@ public class Triangle {
         double p = this.period(ab, ac, bc);
         if (this.exist(ab, ac, bc)) {
 
-            rsl = Math.sqrt(p*(p-ab)*(p-ac)*(p-bc));
+            rsl = Math.sqrt(p * (p - ab) * (p - ac) * (p - bc));
             // написать формулу для расчета площади треугольника.
             //rsl = ...
         }
@@ -71,11 +71,9 @@ public class Triangle {
      * @return
      */
     private boolean exist(double ab, double ac, double bc) {
-        if (ab == 0 | ac==0 | bc==0) {
+        if (ab == 0 | ac == 0 | bc == 0 | ab == ac + bc | ac == ab + bc | bc == ab + ac) {
             return false;
-        } else if (ab==ac+bc | ac==ab+bc | bc==ab+ac) {
-            return false;
-        }else{
+        } else {
             return true;
         }
     }

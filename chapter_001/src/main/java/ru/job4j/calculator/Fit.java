@@ -11,7 +11,7 @@ public class Fit {
      * @return идеальный вес.
      */
     public double manWeight(double height) {
-        this.weight=(height-100)*1.15;
+        this.weight = (height - 100) * 1.15;
         return this.weight;
     }
 
@@ -21,7 +21,7 @@ public class Fit {
      * @return идеальный вес.
      */
     public double womanWeight(double height) {
-        this.weight=(height-110)*1.15;
+        this.weight = (height - 110) * 1.15;
         return this.weight;
     }
 }
