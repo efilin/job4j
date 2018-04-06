@@ -9,13 +9,23 @@ import static org.junit.Assert.assertThat;
  * @version $Id$
  * @since 0.1
  */
-
+        /*можно упростить.
+        сделать проверку двух чисел и результата.
+        и записать один вызовом.
+        return max(.. max(..));
+        */
 
 public class MaxTest {
     @Test
-    public void whenFirstLessSecond() {
+    public void whenFirstLessAndSecondLessThird() {
         Max maxim = new Max();
         int result = maxim.max(1, 2, 3);
         assertThat(result, is(3));
+    }
+    @Test
+    public void whenFirstLessSecond() {
+        Max maxim = new Max();
+        int result = maxim.max(1,2);
+        assertThat(result, is(2));
     }
 }

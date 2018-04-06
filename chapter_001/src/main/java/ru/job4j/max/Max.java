@@ -6,6 +6,12 @@ package ru.job4j.max;
  * @since 0.1
  */
 
+        /*можно упростить.
+        сделать проверку двух чисел и результата.
+        и записать один вызовом.
+        return max(.. max(..));
+        */
+
 public class Max {
 
     public int max(int first, int second) {
