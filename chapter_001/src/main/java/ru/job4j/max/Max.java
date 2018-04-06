@@ -7,9 +7,9 @@ package ru.job4j.max;
  */
 
         /*можно упростить.
-        сделать проверку двух чисел и результата.
         и записать один вызовом.
         return max(.. max(..));
+        сделать проверку двух чисел и результата.
         */
 
 public class Max {
@@ -18,8 +18,6 @@ public class Max {
          return first >= second ? first : second;
     }
     public int max(int first, int second, int third) {
-        int temp1 = this.max(first, second);
-        int temp2 = this.max(second, third);
-        return this.max(temp1, temp2);
+       return max(max(first, second), third);
     }
 }
