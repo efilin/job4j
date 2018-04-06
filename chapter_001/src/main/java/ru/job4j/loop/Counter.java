@@ -13,7 +13,6 @@ public class Counter {
             if (i % 2 == 0) {
                 sum = sum + i;
             }
-        }
-        return sum;
+        } return sum;
     }
 }
