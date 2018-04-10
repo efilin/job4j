@@ -14,6 +14,11 @@ import static org.junit.Assert.assertThat;
 public class ArrayDuplicateTest {
     @Test
     public void whenRemoveDuplicatesThenArrayWithoutDuplicate() {
+        ArrayDuplicate duplicate = new ArrayDuplicate();
+        String[] input =  {"Привет", "Мир", "Привет", "Супер", "Мир"};
+        String [] result = duplicate.remove(input);
+        String[] expect = {"Привет", "Мир", "Супер"};
+        assertThat(result, is(expect));
         //напишите здесь тест, проверяющий удаление дубликатов строк из массива строк.
     }
 }
