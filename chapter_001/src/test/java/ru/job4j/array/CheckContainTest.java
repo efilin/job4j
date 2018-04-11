@@ -14,14 +14,16 @@ public class CheckContainTest {
     @Test
     public void whenContainThenTrue() {
         CheckContain word = new CheckContain();
-        boolean result = word.contains("Helloworld", "low");
+        String origin = "Hello";
+        String sub = "el";
+        boolean result = word.contains(origin,sub);
         assertThat(result, is(true));
     }
 
     @Test
     public void whenNotContainThenFalse() {
         CheckContain word = new CheckContain();
-        boolean result = word.contains("Helloworld", "word");
+        boolean result = word.contains("Hello", "Hi");
         assertThat(result, is(false));
 
     }
