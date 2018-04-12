@@ -14,9 +14,9 @@ public class CheckContainTest {
     @Test
     public void whenContainThenTrue() {
         CheckContain word = new CheckContain();
-        String origin = "Hello";
-        String sub = "el";
-        boolean result = word.contains(origin,sub);
+        String origin = "Helloworld";
+        String sub = "ello";
+        boolean result = word.contains(origin, sub);
         assertThat(result, is(true));
     }
 
