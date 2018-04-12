@@ -20,6 +20,7 @@ public class CheckContain {
                     k++;
                     if (k == value.length) {
                         result = true;
+                        break;
                     }
                 }
             }
