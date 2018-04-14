@@ -13,7 +13,6 @@ import static org.junit.Assert.*;
 public class PointTest {
     @Test
     public void distanceAtoB() {
-
         Point a = new Point(0, 0);
         Point b = new Point(0, 4);
         double result = a.distanceTo(b);

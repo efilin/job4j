@@ -18,8 +18,8 @@ public class ArrayDuplicate {
                         String temp = array[j];
                         array[j] = array[array.length - k - 1];
                         array[array.length - k - 1] = temp;
-
-                    } k++;
+                    }
+                    k++;
                 }
             }
         } return Arrays.copyOf(array, array.length - k);

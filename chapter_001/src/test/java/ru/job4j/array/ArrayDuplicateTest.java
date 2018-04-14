@@ -19,6 +19,5 @@ public class ArrayDuplicateTest {
         String[] result = duplicate.remove(input);
         String[] expect = {"Привет", "Мир", "Труд", "Май"};
         assertThat(result, is(expect));
-        //напишите здесь тест, проверяющий удаление дубликатов строк из массива строк.
     }
 }

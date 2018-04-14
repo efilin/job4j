@@ -11,15 +11,11 @@ public class Triangle {
     private Point b;
     private Point c;
 
-
-
     public Triangle(Point a, Point b, Point c) {
         this.a = a;
         this.b = b;
         this.c = c;
     }
-
-
     /**
      * Метод вычисления полупериметра по длинам сторон.
      *
@@ -36,7 +32,6 @@ public class Triangle {
         return (ab + ac + bc) / 2;
     }
 
-
     /**
      * Метод должен вычислить площадь треугольника.
      *
@@ -49,10 +44,7 @@ public class Triangle {
         double bc = this.b.distanceTo(this.c);
         double p = this.period(ab, ac, bc);
         if (this.exist(ab, ac, bc)) {
-
             rsl = Math.sqrt(p * (p - ab) * (p - ac) * (p - bc));
-            // написать формулу для расчета площади треугольника.
-            //rsl = ...
         }
         return rsl;
     }

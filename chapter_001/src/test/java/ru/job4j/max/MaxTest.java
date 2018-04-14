@@ -9,11 +9,6 @@ import static org.junit.Assert.assertThat;
  * @version $Id$
  * @since 0.1
  */
-        /*можно упростить.
-        сделать проверку двух чисел и результата.
-        и записать один вызовом.
-        return max(.. max(..));
-        */
 
 public class MaxTest {
     @Test
