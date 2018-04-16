@@ -15,10 +15,10 @@ public class IntegratorTest {
     @Test
     public void twoArraysIntoOne() {
         Integrator integrator = new Integrator();
-        int [] first = {2, 4, 5, 8, 9};
-        int [] second = {1, 4, 6, 10, 12};
-        int [] result = integrator.sort(first, second);
-        int [] expect = {1, 2, 4, 4, 5, 6, 8, 9, 10, 12};
+        int[] first = {2, 4, 5, 8, 9};
+        int[] second = {1, 4, 6, 10, 12};
+        int[] result = integrator.sort(first, second);
+        int[] expect = {1, 2, 4, 4, 5, 6, 8, 9, 10, 12};
         assertThat(result, is(expect));
     }
 }

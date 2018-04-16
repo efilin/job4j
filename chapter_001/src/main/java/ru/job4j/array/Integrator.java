@@ -10,8 +10,8 @@ import java.util.Arrays;
 // Имеется два отсортированных целочисленных массива, требуется объединить их в третий массив.
 
 public class Integrator {
-    public int[] sort(int [] arrayOne, int[] arrayTwo) {
-        int [] arrayThree = new int[arrayOne.length + arrayTwo.length];
+    public int[] sort(int[] arrayOne, int[] arrayTwo) {
+        int[] arrayThree = new int[arrayOne.length + arrayTwo.length];
         for (int i = 0; i < arrayThree.length; i++) {
             if (i < arrayOne.length) {
                 arrayThree[i] = arrayOne[i];
