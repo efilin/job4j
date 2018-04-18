@@ -1,6 +1,5 @@
 package ru.job4j.tracker;
 
-
 import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Random;
@@ -40,7 +39,7 @@ public class Tracker {
                 result = item;
                 break;
             }
-        }return result;
+        } return result;
     }
     public Item[] findAll() {
         Item[] result = new Item[position];
@@ -54,7 +53,8 @@ public class Tracker {
         for (int index = 0; index != position; index++) {
             if (this.items[index].getId().equals(id)) {
                 this.items[index] = item;
-            } break;
+            }
+            break;
         }
 
         // редактирование заявок - public void replace(String id, Item item);
@@ -63,7 +63,7 @@ public class Tracker {
 
     public void delete(String id) {
         for (int index = 0; index != position; index++) {
-            if (this.items[index].getId().equals(id) ) {
+            if (this.items[index].getId().equals(id)) {
                 System.arraycopy(this.items, index, this.items, index - 1, this.items.length - index - 1);
             }
         }
@@ -79,7 +79,7 @@ public class Tracker {
                 result[index] = item;
                 index++;
             }
-        }return Arrays.copyOf(result, result.length - index);
+        } return Arrays.copyOf(result, result.length - index);
         // проверяет в цикле все элементы массива this.items, сравнивая name (используя метод getName класса Item)
         // с аргументом метода String key. Элементы, у которых совпадает name, копирует в результирующий массив и возвращает его;
     }
