@@ -1,6 +1,8 @@
 package ru.job4j.tracker;
 
 
+import java.lang.reflect.Array;
+import java.util.Arrays;
 import java.util.Random;
 
 /**
@@ -34,7 +36,7 @@ public class Tracker {
     public Item findById(String id) {
         Item result = null;
         for (Item item: items) {
-            if (item != null && item.equals(id)) {
+            if (item != null && item.getId().equals(id)) {
                 result = item;
                 break;
             }
@@ -50,7 +52,7 @@ public class Tracker {
 
     public  void replace(String id, Item item) {
         for (int index = 0; index != position; index++) {
-            if (this.items[index].equals(id)) {
+            if (this.items[index].getId().equals(id)) {
                 this.items[index] = item;
             } break;
         }
@@ -61,8 +63,8 @@ public class Tracker {
 
     public void delete(String id) {
         for (int index = 0; index != position; index++) {
-            if (this.items[index].equals(id) ) {
-                System.arraycopy(this.items, index, this.items, index-1, this.items.length - index - 1);
+            if (this.items[index].getId().equals(id) ) {
+                System.arraycopy(this.items, index, this.items, index - 1, this.items.length - index - 1);
             }
         }
        // должен удалить ячейку в массиве this.items. Для этого необходимо найти ячейку в массиве по id.
@@ -70,12 +72,14 @@ public class Tracker {
     }
 
     public Item[] findByName(String key) {
-        Item result = new Item();
+        Item[] result = new Item[position];
+        int index = 0;
         for (Item item:items) {
             if (item.getName().equals(key))  {
-
+                result[index] = item;
+                index++;
             }
-        }
+        }return Arrays.copyOf(result, result.length - index);
         // проверяет в цикле все элементы массива this.items, сравнивая name (используя метод getName класса Item)
         // с аргументом метода String key. Элементы, у которых совпадает name, копирует в результирующий массив и возвращает его;
     }
