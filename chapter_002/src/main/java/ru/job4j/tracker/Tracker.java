@@ -55,6 +55,11 @@ public class Tracker {
     }
 
     public void delete(String id) {
+        for (int index = 0; index != position; index++) {
+            if (this.items[index].equals(id) ) {
+                System.arraycopy(this.items, index, this.items, index-1, this.items.length - index - 1);
+            }
+        }
        // должен удалить ячейку в массиве this.items. Для этого необходимо найти ячейку в массиве по id.
        // Далее сместить все значения справа от удаляемого элемента - на одну ячейку влево с помощью System.arrayCopy();
     }
