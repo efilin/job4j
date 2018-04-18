@@ -49,6 +49,11 @@ public class Tracker {
     }
 
     public  void replace(String id, Item item) {
+        for (int index = 0; index != position; index++) {
+            if (this.items[index].equals(id)) {
+                this.items[index] = item;
+            }
+        }
 
         // редактирование заявок - public void replace(String id, Item item);
         // должен заменить ячейку в массиве this.items. Для этого необходимо найти ячейку в массиве по id

@@ -3,7 +3,7 @@ package ru.job4j.tracker;
 public class Item {
     public String id;
     public String name;
-    public  String description;
+    public String description;
     public long create;
 
     public Item(String name, String description, long create) {
