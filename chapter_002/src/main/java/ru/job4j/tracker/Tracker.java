@@ -52,7 +52,7 @@ public class Tracker {
         for (int index = 0; index != position; index++) {
             if (this.items[index].equals(id)) {
                 this.items[index] = item;
-            }
+            } break;
         }
 
         // редактирование заявок - public void replace(String id, Item item);
@@ -70,6 +70,12 @@ public class Tracker {
     }
 
     public Item[] findByName(String key) {
+        Item result = new Item();
+        for (Item item:items) {
+            if (item.getName().equals(key))  {
+
+            }
+        }
         // проверяет в цикле все элементы массива this.items, сравнивая name (используя метод getName класса Item)
         // с аргументом метода String key. Элементы, у которых совпадает name, копирует в результирующий массив и возвращает его;
     }
