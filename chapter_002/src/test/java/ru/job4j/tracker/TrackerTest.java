@@ -52,16 +52,51 @@ public class TrackerTest {
 
     @Test
     public void whenFindAll() {
+        Tracker tracker = new Tracker();
+        Item[] item = new Item[3];
+        Item itemOne = new Item("test1", "testDescription", 123L);
+        tracker.add(itemOne);
+        Item itemTwo = new Item("test2", "testDescription2", 124L);
+        tracker.add(itemTwo);
+        Item itemThree = new Item("test3", "testDescription3", 125L);
+        tracker.add(itemThree);
+        item[0] = itemOne;
+        item[1] = itemTwo;
+        item[2] = itemThree;
+        assertThat(tracker.findAll(), is(item));
 
     }
 
     @Test
     public  void whenDelete() {
+        Tracker tracker = new Tracker();
+        Item[] item = new Item[2];
+        Item itemOne = new Item("test1", "testDescription", 123L);
+        tracker.add(itemOne);
+        Item itemTwo = new Item("test2", "testDescription2", 124L);
+        tracker.add(itemTwo);
+        Item itemThree = new Item("test3", "testDescription3", 125L);
+        tracker.add(itemThree);
+        tracker.delete(itemTwo.getId());
+        item[0] = itemOne;
+        item[1] = itemThree;
+        assertThat(tracker.findAll(),is(item));
 
     }
 
     @Test
     public void whenFindByName() {
+        Tracker tracker = new Tracker();
+        Item[] item = new Item[2];
+
+        Item itemOne = new Item("test1", "testDescription", 123L);
+        tracker.add(itemOne);
+        Item itemTwo = new Item("test2", "testDescription2", 124L);
+        tracker.add(itemTwo);
+        Item itemThree = new Item("test3", "testDescription3", 125L);
+        tracker.add(itemThree);
+        item = tracker.findByName("test3");
+        assertThat(item, is(tracker.findById(itemThree.getId())));
 
     }
 }
