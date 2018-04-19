@@ -1,5 +1,11 @@
 package ru.job4j.tracker;
 
+/**
+ * @author  Eugeniy Filin (2727fas@gmail.com)
+ * @version $Id$
+ * @since 0.1
+ */
+
 public class Item {
     public String id;
     public String name;
