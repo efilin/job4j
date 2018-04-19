@@ -1,6 +1,5 @@
 package ru.job4j.tracker;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -56,32 +55,26 @@ public class Tracker {
             }
             break;
         }
-
-        // редактирование заявок - public void replace(String id, Item item);
-        // должен заменить ячейку в массиве this.items. Для этого необходимо найти ячейку в массиве по id
     }
 
     public void delete(String id) {
         for (int index = 0; index != position; index++) {
             if (this.items[index].getId().equals(id)) {
                 System.arraycopy(this.items, index + 1, this.items, index, this.items.length - (index + 1));
-            } break;
+                break;
+            }
         }
-       // должен удалить ячейку в массиве this.items. Для этого необходимо найти ячейку в массиве по id.
-       // Далее сместить все значения справа от удаляемого элемента - на одну ячейку влево с помощью System.arrayCopy();
     }
 
     public Item[] findByName(String key) {
-        Item[] result = new Item[position];
+        Item[] result = new Item[100];
         int index = 0;
         for (Item item:items) {
-            if (item.getName().equals(key))  {
+            if (item != null && item.getName().equals(key))  {
                 result[index] = item;
                 index++;
             }
-        } return Arrays.copyOf(result, result.length - index);
-        // проверяет в цикле все элементы массива this.items, сравнивая name (используя метод getName класса Item)
-        // с аргументом метода String key. Элементы, у которых совпадает name, копирует в результирующий массив и возвращает его;
+        } return Arrays.copyOf(result, index);
     }
 
 
