@@ -95,9 +95,11 @@ public class StartUI {
     private void showAllItems() {
         System.out.println("------------ Отображение всех записей --------------");
         for (Item item: this.tracker.findAll()) {
-            System.out.println("----------- Заявка id : " + item.getId() + "---------------");
-            System.out.println("----------- Имя : " + item.getName() + "----------------");
-            System.out.println("----------- Описание : " + item.getDescription() + "---------------");
+            if (item != null) {
+                System.out.println("----------- Заявка id : " + item.getId() + "---------------");
+                System.out.println("----------- Имя : " + item.getName() + "----------------");
+                System.out.println("----------- Описание : " + item.getDescription() + "---------------");
+            }
         }
     }
 
@@ -144,6 +146,7 @@ public class StartUI {
         System.out.println("3. Удалить заявку по id");
         System.out.println("4. Найти заявку по id");
         System.out.println("5. Найти все заявки по имени");
+        System.out.println("6. Выход");
     }
 
     /**
