@@ -95,9 +95,9 @@ public class StartUI {
     private void showAllItems() {
         System.out.println("------------ Отображение всех записей --------------");
         for (Item item: this.tracker.findAll()) {
-            System.out.println("----------- Заявка id : " + item.getId() + "---------------" );
+            System.out.println("----------- Заявка id : " + item.getId() + "---------------");
             System.out.println("----------- Имя : " + item.getName() + "----------------");
-            System.out.println("----------- Описание : " + item.getDescription() + "---------------" );
+            System.out.println("----------- Описание : " + item.getDescription() + "---------------");
         }
     }
 
@@ -107,7 +107,7 @@ public class StartUI {
         String name = this.input.ask("Введите новое имя заявки :");
         String desc = this.input.ask("Введите новое описание заявки :");
         Item item = new Item(name, desc, 1L);
-        this.tracker.replace(id,item);
+        this.tracker.replace(id, item);
     }
 
     private void deleteItem() {
@@ -120,9 +120,9 @@ public class StartUI {
     private void findId() {
         System.out.println("------------ Поиск записи по id --------------");
         String id = this.input.ask("Введение Id записи:");
-        System.out.println("----------- Заявка id : " + this.tracker.findById(id).getId() + "---------------" );
+        System.out.println("----------- Заявка id : " + this.tracker.findById(id).getId() + "---------------");
         System.out.println("----------- Имя : " + this.tracker.findById(id).getName() + "----------------");
-        System.out.println("----------- Описание : " + this.tracker.findById(id).getDescription() + "---------------" );
+        System.out.println("----------- Описание : " + this.tracker.findById(id).getDescription() + "---------------");
     }
 
     private void findName() {
@@ -130,9 +130,9 @@ public class StartUI {
         String id = this.input.ask("Введение имени записи:");
         this.tracker.findByName(id);
         for (Item item: this.tracker.findByName(id)) {
-            System.out.println("----------- Заявка id : " + item.getId() + "---------------" );
+            System.out.println("----------- Заявка id : " + item.getId() + "---------------");
             System.out.println("----------- Имя : " + item.getName() + "----------------");
-            System.out.println("----------- Описание : " + item.getDescription() + "---------------" );
+            System.out.println("----------- Описание : " + item.getDescription() + "---------------");
         }
     }
 
