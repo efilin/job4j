@@ -27,10 +27,13 @@ public class PaintTest {
                 new String(out.toByteArray()),
                 is(
                         new StringBuilder()
-                                .append("++++")
+                                .append("+++++++")
+                                .append(System.lineSeparator())
                                 .append("+     +")
+                                .append(System.lineSeparator())
                                 .append("+     +")
-                                .append("++++")
+                                .append(System.lineSeparator())
+                                .append("+++++++")
                                 .append(System.lineSeparator())
                                 .toString()
                 )
