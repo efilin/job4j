@@ -85,14 +85,28 @@ public class StartUITest {
                 new String(out.toByteArray()),
                 is(
                         new StringBuilder()
-                                .append("test name")
-                                .append(System.lineSeparator())
-                                .append("desc")
-                                .append(System.lineSeparator())
-                                .append("test name2")
-                                .append(System.lineSeparator())
-                                .append("desc2")
-                                .append(System.lineSeparator())
+                                .append("Меню.\\r\\n" +
+                                        "0. Добавить заявку\\r\\n" +
+                                        "1. Показать все записи\\r\\n" +
+                                        "2. Изменить заявку по id\\r\\n" +
+                                        "3. Удалить заявку по id\\r\\n" +
+                                        "4. Найти заявку по id\\r\\n" +
+                                        "5. Найти все заявки по имени\\r\\n" +
+                                        "6. Выход\\r\\n" +
+                                        "------------ Отображение всех записей --------------\\r\\n" +
+                                        "----------- Заявка id : "+ itemOne.getId() +"---------------\\r\\n" +
+                                        "----------- Имя : test name----------------\\r\\n" +
+                                        "----------- Описание : desc---------------\\r\\n" +
+                                        "----------- Заявка id : " + itemTwo.getId() + "---------------\\r\\n" +
+                                        "----------- Имя : test name2----------------\\r\\n" +
+                                        "----------- Описание : desc2---------------\\r\\nМеню.\\r\\n" +
+                                        "0. Добавить заявку\\r\\n" +
+                                        "1. Показать все записи\\r\\n" +
+                                        "2. Изменить заявку по id\\r\\n" +
+                                        "3. Удалить заявку по id\\r\\n" +
+                                        "4. Найти заявку по id\\r\\n" +
+                                        "5. Найти все заявки по имени\\r\\n" +
+                                        "6. Выход\\r\\n")
                                 .toString()
                 )
         );
