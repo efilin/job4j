@@ -12,7 +12,7 @@ import static org.junit.Assert.assertThat;
 
 
 
-public class StartUITest {
+/*public class StartUITest {
 
     // поле содержит дефолтный вывод в консоль.
     private final PrintStream stdout = System.out;
@@ -125,4 +125,4 @@ public class StartUITest {
 
     }
 
-}
+}*/

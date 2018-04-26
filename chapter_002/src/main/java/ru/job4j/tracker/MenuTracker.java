@@ -18,9 +18,9 @@ public class MenuTracker {
 
     }
 
-    public void fillActtions() {
+    public void fillActions() {
         this.actions[0] = new AddItem();
-        this.actions[1] = new MenuTracker.ShowItem();
+        this.actions[1] = new MenuTracker.ShowItems();
         this.actions[2] = new EditItem();
     }
 
@@ -29,29 +29,33 @@ public class MenuTracker {
     }
 
     public void show() {
-        for (UserAction action: this.actions) {
+        for (UserAction action : this.actions) {
             if (action != null) {
                 System.out.println(action.info());
             }
         }
     }
-
-    private class AddItem implements UserAction {
+    class AddItem implements UserAction {
         public int key() {
             return 0;
         }
+
+        public void execute(Input input, Tracker tracker) {
+            String name = input.ask("Please, enter the task's name: ");
+            String desc = input.ask("Please, enter the task's desc: ");
+            tracker.add(new Item(name, desc, 3));
+        }
+
+        public String info() {
+                return String.format("%s. %s", this.key(), "Add the new item. ");
+        }
     }
 
-    public void execute(Input input, Tracker tracker) {
-        String name = input.ask("Please, enter the task's name: ");
-        String desc = input.ask("Please, enter the task's desc: ");
-        tracker.add(new Item(name, desc, 3));
-    }
 
-    public String info() {
-        return String.format("%s. %s", this.key(), "Add the new item. ");
-    }
-    private static class ShowItem implements UserAction {
+
+
+    //
+    private static class ShowItems implements UserAction {
         @Override
         public int key() {
             return 1;
@@ -69,8 +73,8 @@ public class MenuTracker {
         public String info() {
             return String.format("%s. %s", this.key(), "show all item.");
         }
-    }
 
+    }
 }
 
 class EditItem implements UserAction {
@@ -85,7 +89,7 @@ class EditItem implements UserAction {
         String desc = input.ask("Please, enter the task's desc: ");
         Item item = new Item(name, desc,3);
         item.setId(id);
-        tracker.edit(item);
+        tracker.replace(item.getId(), item);
     }
 
     public String info() {
