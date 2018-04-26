@@ -29,7 +29,6 @@ public class StartUITest {
         System.out.println("execute after method");
     }
 
-
     @Test
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
         Tracker tracker = new Tracker();
@@ -71,14 +70,14 @@ public class StartUITest {
                 new String(out.toByteArray()),
                 is(
                         new StringBuilder()
-                                .append("0. Add the new item. \r\n" +
-                                        "1. show all item.\r\n" +
-                                        "2. Edit the new item. \r\n" +
-                                        "3. Delete item by id: \r\n" +
-                                        "4. Find item by id: \r\n" +
-                                        "5. Find items by name: \r\n" +
-                                        "Name: test name| Desc: desc| Id: " + itemOne.getId() + "\r\n" +
-                                        "Name: test name2| Desc: desc2| Id: " + itemTwo.getId() + "\r\n")
+                                .append("0. Add the new item. \r\n"
+                                        + "1. show all item.\r\n"
+                                        + "2. Edit the new item. \r\n"
+                                        + "3. Delete item by id: \r\n"
+                                        + "4. Find item by id: \r\n"
+                                        + "5. Find items by name: \r\n"
+                                        + "Name: test name| Desc: desc| Id: " + itemOne.getId() + "\r\n"
+                                        + "Name: test name2| Desc: desc2| Id: " + itemTwo.getId() + "\r\n")
                                 .toString()
                 )
         );
@@ -90,19 +89,19 @@ public class StartUITest {
         Tracker tracker = new Tracker();
         Item itemOne = tracker.add(new Item("test name", "desc", 3));
         Item itemTwo = tracker.add(new Item("test name2", "desc2", 4));
-        Input input = new StubInput(new String[]{"4",itemTwo.getId(),"y"});
+        Input input = new StubInput(new String[]{"4", itemTwo.getId(), "y"});
         new StartUI(input, tracker).init();
         assertThat(
                 new String(out.toByteArray()),
                 is(
                         new StringBuilder()
-                                .append("0. Add the new item. \r\n" +
-                                        "1. show all item.\r\n" +
-                                        "2. Edit the new item. \r\n" +
-                                        "3. Delete item by id: \r\n" +
-                                        "4. Find item by id: \r\n" +
-                                        "5. Find items by name: \r\n" +
-                                        "Name: test name2| Desc: desc2| Id: " + itemTwo.getId() + "\r\n")
+                                .append("0. Add the new item. \r\n"
+                                        + "1. show all item.\r\n"
+                                        + "2. Edit the new item. \r\n"
+                                        + "3. Delete item by id: \r\n"
+                                        + "4. Find item by id: \r\n"
+                                        + "5. Find items by name: \r\n"
+                                        + "Name: test name2| Desc: desc2| Id: " + itemTwo.getId() + "\r\n")
                                 .toString()
                 )
 
@@ -115,25 +114,22 @@ public class StartUITest {
         Item itemOne = tracker.add(new Item("test name", "desc", 3));
         Item itemTwo = tracker.add(new Item("test name2", "desc2", 4));
         Item itemThree = tracker.add(new Item("test name", "desc3", 5));
-        Input input = new StubInput(new String[]{"5","test name","y"});
+        Input input = new StubInput(new String[]{"5", "test name", "y"});
         new StartUI(input, tracker).init();
         assertThat(
                 new String(out.toByteArray()),
                 is(
                         new StringBuilder()
-                                .append("0. Add the new item. \r\n" +
-                                        "1. show all item.\r\n" +
-                                        "2. Edit the new item. \r\n" +
-                                        "3. Delete item by id: \r\n" +
-                                        "4. Find item by id: \r\n" +
-                                        "5. Find items by name: \r\n" +
-                                        "Name: test name| Desc: desc| Id: " + itemOne.getId() + "\r\n" +
-                                        "Name: test name| Desc: desc3| Id: " + itemThree.getId() + "\r\n")
+                                .append("0. Add the new item. \r\n"
+                                        + "1. show all item.\r\n"
+                                        + "2. Edit the new item. \r\n"
+                                        + "3. Delete item by id: \r\n"
+                                        + "4. Find item by id: \r\n"
+                                        + "5. Find items by name: \r\n"
+                                        + "Name: test name| Desc: desc| Id: " + itemOne.getId() + "\r\n"
+                                        + "Name: test name| Desc: desc3| Id: " + itemThree.getId() + "\r\n")
                                 .toString()
                 )
         );
-
-
     }
-
 }

@@ -68,8 +68,10 @@ public class MenuTracker {
         @Override
         public void execute(Input input, Tracker tracker) {
             for (Item item : tracker.findAll()) {
+                if (item != null) {
                 System.out.println(String.format("Name: %s| Desc: %s| Id: %s",
                         item.getName(), item.getDescription(), item.getId()));
+                }
             }
         }
 
@@ -138,12 +140,12 @@ class EditItem implements UserAction {
         String id = input.ask("Please, enter the task's id: ");
         String name = input.ask("Please, enter the task's name: ");
         String desc = input.ask("Please, enter the task's desc: ");
-        Item item = new Item(name, desc,3);
+        Item item = new Item(name, desc, 3);
         item.setId(id);
         tracker.replace(item.getId(), item);
     }
 
     public String info() {
-        return String.format("%s. %s", this.key(), "Edit the new item. ") ;
+        return String.format("%s. %s", this.key(), "Edit the new item. ");
     }
 }
