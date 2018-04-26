@@ -12,11 +12,9 @@ import static org.junit.Assert.assertThat;
 
 
 
-/*public class StartUITest {
+public class StartUITest {
 
-    // поле содержит дефолтный вывод в консоль.
     private final PrintStream stdout = System.out;
-    // буфер для результата.
     private final ByteArrayOutputStream out = new ByteArrayOutputStream();
 
     @Before
@@ -35,30 +33,18 @@ import static org.junit.Assert.assertThat;
     @Test
     public void whenUserAddItemThenTrackerHasNewItemWithSameName() {
         Tracker tracker = new Tracker();
-        Input input = new StubInput(new String[]{"0", "test name", "desc", "6"});
+        Input input = new StubInput(new String[]{"0", "test name", "desc", "y"});
         new StartUI(input, tracker).init();
         assertThat(tracker.findAll()[0].getName(), is("test name"));
     }
 
-    @Test
-    public void whenUpdateThenTrackerHasUpdatedValue() {
-        // создаём Tracker
-        Tracker tracker = new Tracker();
-        //Напрямую добавляем заявку
-        Item item = tracker.add(new Item("test name", "desc", 2));
-        //создаём StubInput с последовательностью действий
-        Input input = new StubInput(new String[]{"1", item.getId(), "test name", "desc", "6"});
-        // создаём StartUI и вызываем метод init()
-        new StartUI(input, tracker).init();
-        // проверяем, что нулевой элемент массива в трекере содержит имя, введённое при эмуляции.
-        assertThat(tracker.findById(item.getId()).getName(), is("test name"));
-    }
+
 
     @Test
     public void whenEdit() {
         Tracker tracker = new Tracker();
         Item item = tracker.add(new Item("test name", "desc", 3));
-        Input input = new StubInput(new String[]{"2", item.getId(), "test name2", "desc2", "6"});
+        Input input = new StubInput(new String[]{"2", item.getId(), "test name2", "desc2", "y"});
         new StartUI(input, tracker).init();
         assertThat(tracker.findById(item.getId()).getName(), is("test name2"));
     }
@@ -68,7 +54,7 @@ import static org.junit.Assert.assertThat;
         Tracker tracker = new Tracker();
         Item itemOne = tracker.add(new Item("test name", "desc", 3));
         Item itemTwo = tracker.add(new Item("test name2", "desc2", 4));
-        Input input = new StubInput(new String[]{"3", itemOne.getId(), "6"});
+        Input input = new StubInput(new String[]{"3", itemOne.getId(), "y"});
         new StartUI(input, tracker).init();
         assertThat(tracker.findAll()[0].getName(), is("test name2"));
 
@@ -79,34 +65,20 @@ import static org.junit.Assert.assertThat;
         Tracker tracker = new Tracker();
         Item itemOne = tracker.add(new Item("test name", "desc", 3));
         Item itemTwo = tracker.add(new Item("test name2", "desc2", 4));
-        Input input = new StubInput(new String[]{"1", "6"});
+        Input input = new StubInput(new String[]{"1", "y"});
         new StartUI(input, tracker).init();
         assertThat(
                 new String(out.toByteArray()),
                 is(
                         new StringBuilder()
-                                .append("Меню.\\r\\n" +
-                                        "0. Добавить заявку\\r\\n" +
-                                        "1. Показать все записи\\r\\n" +
-                                        "2. Изменить заявку по id\\r\\n" +
-                                        "3. Удалить заявку по id\\r\\n" +
-                                        "4. Найти заявку по id\\r\\n" +
-                                        "5. Найти все заявки по имени\\r\\n" +
-                                        "6. Выход\\r\\n" +
-                                        "------------ Отображение всех записей --------------\\r\\n" +
-                                        "----------- Заявка id : "+ itemOne.getId() +"---------------\\r\\n" +
-                                        "----------- Имя : test name----------------\\r\\n" +
-                                        "----------- Описание : desc---------------\\r\\n" +
-                                        "----------- Заявка id : " + itemTwo.getId() + "---------------\\r\\n" +
-                                        "----------- Имя : test name2----------------\\r\\n" +
-                                        "----------- Описание : desc2---------------\\r\\nМеню.\\r\\n" +
-                                        "0. Добавить заявку\\r\\n" +
-                                        "1. Показать все записи\\r\\n" +
-                                        "2. Изменить заявку по id\\r\\n" +
-                                        "3. Удалить заявку по id\\r\\n" +
-                                        "4. Найти заявку по id\\r\\n" +
-                                        "5. Найти все заявки по имени\\r\\n" +
-                                        "6. Выход\\r\\n")
+                                .append("0. Add the new item. \r\n" +
+                                        "1. show all item.\r\n" +
+                                        "2. Edit the new item. \r\n" +
+                                        "3. Delete item by id: \r\n" +
+                                        "4. Find item by id: \r\n" +
+                                        "5. Find items by name: \r\n" +
+                                        "Name: test name| Desc: desc| Id: " + itemOne.getId() + "\r\n" +
+                                        "Name: test name2| Desc: desc2| Id: " + itemTwo.getId() + "\r\n")
                                 .toString()
                 )
         );
@@ -115,14 +87,53 @@ import static org.junit.Assert.assertThat;
 
     @Test
     public void whenFindId() {
+        Tracker tracker = new Tracker();
+        Item itemOne = tracker.add(new Item("test name", "desc", 3));
+        Item itemTwo = tracker.add(new Item("test name2", "desc2", 4));
+        Input input = new StubInput(new String[]{"4",itemTwo.getId(),"y"});
+        new StartUI(input, tracker).init();
+        assertThat(
+                new String(out.toByteArray()),
+                is(
+                        new StringBuilder()
+                                .append("0. Add the new item. \r\n" +
+                                        "1. show all item.\r\n" +
+                                        "2. Edit the new item. \r\n" +
+                                        "3. Delete item by id: \r\n" +
+                                        "4. Find item by id: \r\n" +
+                                        "5. Find items by name: \r\n" +
+                                        "Name: test name2| Desc: desc2| Id: " + itemTwo.getId() + "\r\n")
+                                .toString()
+                )
 
-
+        );
     }
 
     @Test
     public  void whenFindName() {
+        Tracker tracker = new Tracker();
+        Item itemOne = tracker.add(new Item("test name", "desc", 3));
+        Item itemTwo = tracker.add(new Item("test name2", "desc2", 4));
+        Item itemThree = tracker.add(new Item("test name", "desc3", 5));
+        Input input = new StubInput(new String[]{"5","test name","y"});
+        new StartUI(input, tracker).init();
+        assertThat(
+                new String(out.toByteArray()),
+                is(
+                        new StringBuilder()
+                                .append("0. Add the new item. \r\n" +
+                                        "1. show all item.\r\n" +
+                                        "2. Edit the new item. \r\n" +
+                                        "3. Delete item by id: \r\n" +
+                                        "4. Find item by id: \r\n" +
+                                        "5. Find items by name: \r\n" +
+                                        "Name: test name| Desc: desc| Id: " + itemOne.getId() + "\r\n" +
+                                        "Name: test name| Desc: desc3| Id: " + itemThree.getId() + "\r\n")
+                                .toString()
+                )
+        );
 
 
     }
 
-}*/
+}
