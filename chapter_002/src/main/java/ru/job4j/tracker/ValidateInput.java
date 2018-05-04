@@ -23,7 +23,7 @@ public class ValidateInput implements Input {
             } catch (MenuOutException moe) {
                 System.out.println("Please select key from menu.");
             } catch (NumberFormatException nfe) {
-                System.out.println("Please enter  a valid data again.");
+                System.out.println("Please enter a valid data again.");
             }
         } while (invalid);
         return  value;
