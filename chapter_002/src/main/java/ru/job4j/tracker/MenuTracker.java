@@ -42,7 +42,7 @@ public class MenuTracker {
             }
         }
     }
-    private class AddItem implements UserAction {
+    /*private class AddItem implements UserAction {
         public int key() {
             return 0;
         }
@@ -55,6 +55,19 @@ public class MenuTracker {
 
         public String info() {
                 return String.format("%s. %s", this.key(), "Add the new item. ");
+        }
+    }*/
+    class AddItem extends BaseAction {
+
+        public AddItem(int key, String name) {
+            super(key, name);
+        }
+
+        @Override
+        public void execute(Input input, Tracker tracker) {
+            String name = input.ask("Enter name:");
+            String desc = input.ask("Enter description:");
+            tracker.add(new Item(name, desc, 3));
         }
     }
 
