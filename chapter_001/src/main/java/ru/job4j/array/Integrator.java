@@ -9,6 +9,21 @@ import java.util.Arrays;
 
 // Имеется два отсортированных целочисленных массива, требуется объединить их в третий массив.
 
+
+// здесь можно было использовать цикл while. а в нем тернарный оператор для для добавления эл в третий массив
+//
+//остатки все собрать используя нативный метод arraycopy
+
+/*
+*  while
+*
+*
+*
+*
+*
+*
+* */
+
 public class Integrator {
     public int[] sort(int[] arrayOne, int[] arrayTwo) {
         int[] arrayThree = new int[arrayOne.length + arrayTwo.length];
