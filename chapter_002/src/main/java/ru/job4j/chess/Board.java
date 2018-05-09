@@ -2,12 +2,24 @@ package ru.job4j.chess;
 
 public class Board {
 
+    Figure[] figures = new Figure[32];
+    private int index = 0;
 
-    /*5. Создать класс Board. С методом add(Figure figure).
 
-6. В классе создать массив Figure[] figures = new Figure[32] - содержит фигуры. Количество фигур.
 
-7. Добавить метод boolean move(Cell source, Cell dest) throws ImpossibleMoveException, OccupiedWayException, FigureNotFoundException
+   public void add(Figure figure) {
+       figures[index++] = figure;
+   }
+
+
+
+    public boolean move(Cell source, Cell dest)
+        throws ImpossibleMoveException, OccupiedWayException, FigureNotFoundException (
+
+            )
+
+
+    /*
 
 8. Метод должен проверить
    - Что в заданной ячейки есть фигура. если нет. то выкинуть исключение

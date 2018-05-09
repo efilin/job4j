@@ -4,11 +4,13 @@ public  abstract class Figure {
 
     final Cell position;
 
-    public Figure() {
-
+    public Figure(Cell position) {
+        this.position = position;
     }
 
-    abstract Cell[] way(Cell source, Cell dest) throw ImposibleMoveException
+    abstract Cell[] way(Cell source, Cell dest) throws ImposibleMoveException {
+
+    }
 
 }
 
