@@ -13,10 +13,10 @@ public class Board {
 
 
 
-    public boolean move(Cell source, Cell dest)
+    /*public boolean move(Cell source, Cell dest)
         throws ImpossibleMoveException, OccupiedWayException, FigureNotFoundException (
 
-            )
+            )*/
 
 
     /*

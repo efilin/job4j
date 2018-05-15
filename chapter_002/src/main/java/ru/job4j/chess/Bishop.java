@@ -2,10 +2,10 @@ package ru.job4j.chess;
 
 public class Bishop extends Figure {
 
-    @Override
+    /*@Override
     Cell[] way(Cell source, Cell dest) throws ImposibleMoveException {
         return new Cell[0];
-    }
+    }*/
 
 
 

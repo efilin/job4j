@@ -2,7 +2,7 @@ package ru.job4j.chess;
 
 public  abstract class Figure {
 
-    final Cell position;
+    /*final Cell position;
 
     public Figure(Cell position) {
         this.position = position;
@@ -10,6 +10,6 @@ public  abstract class Figure {
 
     abstract Cell[] way(Cell source, Cell dest) throws ImposibleMoveException {
 
-    }
+    }*/
 }
 
