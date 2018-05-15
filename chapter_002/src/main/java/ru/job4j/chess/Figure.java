@@ -11,6 +11,5 @@ public  abstract class Figure {
     abstract Cell[] way(Cell source, Cell dest) throws ImposibleMoveException {
 
     }
-
 }
 
