@@ -5,28 +5,56 @@ public class Board {
     Figure[] figures = new Figure[32];
     private int index = 0;
 
-
-
    public void add(Figure figure) {
        figures[index++] = figure;
    }
 
-
-
     public boolean move(Cell source, Cell dest)
         throws ImpossibleMoveException, OccupiedWayException, FigureNotFoundException{
-        if (true) {
+        if (getFigureIndexByCell(source) == - 1) {
             throw new FigureNotFoundException();
         }
-        if (true) {
+        if (!possibleToMove(source,dest)) {
             throw new ImpossibleMoveException();
         }
-        if (true) {
+        if (occupiedWay(source, dest)) {
             throw new OccupiedWayException();
         }
-            return false;
+        figures[getFigureIndexByCell(source)] = figures[getFigureIndexByCell(source)].copy(dest);
+            return true;
+    }
+    public int getFigureIndexByCell(Cell cell) {
+       int result = - 1;
+        for (int i = 0; i != index; i++) {
+            if (cell.equals(figures[i].position)) {
+                result = i;
+                break;
+            }
+        } return result;
     }
 
+    public boolean possibleToMove (Cell source, Cell dest) {
+        if ((source.x)<8 && (source.x)> -1 && (source.y) < 8 && (source.y) > 0) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public boolean occupiedWay(Cell source, Cell dest) throws ImpossibleMoveException {
+       boolean result = false;
+        for (Cell cell: figures[getFigureIndexByCell(source)].way(source, dest)) {
+            for (int i = 0; i != index; i++) {
+                if (cell.equals(figures[i].position)) {
+                    result = true;
+                }
+            }
+        } return result;
+    }
+
+
+
+}
 
     /*
 
@@ -40,4 +68,4 @@ public class Board {
 
 
 
-}
+

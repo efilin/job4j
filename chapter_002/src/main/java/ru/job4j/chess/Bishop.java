@@ -9,7 +9,7 @@ public class Bishop extends Figure {
 
     @Override
     Cell[] way(Cell source, Cell dest) throws ImpossibleMoveException {
-        if (Math.abs(dest.x - source.x) != Math.abs(dest.y - source.y)){
+        if (Math.abs(dest.x - source.x) != Math.abs(dest.y - source.y) || (dest.x - source.x) == 0){
             throw  new ImpossibleMoveException();
         }
         int steps = Math.abs(dest.x - source.x);
