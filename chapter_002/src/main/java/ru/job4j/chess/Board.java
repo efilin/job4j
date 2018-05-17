@@ -26,11 +26,12 @@ public class Board {
     public int getFigureIndexByCell(Cell cell) {
        int result = - 1;
         for (int i = 0; i != index; i++) {
-            if (cell.equals(figures[i].position)) {
+            if (cell.x == figures[i].position.x && cell.y == figures[i].position.y) {
                 result = i;
                 break;
             }
-        } return result;
+        }
+        return result;
     }
 
     public boolean possibleToMove (Cell source, Cell dest) {
@@ -45,7 +46,7 @@ public class Board {
        boolean result = false;
         for (Cell cell: figures[getFigureIndexByCell(source)].way(source, dest)) {
             for (int i = 0; i != index; i++) {
-                if (cell.equals(figures[i].position)) {
+                if (cell.x == figures[i].position.x && cell.y == figures[i].position.y) {
                     result = true;
                 }
             }
