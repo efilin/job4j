@@ -10,11 +10,11 @@ public class Board {
    }
 
     public boolean move(Cell source, Cell dest)
-        throws ImpossibleMoveException, OccupiedWayException, FigureNotFoundException{
-        if (getFigureIndexByCell(source) == - 1) {
+        throws ImpossibleMoveException, OccupiedWayException, FigureNotFoundException {
+        if (getFigureIndexByCell(source) == -1) {
             throw new FigureNotFoundException();
         }
-        if (!possibleToMove(source,dest)) {
+        if (!possibleToMove(source, dest)) {
             throw new ImpossibleMoveException();
         }
         if (occupiedWay(source, dest)) {
@@ -24,7 +24,7 @@ public class Board {
             return true;
     }
     public int getFigureIndexByCell(Cell cell) {
-       int result = - 1;
+       int result = -1;
         for (int i = 0; i != index; i++) {
             if (cell.x == figures[i].position.x && cell.y == figures[i].position.y) {
                 result = i;
@@ -34,12 +34,13 @@ public class Board {
         return result;
     }
 
-    public boolean possibleToMove (Cell source, Cell dest) {
-        if ((source.x)<8 && (source.x)> -1 && (source.y) < 8 && (source.y) > 0) {
+    public boolean possibleToMove(Cell source, Cell dest) {
+       return ((source.x) < 8 && (source.x) > -1 && (source.y) < 8 && (source.y) > 0);
+        /*if ((source.x) < 8 && (source.x) > -1 && (source.y) < 8 && (source.y) > 0) {
             return true;
         } else {
             return false;
-        }
+        }*/
     }
 
     public boolean occupiedWay(Cell source, Cell dest) throws ImpossibleMoveException {

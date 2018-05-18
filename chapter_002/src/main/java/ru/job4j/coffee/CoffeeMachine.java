@@ -18,6 +18,6 @@ public class CoffeeMachine {
             } else {
                 j++;
             }
-        }return Arrays.copyOf(change,i);
+        } return Arrays.copyOf(change, i);
     }
 }

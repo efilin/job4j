@@ -16,8 +16,8 @@ public class CoffeeMachineTest {
     @Test
     public void whenPriceTwentyThreeValueOneHundred() {
         CoffeeMachine coffeeMachine = new CoffeeMachine();
-        int result[] = coffeeMachine.changes(100, 23);
-        int expect[] = {10, 10, 10, 10, 10, 10, 10, 5, 2};
+        int[] result = coffeeMachine.changes(100, 23);
+        int[] expect = {10, 10, 10, 10, 10, 10, 10, 5, 2};
         assertThat(result, is(expect));
     }
 }

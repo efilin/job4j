@@ -25,7 +25,7 @@ public class BoardTest {
         Cell cellSource = new Cell(2, 2);
         Bishop bishop = new Bishop(cellSource);
         board.add(bishop);
-        board.move(new Cell(1,1),new Cell(3, 3));
+        board.move(new Cell(1, 1), new Cell(3, 3));
     }
 
     @Test (expected = ImpossibleMoveException.class)
@@ -34,7 +34,7 @@ public class BoardTest {
         Cell cellSource = new Cell(2, 2);
         Bishop bishop = new Bishop(cellSource);
         board.add(bishop);
-        board.move(bishop.position,new Cell(3, 4));
+        board.move(bishop.position, new Cell(3, 4));
     }
 
     @Test (expected = OccupiedWayException.class)
@@ -44,7 +44,7 @@ public class BoardTest {
         Bishop bishopTwo = new Bishop(new Cell(5, 5));
         board.add(bishopOne);
         board.add(bishopTwo);
-        board.move(bishopOne.position,new Cell(6, 6));
+        board.move(bishopOne.position, new Cell(6, 6));
     }
 
 
