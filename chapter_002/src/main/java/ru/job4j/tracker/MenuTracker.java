@@ -1,5 +1,8 @@
 package ru.job4j.tracker;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author  Eugeniy Filin (2727fas@gmail.com)
  * @version $Id$
@@ -11,7 +14,7 @@ package ru.job4j.tracker;
 public class MenuTracker {
     private Input input;
     private Tracker tracker;
-    private UserAction[] actions = new UserAction[6];
+    private List<UserAction> actions = new ArrayList<>();
 
     public MenuTracker(Input input, Tracker tracker) {
         this.input = input;
@@ -23,16 +26,16 @@ public class MenuTracker {
     }
 
     public void fillActions() {
-        this.actions[0] = new AddItem(0, "Add Item");
-        this.actions[1] = new MenuTracker.ShowItems(1, "Show All Items");
-        this.actions[2] = new EditItem(2, "Edit item");
-        this.actions[3] = new DeleteId(3, "Delete item by id");
-        this.actions[4] = new FindId(4, "Find item by id");
-        this.actions[5] = new FindName(5, "Find items by name");
+        this.actions.add(new MenuTracker.AddItem(0, "Add the new item"));
+        this.actions.add(new MenuTracker.ShowItems(1, "Show all items"));
+        this.actions.add(new EditItem(2, "Edit item"));
+        this.actions.add(new MenuTracker.DeleteId(3, "Delete item by id"));
+        this.actions.add(new MenuTracker.FindId(4, "Find item by id"));
+        this.actions.add(new MenuTracker.FindName(5, "Find items by name"));
     }
 
     public void select(int key) {
-        this.actions[key].execute(this.input, this.tracker);
+        this.actions.get(key).execute(this.input, this.tracker);
     }
 
     public void show() {

@@ -1,6 +1,9 @@
 package ru.job4j.tracker;
 
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @author  Eugeniy Filin (2727fas@gmail.com)
  * @version $Id$
@@ -10,7 +13,7 @@ package ru.job4j.tracker;
 
 public class StartUI {
 
-    private int[] ranges = new int[] {0, 1, 2, 3, 4, 5};
+    private List<Integer> ranges;
    /**
      * Константа меню для добавления новой заявки.
      */
