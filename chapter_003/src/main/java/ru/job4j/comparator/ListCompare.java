@@ -19,8 +19,16 @@ import java.util.List;
 public class ListCompare implements Comparator<String> {
     @Override
     public int compare(String left, String right) {
-        return left.compareTo(right);
-
-
+        int result = 0;
+        for (int index = 0; index != left.length(); index++) {
+            if (left.charAt(index) != right.charAt(index)) {
+                result = Character.compare(left.charAt(index), right.charAt(index));
+                break;
+            }
+        }
+        if (left.length() < right.length() && result == 0) {
+            result = -1;
+        }
+        return result;
     }
 }
