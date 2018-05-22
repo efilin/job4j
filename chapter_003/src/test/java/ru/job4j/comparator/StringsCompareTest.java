@@ -1,3 +1,5 @@
+package ru.job4j.comparator;
+
 import org.junit.Test;
 import ru.job4j.comparator.ListCompare;
 
