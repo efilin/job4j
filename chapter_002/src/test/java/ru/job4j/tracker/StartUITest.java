@@ -70,14 +70,22 @@ public class StartUITest {
                 new String(out.toByteArray()),
                 is(
                         new StringBuilder()
-                                .append("0 : Add the new item\r\n"
-                                        + "1 : Show all items\r\n"
-                                        + "2 : Edit item\r\n"
-                                        + "3 : Delete item by id\r\n"
-                                        + "4 : Find item by id\r\n"
-                                        + "5 : Find items by name\r\n"
-                                        + "Name: test name| Desc: desc| Id: " + itemOne.getId() + "\r\n"
-                                        + "Name: test name2| Desc: desc2| Id: " + itemTwo.getId() + "\r\n")
+                                .append("0 : Add the new item")
+                                .append(System.lineSeparator())
+                                .append("1 : Show all items")
+                                .append(System.lineSeparator())
+                                .append("2 : Edit item")
+                                .append(System.lineSeparator())
+                                .append("3 : Delete item by id")
+                                .append(System.lineSeparator())
+                                .append("4 : Find item by id")
+                                .append(System.lineSeparator())
+                                .append("5 : Find items by name")
+                                .append(System.lineSeparator())
+                                .append("Name: test name| Desc: desc| Id: " + itemOne.getId())
+                                .append(System.lineSeparator())
+                                .append("Name: test name2| Desc: desc2| Id: " + itemTwo.getId())
+                                .append(System.lineSeparator())
                                 .toString()
                 )
         );
@@ -95,13 +103,20 @@ public class StartUITest {
                 new String(out.toByteArray()),
                 is(
                         new StringBuilder()
-                                .append("0 : Add the new item\r\n"
-                                        + "1 : Show all items\r\n"
-                                        + "2 : Edit item\r\n"
-                                        + "3 : Delete item by id\r\n"
-                                        + "4 : Find item by id\r\n"
-                                        + "5 : Find items by name\r\n"
-                                        + "Name: test name2| Desc: desc2| Id: " + itemTwo.getId() + "\r\n")
+                                .append("0 : Add the new item")
+                                .append(System.lineSeparator())
+                                .append("1 : Show all items")
+                                .append(System.lineSeparator())
+                                .append("2 : Edit item")
+                                .append(System.lineSeparator())
+                                .append("3 : Delete item by id")
+                                .append(System.lineSeparator())
+                                .append("4 : Find item by id")
+                                .append(System.lineSeparator())
+                                .append("5 : Find items by name")
+                                .append(System.lineSeparator())
+                                .append("Name: test name2| Desc: desc2| Id: " + itemTwo.getId())
+                                .append(System.lineSeparator())
                                 .toString()
                 )
 
@@ -120,14 +135,22 @@ public class StartUITest {
                 new String(out.toByteArray()),
                 is(
                         new StringBuilder()
-                                .append("0 : Add the new item\r\n"
-                                        + "1 : Show all items\r\n"
-                                        + "2 : Edit item\r\n"
-                                        + "3 : Delete item by id\r\n"
-                                        + "4 : Find item by id\r\n"
-                                        + "5 : Find items by name\r\n"
-                                        + "Name: test name| Desc: desc| Id: " + itemOne.getId() + "\r\n"
-                                        + "Name: test name| Desc: desc3| Id: " + itemThree.getId() + "\r\n")
+                                .append("0 : Add the new item")
+                                .append(System.lineSeparator())
+                                .append("1 : Show all items")
+                                .append(System.lineSeparator())
+                                .append("2 : Edit item")
+                                .append(System.lineSeparator())
+                                .append("3 : Delete item by id")
+                                .append(System.lineSeparator())
+                                .append("4 : Find item by id")
+                                .append(System.lineSeparator())
+                                .append("5 : Find items by name")
+                                .append(System.lineSeparator())
+                                .append("Name: test name| Desc: desc| Id: " + itemOne.getId())
+                                .append(System.lineSeparator())
+                                .append("Name: test name| Desc: desc3| Id: " + itemThree.getId())
+                                .append(System.lineSeparator())
                                 .toString()
                 )
         );
