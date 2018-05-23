@@ -3,5 +3,4 @@
 [![codecov](https://codecov.io/gh/efilin/job4j/branch/master/graph/badge.svg)](https://codecov.io/gh/efilin/job4j)
 
 Я прохожу обучение по курсу Job4j. Планирую его пройти к декабрю 2018 года.
-
 Ниже находятся наиболее интересные проекты, которые я реализовал во время обучения.
