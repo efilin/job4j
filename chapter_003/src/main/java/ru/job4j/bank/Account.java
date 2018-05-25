@@ -10,6 +10,8 @@ public class Account {
         this.requisites = requisites;
     }
 
+
+
     public int getValue() {
         return value;
     }
