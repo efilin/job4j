@@ -2,7 +2,8 @@ package ru.job4j.bank;
 
 import java.util.Objects;
 
-public class User {
+
+public class User implements Comparable{
     private String name;
     private String passport;
 
@@ -41,5 +42,11 @@ public class User {
         int result = name.hashCode();
         result = 31 * result + passport.hashCode();
         return result;
+    }
+
+
+    @Override
+    public int compareTo(Object o) {
+        return passport.compareTo(((User) o).passport);
     }
 }

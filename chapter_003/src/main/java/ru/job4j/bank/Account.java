@@ -23,4 +23,14 @@ public class Account {
     public void setValue(int value) {
         this.value = value;
     }
+
+    boolean transfer(Account destination, double amount) {
+        boolean success = false;
+        if (amount > 0 && amount < this.value && destination != null) {
+            success = true;
+            this.value -= amount;
+            destination.value += amount;
+        }
+        return success;
+    }
 }
