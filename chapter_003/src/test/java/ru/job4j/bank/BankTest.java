@@ -47,13 +47,13 @@ public class BankTest {
         User userOne = new User("Alex", "12345");
         Account accountOne = new Account(5000, "111111");
         Account accountTwo = new Account(10000, "222222");
+        bank.addUser(userOne);
         bank.addAccountToUser("12345", accountOne);
         List<Account> expect = bank.getUserAccounts("12345");
         bank.addAccountToUser("12345", accountTwo);
         bank.deleteAccountFromUser("12345", accountTwo);
         List<Account> result = bank.getUserAccounts("12345");
         assertThat(expect, is(result));
-
     }
 
     /*@Test
@@ -62,6 +62,20 @@ public class BankTest {
 
     @Test
     public void transferMoney() {
+        Bank bank = new Bank();
+        User userOne = new User("Alex", "12345");
+        User userTwo = new User("Tom", "54321");
+        bank.addUser(userOne);
+        bank.addUser(userTwo);
+        Account accountOne = new Account(5000, "111111");
+        Account accountTwo = new Account(10000, "222222");
+        int expect = accountOne.getValue() - 1000;
+        bank.addAccountToUser("12345", accountOne);
+        bank.addAccountToUser("54321", accountTwo);
+        boolean x = bank.transferMoney("12345", "111111", "54321", "222222", 1000);
+        int result = bank.getAccountByRequisites(userOne, "111111").getValue();
+        assertThat(result, is(expect));
+
     }
 
    /* @Test

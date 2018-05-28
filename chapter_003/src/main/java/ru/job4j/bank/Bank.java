@@ -28,14 +28,14 @@ public class Bank {
         getUserAccounts(passport).remove(account);
     }
 
-    public List<Account> getUserAccounts (String passport) {
+    public List<Account> getUserAccounts(String passport) {
         return this.users.get(getUserByPassport(passport));
     }
 
-    public boolean transferMoney (String srcPassport, String srcRequisite, String destPassport, String dstRequisite, double amount) {
+    public boolean transferMoney(String srcPassport, String srcRequisite, String destPassport, String destRequisite, double amount) {
         return this.users.get(getUserByPassport(srcPassport)).contains(getAccountByRequisites(getUserByPassport(srcPassport), srcRequisite))
-                && this.users.get(getUserByPassport(destPassport)).contains(getAccountByRequisites(getUserByPassport(destPassport), destPassport))
-                && getAccountByRequisites(getUserByPassport(srcPassport), srcRequisite).transfer(getAccountByRequisites(getUserByPassport(destPassport), dstRequisite),amount);
+                && this.users.get(getUserByPassport(destPassport)).contains(getAccountByRequisites(getUserByPassport(destPassport), destRequisite))
+                && getAccountByRequisites(getUserByPassport(srcPassport), srcRequisite).transfer(getAccountByRequisites(getUserByPassport(destPassport), destRequisite), amount);
     }
 
     public User getUserByPassport (String passport) {
