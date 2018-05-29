@@ -38,7 +38,7 @@ public class Bank {
                 && getAccountByRequisites(getUserByPassport(srcPassport), srcRequisite).transfer(getAccountByRequisites(getUserByPassport(destPassport), destRequisite), amount);
     }
 
-    public User getUserByPassport (String passport) {
+    public User getUserByPassport(String passport) {
         User result = null;
         for (User user : this.users.keySet()) {
             if (user.getPassport().equals(passport)) {
@@ -49,7 +49,7 @@ public class Bank {
         return result;
     }
 
-    public Account getAccountByRequisites (User user, String requisites) {
+    public Account getAccountByRequisites(User user, String requisites) {
         Account result = null;
         for (Account account : this.users.get(user)) {
             if (requisites.equals(account.getRequisites())) {

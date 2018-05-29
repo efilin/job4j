@@ -3,7 +3,7 @@ package ru.job4j.bank;
 import java.util.Objects;
 
 
-public class User implements Comparable{
+public class User implements Comparable {
     private String name;
     private String passport;
 

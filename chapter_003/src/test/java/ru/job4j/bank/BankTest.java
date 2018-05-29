@@ -15,19 +15,20 @@ public class BankTest {
         User userOne = new User("Alex", "12345");
         bank.addUser(userOne);
         User result = bank.getUserByPassport("12345");
-        assertThat(userOne, is (result));
+        assertThat(userOne, is(result));
     }
 
     @Test
     public void deleteUser() {
-        Bank bank = new Bank();
+        Bank result = new Bank();
+        Bank expect =  new Bank();
         User userOne = new User("Alex", "12345");
         User userTwo = new User("Tom", "54321");
-        bank.addUser(userOne);
-        bank.addUser(userTwo);
-        bank.deleteUser(userOne);
-        User result = bank.getUserByPassport("12345");
-        assertThat(userOne,is(result));
+        result.addUser(userOne);
+        result.addUser(userTwo);
+        result.deleteUser(userTwo);
+        expect.addUser(userOne);
+        assertThat(expect.getUserByPassport("54321"), is(result.getUserByPassport("54321")));
     }
 
     @Test
@@ -56,10 +57,6 @@ public class BankTest {
         assertThat(expect, is(result));
     }
 
-    /*@Test
-    public void getUserAccounts() {
-    }*/
-
     @Test
     public void transferMoney() {
         Bank bank = new Bank();
@@ -72,17 +69,8 @@ public class BankTest {
         int expect = accountOne.getValue() - 1000;
         bank.addAccountToUser("12345", accountOne);
         bank.addAccountToUser("54321", accountTwo);
-        boolean x = bank.transferMoney("12345", "111111", "54321", "222222", 1000);
+        bank.transferMoney("12345", "111111", "54321", "222222", 1000);
         int result = bank.getAccountByRequisites(userOne, "111111").getValue();
         assertThat(result, is(expect));
-
     }
-
-   /* @Test
-    public void getUserByPassport() {
-    }*/
-
-    /*@Test
-    public void getAccountByRequisites() {
-    }*/
 }
