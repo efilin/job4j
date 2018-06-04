@@ -5,7 +5,7 @@ import java.util.Iterator;
 public class EvenIterator implements Iterator {
 
     private final int[] numbers;
-    private int i = 0;
+    int i = 0;
 
     public EvenIterator(int[] numbers) {
         this.numbers = numbers;
@@ -14,13 +14,22 @@ public class EvenIterator implements Iterator {
 
     @Override
     public boolean hasNext() {
-
-
-        return false;
+        boolean result = false;
+        for (int index = i; index != numbers.length; index++) {
+            if (numbers[index] % 2 == 0) {
+                result = true;
+                break;
+            } else {
+                result = false;
+                break;
+            }
+        }
+        return result;
     }
 
     @Override
     public Object next() {
+
         return null;
     }
 }
