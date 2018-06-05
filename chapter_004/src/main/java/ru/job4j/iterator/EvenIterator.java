@@ -27,6 +27,9 @@ public class EvenIterator implements Iterator {
 
     @Override
     public Object next() {
+        if (i == numbers.length) {
+            throw new NoSuchElementException();
+        }
         int result = 0;
         for (int index = i; index != numbers.length; index++) {
             if (numbers[index] % 2 == 0) {
