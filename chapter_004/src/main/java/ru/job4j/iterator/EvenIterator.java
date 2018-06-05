@@ -1,6 +1,7 @@
 package ru.job4j.iterator;
 
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 public class EvenIterator implements Iterator {
 
@@ -19,9 +20,6 @@ public class EvenIterator implements Iterator {
             if (numbers[index] % 2 == 0) {
                 result = true;
                 break;
-            } else {
-                result = false;
-                break;
             }
         }
         return result;
@@ -29,7 +27,16 @@ public class EvenIterator implements Iterator {
 
     @Override
     public Object next() {
-
-        return null;
+        int result = 0;
+        for (int index = i; index != numbers.length; index++) {
+            if (numbers[index] % 2 == 0) {
+                result = numbers[index];
+                i = index + 1;
+                break;
+            } else if (index == numbers.length - 1 && numbers[index] % 2 != 0) {
+                throw new NoSuchElementException();
+            }
+        }
+        return result;
     }
 }
