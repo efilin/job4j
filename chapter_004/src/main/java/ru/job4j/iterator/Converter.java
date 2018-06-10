@@ -10,38 +10,19 @@ public class Converter {
 
             @Override
             public boolean hasNext() {
-                boolean result = true;
-                if (!currentIterator.hasNext()) {
-                    result = false;
-                    while (it.hasNext()) {
-                        currentIterator = it.next();
-                        if (currentIterator.hasNext()) {
-                            result = true;
-                            break;
-                        }
-                    }
+                if (!currentIterator.hasNext() && it.hasNext()) {
+                    currentIterator = it.next();
                 }
-                return result;
+                return currentIterator.hasNext();
             }
 
             @Override
             public Integer next() {
-                Integer result = null;
-                if (!currentIterator.hasNext() && !it.hasNext()) {
+                if (hasNext()) {
+                    return currentIterator.next();
+                } else {
                     throw new NoSuchElementException();
                 }
-                if (currentIterator.hasNext()) {
-                    result = currentIterator.next();
-                } else {
-                    while (it.hasNext()) {
-                        currentIterator = it.next();
-                        if (currentIterator.hasNext()) {
-                            result = currentIterator.next();
-                            break;
-                        }
-                    }
-                }
-                return result;
             }
         };
     }
