@@ -7,6 +7,7 @@ public class PrimeIterator implements Iterator {
 
     private final int[] numbers;
     private int counter = 0;
+    private int index = 0;
 
     public PrimeIterator(int[] numbers) {
         this.numbers = numbers;
@@ -28,7 +29,7 @@ public class PrimeIterator implements Iterator {
     @Override
     public boolean hasNext() {
         boolean result = false;
-        for (int index = counter; index != numbers.length; index++) {
+        for (index = counter; index != numbers.length; index++) {
             if (numberIsPrime(numbers[index])) {
                 result = true;
                 break;
@@ -39,19 +40,11 @@ public class PrimeIterator implements Iterator {
 
     @Override
     public Object next() {
-        int result = 0;
-        if (counter == numbers.length) {
+        if (hasNext()) {
+            counter = index + 1;
+            return numbers[index];
+        } else {
             throw new NoSuchElementException();
         }
-        for (int index = counter; index != numbers.length; index++) {
-            if (numberIsPrime(numbers[index])) {
-                counter = index + 1;
-                result = numbers[index];
-                break;
-            } else if (index == numbers.length - 1 && !numberIsPrime(numbers[index])) {
-                throw new NoSuchElementException();
-            }
-        }
-        return result;
     }
 }

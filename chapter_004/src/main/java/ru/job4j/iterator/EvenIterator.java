@@ -28,13 +28,11 @@ public class EvenIterator implements Iterator {
 
     @Override
     public Object next() {
-        int result = 0;
         if (hasNext()) {
-            result = numbers[index];
             i = index + 1;
+            return numbers[index];
         } else {
             throw new NoSuchElementException();
         }
-        return result;
     }
 }
