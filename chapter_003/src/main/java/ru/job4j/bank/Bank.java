@@ -38,6 +38,7 @@ public class Bank {
                 && getAccountByRequisites(getUserByPassport(srcPassport), srcRequisite).transfer(getAccountByRequisites(getUserByPassport(destPassport), destRequisite), amount);
     }
 
+
     public User getUserByPassport(String passport) {
         User result = null;
         for (User user : this.users.keySet()) {
