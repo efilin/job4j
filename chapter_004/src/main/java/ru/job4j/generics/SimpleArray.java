@@ -4,37 +4,35 @@ import java.util.Iterator;
 
 public class SimpleArray<T> implements Iterable<T> {
 
-    Object[] objects;
+    private Object[] objects;
     private int position = 0;
 
-    public SimpleArray(int size) {
+    SimpleArray(int size) {
         this.objects = new Object[size];
     }
 
-    public void add(T model) {
+    void add(T model) {
         this.objects[position++] = model;
     }
 
-    public void set(int index, T model) {
-        if (index < position) {
-            this.objects[index] = model;
-        } else {
+    void set(int index, T model) {
+        if (index >= position) {
             throw new ArrayIndexOutOfBoundsException();
         }
+        this.objects[index] = model;
     }
 
-    public void delete(int index) {
-        if (index < position) {
-            for (int i = index; i < position - 1; i++) {
-                this.objects[i] = this.objects[i + 1];
-            }
-            this.objects[position - 1] = null;
-        } else {
+    void delete(int index) {
+        if (index >= position) {
             throw new ArrayIndexOutOfBoundsException();
         }
+        for (int i = index; i < position - 1; i++) {
+            this.objects[i] = this.objects[i + 1];
+        }
+        this.objects[position - 1] = null;
     }
 
-    public T get(int index) {
+    T get(int index) {
         if (index >= position) {
             throw new ArrayIndexOutOfBoundsException();
         }

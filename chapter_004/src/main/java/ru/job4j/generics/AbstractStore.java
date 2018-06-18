@@ -1,6 +1,6 @@
 package ru.job4j.generics;
 
-public class AbstractStore <T extends Base> implements Store<T>{
+public class AbstractStore<T extends Base> implements Store<T> {
 
     T[] store;
     int position = 0;

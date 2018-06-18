@@ -18,11 +18,10 @@ public class Converter {
 
             @Override
             public Integer next() {
-                if (hasNext()) {
-                    return currentIterator.next();
-                } else {
+                if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
+                return currentIterator.next();
             }
         };
     }
