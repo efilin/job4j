@@ -14,13 +14,26 @@ public class AbstractStore<T extends Base> implements Store<T> {
 
     @Override
     public boolean replace(String id, T model) {
-
-
-        return false;
+        boolean result = false;
+        for (int i = 0; i < position; i++) {
+            if (id.equals(this.store[i].getId())) {
+                result = true;
+                this.store[i] = model;
+                break;
+            }
+        }
+        return result;
     }
 
     @Override
     public boolean delete(String id) {
+        boolean result = false;
+        for (int i = 0; i < position; i++) {
+            if (id.equals(this.store[i].getId())) {
+                result = true;
+
+            }
+        }
         return false;
     }
 
