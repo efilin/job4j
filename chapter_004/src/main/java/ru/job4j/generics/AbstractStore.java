@@ -31,14 +31,23 @@ public class AbstractStore<T extends Base> implements Store<T> {
         for (int i = 0; i < position; i++) {
             if (id.equals(this.store[i].getId())) {
                 result = true;
-
+            } else if (result) {
+                this.store[i - 1] = this.store[i];
+                this.store[position - 1] = null;
             }
         }
-        return false;
+        return result;
     }
 
     @Override
     public T findById(String id) {
-        return null;
+        T result = null;
+        for (int i = 0; i < position; i++) {
+            if (id.equals(this.store[i].getId())) {
+                result = this.store[i];
+                break;
+            }
+        }
+        return result;
     }
 }
