@@ -1,6 +1,6 @@
 package ru.job4j.list;
 
-import java.util.LinkedList;
+
 import java.util.NoSuchElementException;
 
 /**
@@ -8,8 +8,8 @@ import java.util.NoSuchElementException;
  */
 public class SimpleArrayList<E> {
 
-    private int size;
-    private Node<E> first;
+    int size;
+    Node<E> first;
 
     /**
      * Метод вставляет в начало списка данные.
@@ -52,7 +52,7 @@ public class SimpleArrayList<E> {
     /**
      * Класс предназначен для хранения данных.
      */
-    private static class Node<E> {
+    protected static class Node<E> {
 
         E date;
         Node<E> next;
