@@ -3,6 +3,10 @@ package ru.job4j.list;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.ConcurrentModificationException;
+import java.util.Iterator;
+import java.util.NoSuchElementException;
+
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
@@ -31,7 +35,16 @@ public class LinkedListContainerTest {
     }
 
 
-    @Test
-    public void iterator() {
+    @Test(expected = NoSuchElementException.class)
+    public void whenIterateThenGetException() {
+        Iterator<Integer> it = listContainer.iterator();
+        assertThat(it.hasNext(), is(true));
+        assertThat(it.next(), is(4));
+        assertThat(it.hasNext(), is(true));
+        assertThat(it.next(), is(7));
+        assertThat(it.hasNext(), is(true));
+        assertThat(it.next(), is(9));
+        assertThat(it.hasNext(), is(false));
+        it.next();
     }
 }
