@@ -58,8 +58,9 @@ public class LinkedListContainer<E> extends SimpleArrayList<E> implements Iterab
             }
 
             final void checkForComodification() {
-                if (modCount != expectedModCount)
+                if (modCount != expectedModCount) {
                     throw new ConcurrentModificationException();
+                }
             }
         };
     }
