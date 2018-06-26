@@ -1,8 +1,6 @@
 package ru.job4j.list;
 
 
-import java.util.NoSuchElementException;
-
 /**
  * Класс SimpleArrayList.
  */
@@ -50,9 +48,26 @@ public class SimpleArrayList<E> {
     }
 
     /**
+     * Метод, определяющий, что список содержит замыкания.
+     */
+    public static boolean hasCycle(Node first) {
+        Node slow = first;
+        Node fast = first;
+
+        while (fast != null && fast.next != null) {
+            slow = slow.next;
+            fast = fast.next.next;
+            if (slow == fast) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    /**
      * Класс предназначен для хранения данных.
      */
-    protected static class Node<E> {
+    public static class Node<E> {
 
         E date;
         Node<E> next;
