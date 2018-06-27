@@ -1,10 +1,10 @@
 package ru.job4j.list;
 
-import org.junit.Before;
-import org.junit.Test;
+        import org.junit.Before;
+        import org.junit.Test;
 
-import static org.hamcrest.core.Is.is;
-import static org.junit.Assert.*;
+        import static org.hamcrest.core.Is.is;
+        import static org.junit.Assert.*;
 
 public class SimpleQueueTest {
     private SimpleQueue<Integer> simpleQueue;

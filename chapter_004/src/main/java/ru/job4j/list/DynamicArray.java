@@ -20,7 +20,7 @@ public class DynamicArray<E> implements Iterable<E> {
     }
 
 
-    void add(E e) {
+    public void add(E e) {
         checkCapacity();
         container[size++] = e;
     }
