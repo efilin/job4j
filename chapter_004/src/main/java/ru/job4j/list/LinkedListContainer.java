@@ -40,10 +40,13 @@ public class LinkedListContainer<E> extends SimpleArrayList<E> implements Iterab
         return new Iterator<E>() {
             private int expectedModCount = modCount;
             private SimpleArrayList.Node<E> current = first;
+            private SimpleArrayList.Node<E> lastReturned;
+
+            private int nextIndex = 0;
 
             @Override
             public boolean hasNext() {
-                return current != null;
+                return nextIndex < size;
             }
 
             @Override
@@ -52,9 +55,25 @@ public class LinkedListContainer<E> extends SimpleArrayList<E> implements Iterab
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                E result = current.date;
-                current = current.next;
-                return result;
+                lastReturned = current.next;
+                current = current.next.next;
+                nextIndex++;
+                return lastReturned.date;
+            }
+
+            public void remove() {
+                checkForComodification();
+                if (lastReturned == null)
+                    throw new IllegalStateException();
+
+                Node<E> lastNext = lastReturned.next;
+//                unlink(lastReturned);
+                if (current.next == lastReturned)
+                    current.next = lastNext;
+                else
+                    nextIndex--;
+                lastReturned = null;
+                expectedModCount++;
             }
 
             final void checkForComodification() {
