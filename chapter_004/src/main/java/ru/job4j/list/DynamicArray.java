@@ -30,11 +30,29 @@ public class DynamicArray<E> implements Iterable<E> {
         return (E) container[index];
     }
 
+    public E remove(int index) {
+        if (index >= size) {
+            throw new IndexOutOfBoundsException();
+        }
+        modCount++;
+        E oldValue = (E) container[index];
+
+        int numMoved = size - index - 1;
+        if (numMoved > 0) {
+            System.arraycopy(container, index + 1, container, index,
+                    numMoved);
+        }
+        container[--size] = null;
+
+        return oldValue;
+    }
+
 
     @Override
     public Iterator<E> iterator() {
         return new Iterator<E>() {
             int index = 0;
+            int lastRet = -1;
             int expectedModCount = modCount;
 
             @Override
@@ -54,7 +72,24 @@ public class DynamicArray<E> implements Iterable<E> {
                     throw new ConcurrentModificationException();
                 }
                 index = i + 1;
-                return (E) elementData[i];
+                lastRet = i;
+                return (E) elementData[lastRet];
+            }
+
+            public void remove() {
+                if (lastRet < 0) {
+                    throw new IllegalStateException();
+                }
+                checkForComodification();
+
+                try {
+                    DynamicArray.this.remove(lastRet);
+                    index = lastRet;
+                    lastRet = -1;
+                    expectedModCount = modCount;
+                } catch (IndexOutOfBoundsException ex) {
+                    throw new ConcurrentModificationException();
+                }
             }
 
             final void checkForComodification() {
@@ -63,6 +98,5 @@ public class DynamicArray<E> implements Iterable<E> {
                 }
             }
         };
-
     }
 }

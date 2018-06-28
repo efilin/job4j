@@ -4,15 +4,15 @@ import ru.job4j.list.DynamicArray;
 
 public class SimpleHashSet<E> {
     private int arrayLength = 10;
-    DynamicArray<E> [] simpleList = new DynamicArray[arrayLength];
+    DynamicArray<E>[] simpleList = new DynamicArray[arrayLength];
 
     public SimpleHashSet() {
-        for (int i =0; i < arrayLength; i++) {
+        for (int i = 0; i < arrayLength; i++) {
             simpleList[i] = new DynamicArray<>();
         }
     }
 
-    boolean add (E e){
+    boolean add(E e) {
         if (!contains(e)) {
             simpleList[hash(e)].add(e);
             return true;
@@ -21,12 +21,11 @@ public class SimpleHashSet<E> {
     }
 
 
-
-    boolean contains (E e) {
+    boolean contains(E e) {
         return e.equals(simpleList[hash(e)]);
     }
 
-    boolean remove (E e) {
+    boolean remove(E e) {
         if (!contains(e)) {
             return false;
         }
@@ -36,8 +35,6 @@ public class SimpleHashSet<E> {
     private int hash(E e) {
         return e.hashCode() % arrayLength;
     }
-
-
 
 
 }

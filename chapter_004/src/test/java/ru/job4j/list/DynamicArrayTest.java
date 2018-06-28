@@ -48,4 +48,28 @@ public class DynamicArrayTest {
         assertThat(it.hasNext(), is(false));
         it.next();
     }
+
+    @Test
+    public void whenIterateThenRemove() {
+        DynamicArray<Integer> dynArray = new DynamicArray<>();
+        dynArray.add(7);
+        dynArray.add(9);
+        dynArray.add(11);
+        assertThat(dynArray.get(1), is(9));
+        Iterator<Integer> it = dynArray.iterator();
+        it.next();
+        it.next();
+        it.remove();
+        assertThat(dynArray.get(1), is(11));
+    }
+
+    @Test(expected = IllegalStateException.class)
+    public void whenRemoveWithoutIterate() {
+        DynamicArray<Integer> dynArray = new DynamicArray<>();
+        dynArray.add(2);
+        dynArray.add(4);
+        dynArray.add(6);
+        Iterator<Integer> it = dynArray.iterator();
+        it.remove();
+    }
 }
