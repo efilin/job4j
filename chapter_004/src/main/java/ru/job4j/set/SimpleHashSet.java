@@ -29,7 +29,8 @@ public class SimpleHashSet<E> {
         if (!contains(e)) {
             return false;
         }
-        return false;
+        simpleList[hash(e)].remove(hash(e));
+        return true;
     }
 
     private int hash(E e) {
