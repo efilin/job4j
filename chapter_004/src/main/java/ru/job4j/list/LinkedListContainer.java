@@ -7,7 +7,7 @@ import java.util.NoSuchElementException;
 public class LinkedListContainer<E> extends SimpleArrayList<E> implements Iterable<E> {
 
     protected int modCount = 0;
-    private Node<E> last;
+    Node<E> last;
 
 
     @Override
@@ -29,10 +29,12 @@ public class LinkedListContainer<E> extends SimpleArrayList<E> implements Iterab
         return super.delete();
     }
 
+
     @Override
     public E get(int index) {
         return super.get(index);
     }
+
 
     @Override
     public Iterator<E> iterator() {
@@ -41,7 +43,6 @@ public class LinkedListContainer<E> extends SimpleArrayList<E> implements Iterab
             private int expectedModCount = modCount;
             private SimpleArrayList.Node<E> current = first;
             private SimpleArrayList.Node<E> lastReturned;
-
             private int nextIndex = 0;
 
             @Override
@@ -55,23 +56,43 @@ public class LinkedListContainer<E> extends SimpleArrayList<E> implements Iterab
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
-                lastReturned = current.next;
-                current = current.next.next;
+                lastReturned = current;
+                current = current.next;
                 nextIndex++;
                 return lastReturned.date;
             }
 
             public void remove() {
                 checkForComodification();
-                if (lastReturned == null)
+                int index = 0;
+                if (lastReturned == null) {
                     throw new IllegalStateException();
-
-                Node<E> lastNext = lastReturned.next;
-//                unlink(lastReturned);
-                if (current.next == lastReturned)
-                    current.next = lastNext;
-                else
+                }
+                Node<E> temp = first;
+                if (nextIndex == 1) {
+                    first = first.next;
+                    size--;
                     nextIndex--;
+                    return;
+                }
+                while (temp.next != null) {
+                    if (index == nextIndex - 1) {
+                        temp.next = temp.next.next;
+                        size--;
+                        nextIndex--;
+                        return;
+                    } else {
+                        index++;
+                        if (index == size - 1) {
+                            last = temp;
+                            temp.next = null;
+                            size--;
+                            nextIndex--;
+                            return;
+                        }
+                        temp = temp.next;
+                    }
+                }
                 lastReturned = null;
                 expectedModCount++;
             }
