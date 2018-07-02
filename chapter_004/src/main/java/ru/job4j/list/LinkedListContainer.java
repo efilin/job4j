@@ -6,7 +6,7 @@ import java.util.NoSuchElementException;
 
 public class LinkedListContainer<E> extends SimpleArrayList<E> implements Iterable<E> {
 
-    protected int modCount = 0;
+    private int modCount = 0;
     Node<E> last;
 
 
@@ -30,9 +30,39 @@ public class LinkedListContainer<E> extends SimpleArrayList<E> implements Iterab
     }
 
 
+    private void unlink(int index) {
+        final Node<E> next = this.getNode(index).next;
+
+        if (index == 0) {
+            first = this.getNode(index).next;
+        } else {
+            this.getNode(index - 1).next = this.getNode(index).next;
+        }
+
+        if (next == null) {
+            last = this.getNode(index - 1);
+        } else {
+            this.getNode(index).next = null;
+        }
+        size--;
+        modCount++;
+    }
+
+
     @Override
     public E get(int index) {
         return super.get(index);
+    }
+
+    Node<E> getNode(int index) {
+        if (index >= size) {
+            throw new NoSuchElementException();
+        }
+        Node<E> result = this.first;
+        for (int i = 0; i < index; i++) {
+            result = result.next;
+        }
+        return result;
     }
 
 
@@ -68,31 +98,8 @@ public class LinkedListContainer<E> extends SimpleArrayList<E> implements Iterab
                 if (lastReturned == null) {
                     throw new IllegalStateException();
                 }
-                Node<E> temp = first;
-                if (nextIndex == 1) {
-                    first = first.next;
-                    size--;
-                    nextIndex--;
-                    return;
-                }
-                while (temp.next != null) {
-                    if (index == nextIndex - 1) {
-                        temp.next = temp.next.next;
-                        size--;
-                        nextIndex--;
-                        return;
-                    } else {
-                        index++;
-                        if (index == size - 1) {
-                            last = temp;
-                            temp.next = null;
-                            size--;
-                            nextIndex--;
-                            return;
-                        }
-                        temp = temp.next;
-                    }
-                }
+                unlink(nextIndex - 1);
+                nextIndex--;
                 lastReturned = null;
                 expectedModCount++;
             }

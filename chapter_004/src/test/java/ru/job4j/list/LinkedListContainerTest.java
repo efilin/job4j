@@ -22,9 +22,10 @@ public class LinkedListContainerTest {
         listContainer.add(9);
     }
 
-    @Test
+    @Test(expected = NoSuchElementException.class)
     public void whenAddThenGet() {
         assertThat(listContainer.get(2), is(9));
+        listContainer.getNode(20);
     }
 
     @Test
