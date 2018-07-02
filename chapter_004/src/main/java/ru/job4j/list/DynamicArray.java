@@ -31,9 +31,6 @@ public class DynamicArray<E> implements Iterable<E> {
     }
 
     public E remove(int index) {
-        if (index >= size) {
-            throw new IndexOutOfBoundsException();
-        }
         modCount++;
         E oldValue = (E) container[index];
 
@@ -47,6 +44,19 @@ public class DynamicArray<E> implements Iterable<E> {
         return oldValue;
     }
 
+    public boolean contains(E e) {
+        for (int i = 0; i < getSize(); i++) {
+            if (container[i].equals(e)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public int getSize() {
+        return size;
+    }
 
     @Override
     public Iterator<E> iterator() {

@@ -2,6 +2,9 @@ package ru.job4j.set;
 
 import ru.job4j.list.DynamicArray;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public class SimpleHashSet<E> {
     private int arrayLength = 10;
     DynamicArray<E>[] simpleList = new DynamicArray[arrayLength];
@@ -22,8 +25,9 @@ public class SimpleHashSet<E> {
 
 
     boolean contains(E e) {
-        return e.equals(simpleList[hash(e)]);
+        return simpleList[hash(e)].contains(e);
     }
+
 
     boolean remove(E e) {
         if (!contains(e)) {
@@ -34,8 +38,8 @@ public class SimpleHashSet<E> {
     }
 
     private int hash(E e) {
-        return e.hashCode() % arrayLength;
+        int result = e.hashCode() % arrayLength;
+        return result;
     }
-
 
 }

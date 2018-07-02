@@ -12,22 +12,22 @@ public class SimpleHashSetTest {
     @Before
     public void setUp() throws Exception {
         simpleHashSet = new SimpleHashSet<>();
-        simpleHashSet.add(5);
-        simpleHashSet.add(7);
-        simpleHashSet.add(9);
     }
 
     @Test
     public void whenAddThenCheckContains() {
-        //assertThat(simpleHashSet.contains(7), is(true));
-        //assertThat(simpleHashSet.contains(11), is(false));
+        assertThat(simpleHashSet.contains(5), is(false));
+        simpleHashSet.add(5);
+        assertThat(simpleHashSet.contains(5), is(true));
     }
 
     @Test
-    public void contains() {
-    }
+    public void whenAddThenRemoveThenCheck() {
+        simpleHashSet.add(7);
+        simpleHashSet.add(9);
+        assertThat(simpleHashSet.contains(9), is(true));
+        simpleHashSet.remove(9);
+        assertThat(simpleHashSet.contains(9), is(false));
 
-    @Test
-    public void remove() {
     }
 }
