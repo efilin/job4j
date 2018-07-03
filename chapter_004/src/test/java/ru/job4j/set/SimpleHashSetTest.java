@@ -10,7 +10,7 @@ public class SimpleHashSetTest {
     private SimpleHashSet<Integer> simpleHashSet;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         simpleHashSet = new SimpleHashSet<>();
     }
 
@@ -30,4 +30,5 @@ public class SimpleHashSetTest {
         assertThat(simpleHashSet.contains(9), is(false));
 
     }
+
 }

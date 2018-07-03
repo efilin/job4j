@@ -2,22 +2,31 @@ package ru.job4j.set;
 
 import ru.job4j.list.DynamicArray;
 
-import java.util.Arrays;
+
 import java.util.Objects;
 
 public class SimpleHashSet<E> {
+
+    private static final float DEFAULT_LOAD_FACTOR = 0.75f;
+
     private int arrayLength = 10;
-    DynamicArray<E>[] simpleList = new DynamicArray[arrayLength];
+    private Object [] values;
+    private int count = 0;
+    private float logFactor = 0;
+
+
 
     public SimpleHashSet() {
-        for (int i = 0; i < arrayLength; i++) {
-            simpleList[i] = new DynamicArray<>();
-        }
+        this.values = new Object[arrayLength];
     }
 
-    boolean add(E e) {
-        if (!contains(e)) {
-            simpleList[hash(e)].add(e);
+    public boolean add(E e) {
+        if (logFactor > DEFAULT_LOAD_FACTOR) {
+            resize();
+        }
+        if (values[hash(e)] == null) {
+            values[hash(e)] = e;
+            logFactor = (float) ++count/arrayLength;
             return true;
         }
         return false;
@@ -25,21 +34,31 @@ public class SimpleHashSet<E> {
 
 
     boolean contains(E e) {
-        return simpleList[hash(e)].contains(e);
+        return e.equals(values[hash(e)]);
     }
 
-
     boolean remove(E e) {
-        if (!contains(e)) {
-            return false;
+        if (values[hash(e)] != null) {
+            values[hash(e)] = null;
+            count--;
+            return true;
         }
-        simpleList[hash(e)].remove(hash(e));
-        return true;
+        return false;
     }
 
     private int hash(E e) {
-        int result = e.hashCode() % arrayLength;
-        return result;
+        return e.hashCode() % arrayLength;
+    }
+
+    private void resize() {
+        arrayLength = arrayLength * 2;
+        Object [] newValues = new Object[arrayLength];
+        for (Object data: newValues) {
+            if (data != null) {
+                newValues[hash((E) data)] = data;
+            }
+        }
+        values = newValues;
     }
 
 }
