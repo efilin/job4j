@@ -1,19 +1,14 @@
 package ru.job4j.set;
 
-import ru.job4j.list.DynamicArray;
-
-
-import java.util.Objects;
 
 public class SimpleHashSet<E> {
 
     private static final float DEFAULT_LOAD_FACTOR = 0.75f;
 
     private int arrayLength = 10;
-    private Object [] values;
+    private Object[] values;
     private int count = 0;
     private float logFactor = 0;
-
 
 
     public SimpleHashSet() {
@@ -26,7 +21,7 @@ public class SimpleHashSet<E> {
         }
         if (values[hash(e)] == null) {
             values[hash(e)] = e;
-            logFactor = (float) ++count/arrayLength;
+            logFactor = (float) ++count / arrayLength;
             return true;
         }
         return false;
@@ -50,10 +45,14 @@ public class SimpleHashSet<E> {
         return e.hashCode() % arrayLength;
     }
 
+    public int getArrayLength() {
+        return arrayLength;
+    }
+
     private void resize() {
         arrayLength = arrayLength * 2;
-        Object [] newValues = new Object[arrayLength];
-        for (Object data: newValues) {
+        Object[] newValues = new Object[arrayLength];
+        for (Object data : newValues) {
             if (data != null) {
                 newValues[hash((E) data)] = data;
             }
