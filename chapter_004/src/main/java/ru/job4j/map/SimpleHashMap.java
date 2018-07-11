@@ -1,5 +1,6 @@
 package ru.job4j.map;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
@@ -10,19 +11,20 @@ public class SimpleHashMap<K, V> implements Iterable<K> {
     private Node<K, V>[] table;
     private int arrayLength = 16;
     private int size = 0;
-    private float logFactor = 0;
+    private int modCount = 0;
 
     public SimpleHashMap() {
         this.table = (Node<K, V>[]) new Node[arrayLength];
     }
 
     public boolean insert(K key, V value) {
-        if (logFactor > DEFAULT_LOAD_FACTOR) {
+        if ((size / arrayLength) > DEFAULT_LOAD_FACTOR) {
             resize();
         }
         if (table[hash(key)] == null) {
             table[hash(key)] = new Node<>(key, value);
-            logFactor = (float) ++size / arrayLength;
+            size++;
+            modCount++;
             return true;
         }
         return false;
@@ -39,7 +41,8 @@ public class SimpleHashMap<K, V> implements Iterable<K> {
     public boolean delete(K key) {
         if (table[hash(key)] != null) {
             table[hash(key)] = null;
-            logFactor = (float) --size / arrayLength;
+            size--;
+            modCount++;
             return true;
         }
         return false;
@@ -55,7 +58,6 @@ public class SimpleHashMap<K, V> implements Iterable<K> {
             }
         }
         this.table = newTable;
-        logFactor = (float) size / arrayLength;
     }
 
     private int hash(K key) {
@@ -66,6 +68,7 @@ public class SimpleHashMap<K, V> implements Iterable<K> {
     @Override
     public Iterator<K> iterator() {
         return new Iterator<K>() {
+            private int expectedModCount = modCount;
             int index = 0;
             int counter = 0;
 
@@ -76,6 +79,8 @@ public class SimpleHashMap<K, V> implements Iterable<K> {
 
             @Override
             public K next() {
+                checkForComodification();
+                K result = null;
                 if (!hasNext()) {
                     throw new NoSuchElementException();
                 }
@@ -83,11 +88,17 @@ public class SimpleHashMap<K, V> implements Iterable<K> {
                     if (table[i] != null) {
                         index = i + 1;
                         counter++;
-                        return table[i].getKey();
+                        result = table[i].getKey();
+                        break;
                     }
                 }
+                return result;
+            }
 
-                return null;
+            final void checkForComodification() {
+                if (modCount != expectedModCount) {
+                    throw new ConcurrentModificationException();
+                }
             }
         };
     }
