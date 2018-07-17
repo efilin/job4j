@@ -1,19 +1,29 @@
 package ru.job4j.userstore;
 
+import java.util.HashMap;
 import java.util.List;
 
 class Store {
 
     public Info diff(List<User> previous, List<User> current) {
+
+        HashMap<Integer, String> prevHashMap = new HashMap<>();
+        HashMap<Integer, String> currHashMap = new HashMap<>();
+
+        for (User userPr : previous) {
+            prevHashMap.put(userPr.id, userPr.name);
+        }
+
+        for (User userCu : current) {
+            currHashMap.put(userCu.id, userCu.name);
+        }
         int sameIdUsers = 0;
         int changedUsers = 0;
-        for (User userPr : previous) {
-            for (User userCu : current) {
-                if (userPr.id == userCu.id) {
-                    sameIdUsers++;
-                    if ((!userPr.name.equals(userCu.name))) {
-                        changedUsers++;
-                    }
+        for (Integer keyId : prevHashMap.keySet()) {
+            if (currHashMap.keySet().contains(keyId)) {
+                sameIdUsers++;
+                if (!currHashMap.get(keyId).equals(prevHashMap.get(keyId))) {
+                    changedUsers++;
                 }
             }
         }
