@@ -8,8 +8,8 @@ import static org.junit.Assert.*;
 
 public class DepartmentsSortTest {
 
-    DepartmentsSort departmentsSort = new DepartmentsSort();
-    String[] departments = new String[7];
+    private DepartmentsSort departmentsSort = new DepartmentsSort();
+    private String[] departments = new String[7];
 
     @Before
     public void setUp() {
