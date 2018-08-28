@@ -16,11 +16,8 @@ public class SimpleBlockingQueueTest {
             public void run() {
                 int i = 0;
                 while (i < 40) {
-                    try {
-                        simpleBlockingQueue.offer(i++);
-                    } catch (InterruptedException e) {
-                        System.out.println("InterruptedException");
-                    }
+                    simpleBlockingQueue.offer(i++);
+
                 }
             }
         };

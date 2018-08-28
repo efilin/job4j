@@ -14,14 +14,22 @@ public class SimpleBlockingQueue<T> {
 
     private Queue<T> queue = new LinkedList<>();
 
-    public synchronized void offer(T value) throws InterruptedException {
+    public synchronized void offer(T value) {
 
         while (queue.size() >= QUEUE_MAX_SIZE) {
-            wait();
+            try {
+                wait();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         queue.offer(value);
         System.out.println("Offer " + value);
         notify();
+    }
+
+    public boolean isEmpty() {
+        return this.queue.isEmpty();
     }
 
     public synchronized T poll() throws InterruptedException {
