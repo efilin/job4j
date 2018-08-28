@@ -1,17 +1,22 @@
 package ru.job4j.list;
 
+import net.jcip.annotations.GuardedBy;
+import net.jcip.annotations.ThreadSafe;
+
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+@ThreadSafe
 public class LinkedListContainer<E> extends SimpleArrayList<E> implements Iterable<E> {
 
+    @GuardedBy("this")
     private int modCount = 0;
     Node<E> last;
 
 
     @Override
-    public void add(E date) {
+    public synchronized void add(E date) {
         Node<E> newLink = new Node<>(date);
         if (size == 0) {
             first = newLink;
@@ -24,13 +29,13 @@ public class LinkedListContainer<E> extends SimpleArrayList<E> implements Iterab
     }
 
     @Override
-    public E delete() {
+    public synchronized E delete() {
         modCount++;
         return super.delete();
     }
 
 
-    private void unlink(int index) {
+    private synchronized void unlink(int index) {
         final Node<E> next = this.getNode(index).next;
 
         if (index == 0) {
@@ -54,7 +59,7 @@ public class LinkedListContainer<E> extends SimpleArrayList<E> implements Iterab
         return super.get(index);
     }
 
-    Node<E> getNode(int index) {
+    synchronized Node<E> getNode(int index) {
         if (index >= size) {
             throw new NoSuchElementException();
         }
@@ -67,7 +72,7 @@ public class LinkedListContainer<E> extends SimpleArrayList<E> implements Iterab
 
 
     @Override
-    public Iterator<E> iterator() {
+    public synchronized Iterator<E> iterator() {
 
         return new Iterator<E>() {
             private int expectedModCount = modCount;
