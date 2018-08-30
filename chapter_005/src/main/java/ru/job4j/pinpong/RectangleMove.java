@@ -11,22 +11,18 @@ public class RectangleMove implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
-            while (this.rect.getX() < 300) {
-                this.rect.setX(this.rect.getX() + 1);
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+        int x = 1;
+        while (!Thread.currentThread().isInterrupted()) {
+            this.rect.setX(this.rect.getX() + x);
+            if (this.rect.getX() == 300) {
+                x = -1;
+            } else if (this.rect.getX() == 0) {
+                x = 1;
             }
-            while (this.rect.getX() > 0) {
-                this.rect.setX(this.rect.getX() - 1);
-                try {
-                    Thread.sleep(50);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
+            try {
+                Thread.sleep(50);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
             }
         }
     }

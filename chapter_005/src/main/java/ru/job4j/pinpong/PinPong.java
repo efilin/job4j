@@ -25,7 +25,6 @@ public class PinPong extends Application {
         stage.setOnCloseRequest(
                 event -> {
                     tread.interrupt();
-                    System.exit(0);
                 });
     }
 }
