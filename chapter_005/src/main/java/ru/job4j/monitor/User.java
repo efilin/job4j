@@ -25,7 +25,7 @@ public class User {
         this.id = id;
     }
 
-    public int getAmount() {
+    public synchronized int getAmount() {
         return amount;
     }
 

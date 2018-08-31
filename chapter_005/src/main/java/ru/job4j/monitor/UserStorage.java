@@ -47,7 +47,7 @@ public class UserStorage {
         return null;
     }
 
-    public void transfer(int fromId, int toId, int amount) {
+    public synchronized void transfer(int fromId, int toId, int amount) {
         User sender = findUserById(fromId);
         User recipient = findUserById(toId);
         sender.setAmount(sender.getAmount() - amount);
