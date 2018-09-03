@@ -2,23 +2,20 @@ package ru.job4j.list;
 
 
 import net.jcip.annotations.GuardedBy;
-import net.jcip.annotations.ThreadSafe;
 
 /**
  * Класс SimpleArrayList.
  */
 
-@ThreadSafe
 public class SimpleArrayList<E> {
 
-    @GuardedBy("this")
     int size;
     Node<E> first;
 
     /**
      * Метод вставляет в начало списка данные.
      */
-    public synchronized void add(E date) {
+    public void add(E date) {
         Node<E> newLink = new Node<>(date);
         newLink.next = this.first;
         this.first = newLink;
@@ -28,7 +25,7 @@ public class SimpleArrayList<E> {
     /**
      * Реализовать метод удаления первого элемент в списке.
      */
-    public synchronized E delete() {
+    public E delete() {
         Node<E> del = this.first;
         this.first = del.next;
         this.size--;
@@ -49,7 +46,7 @@ public class SimpleArrayList<E> {
     /**
      * Метод получения размера коллекции.
      */
-    public synchronized int getSize() {
+    public int getSize() {
         return this.size;
     }
 
