@@ -16,7 +16,7 @@ public class SimpleBlockingQueueTest2 {
         final SimpleBlockingQueue<Integer> queue = new SimpleBlockingQueue<>();
         Thread producer = new Thread(
                 () -> {
-                    IntStream.range(0, 5).forEach(
+                    IntStream.range(0, 13).forEach(
                             queue::offer
                     );
                 }
@@ -38,7 +38,7 @@ public class SimpleBlockingQueueTest2 {
         producer.join();
         consumer.interrupt();
         consumer.join();
-        assertThat(buffer, is(Arrays.asList(0, 1, 2, 3, 4)));
+        assertThat(buffer, is(Arrays.asList(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12)));
     }
 }
 

@@ -27,8 +27,8 @@ public class SimpleBlockingQueue<T> {
         notify();
     }
 
-    public boolean isEmpty() {
-        return this.queue.isEmpty();
+    public synchronized boolean isEmpty() {
+        return this.queue.size() == 0;
     }
 
     public synchronized T poll() throws InterruptedException {
