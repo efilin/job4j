@@ -4,10 +4,12 @@ public class Base {
 
     private int id;
     private int version;
+    private String name;
 
-    public Base(int id, int version) {
+    public Base(int id, String name) {
         this.id = id;
-        this.version = version;
+        this.version = 0;
+        this.name = name;
     }
 
     public int getId() {
@@ -22,7 +24,12 @@ public class Base {
         return version;
     }
 
-    public void setVersion(int version) {
-        this.version = version;
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+        this.version++;
     }
 }
