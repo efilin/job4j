@@ -50,7 +50,7 @@ public class BoardTest {
 
 
     @Test
-    public void whenFigureDoesntExistInThreeThreeCell() {
+    public void whenFigureDoesNotExistInThreeThreeCell() {
         Board board = new Board();
         board.add(new Bishop(new Cell(2, 2)));
         assertThat(board.getFigureIndexByCell(new Cell(3, 3)), is(-1));

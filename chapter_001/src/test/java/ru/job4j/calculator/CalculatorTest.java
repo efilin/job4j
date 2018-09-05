@@ -24,7 +24,7 @@ public class CalculatorTest {
     @Test
     public void whenSubFiveMinusThreeThenTwo() {
         Calculator calc = new Calculator();
-        calc.substract(5D, 3D);
+        calc.subtract(5D, 3D);
         double result = calc.getResult();
         double expected = 2D;
         assertThat(result, is(expected));
