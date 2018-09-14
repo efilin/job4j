@@ -12,6 +12,10 @@ public class ThreadSafeDynamicList<E> implements Iterable<E> {
     @GuardedBy("this")
     private LinkedListContainer<E> linkedListContainer = new LinkedListContainer<>();
 
+    public synchronized E get(int index) {
+        return linkedListContainer.get(index);
+    }
+
 
     public synchronized void add(E date) {
         linkedListContainer.add(date);
@@ -22,12 +26,22 @@ public class ThreadSafeDynamicList<E> implements Iterable<E> {
     }
 
 
-    public synchronized E get(int index) {
-        return linkedListContainer.get(index);
-    }
-
     @Override
     public synchronized Iterator<E> iterator() {
-        return linkedListContainer.iterator();
+        return copy().iterator();
+    }
+
+    private synchronized Snapshot copy() {
+        return new Snapshot(this, linkedListContainer);
+    }
+
+    class Snapshot extends ThreadSafeDynamicList<E> {
+        private ThreadSafeDynamicList threadSafeDynamicList;
+        private LinkedListContainer<E> linkedListContainer = new LinkedListContainer<>();
+
+        public Snapshot(ThreadSafeDynamicList threadSafeDynamicList, LinkedListContainer<E> linkedListContainer) {
+            this.threadSafeDynamicList = threadSafeDynamicList;
+            this.linkedListContainer = linkedListContainer;
+        }
     }
 }
