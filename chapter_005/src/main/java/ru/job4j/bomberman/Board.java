@@ -27,10 +27,10 @@ public class Board {
         @Override
         public void run() {
             board[0][0].lock();
-            while (true) {
+            /*while (true) {
 
 
-            }
+            }*/
 
         }
     });
