@@ -14,7 +14,7 @@ public class SplitTheMap {
     // Начальные точки для прямоугольников
     ArrayList<Pair> startingPoints;
 
-    ArrayList<Pair> removingPoints
+    ArrayList<Pair> removingPoints;
 
     ArrayList<Pair> tempStartingPoints;
     // Последовательность стартовых точек и прямоугольников
@@ -77,23 +77,36 @@ public class SplitTheMap {
         }
 
         // Формируем начальный  ArrayList startingPoints = все точки table
-        for (int j = 0; j<table[0].length; j++) {
-            for (int i = 0; i< table.length; i++) {
-                startingPoints.add(new Pair(i,j));
+        for (int j = 0; j < table[0].length; j++) {
+            for (int i = 0; i < table.length; i++) {
+                startingPoints.add(new Pair(i, j));
             }
         }
 
-        // Проверяем прямоугольники с одной стартовой точкой
+        // Проверяем прямоугольники с первой стартовой точкой
         while (tempVacNumber <= vacNumber) {
-            for (Pair recDim : rectangleVariants) {
-                if (checkRectangle(startingPoints.get(0), recDim)) {
-                    //При успешном заполнении одного из вариантов коррректируем стартовые точки
-                    setStartingPointsCorrection(recDim);
+            for (int i = 0; i < rectangleVariants.size(); i++) {
+                if (checkRectangle(startingPoints.get(0), rectangleVariants.get(i))) {
+                    //При успешном заполнении одного из вариантов корректируем стартовые точки
+                    startingPointsCorrection(rectangleVariants.get(i));
+                    //Добавляем стартовую точку и тип фигуры в итоговый массив
+                    winningCombination.add(new DoublePair(startingPoints.get(0),
+                            rectangleVariants.get(i)));
                     tempVacNumber++;
                     break;
                 }
+                // Если ни один вариант не подходит - возвращаемся к предыдущей ступени
+                else if (i == rectangleVariants.size() - 1) {
+                    tempVacNumber--;
+                    //Метод возвращающий стартовые точки
+
+                    //?? winningCombination.removeLast();
+
+                }
             }
         }
+
+
 
 
         // Перебор выриантов заполнения
@@ -106,7 +119,7 @@ public class SplitTheMap {
     }
 
     //Корректировка ArrayList startingPoints
-    private void setStartingPointsCorrection(Pair rectDimensions) {
+    private void startingPointsCorrection(Pair rectDimensions) {
         for (int j = startingPoints.get(0).j; j < startingPoints.get(0).j + rectDimensions.j; j++) {
             for (int i = startingPoints.get(0).i; i < startingPoints.get(0).i + rectDimensions.i; i++) {
                 removingPoints.add(new Pair(i, j));
@@ -116,18 +129,19 @@ public class SplitTheMap {
     }
 
     //Проверка одного варианта прямоугольника на вхождение
-    private boolean checkRectangle(Pair startPoint, Pair rectDimentions) {
+    //TODO Проверить метод дополнительно для tempVacNumber>1
+    private boolean checkRectangle(Pair startPoint, Pair rectDimensions) {
         int counter = 0;
         // Проверка влезает ли прямоугольник в table
-        if (((startPoint.i + rectDimentions.i) <= table.length)
-                && ((startPoint.j + rectDimentions.j) <= table[0].length)) {
+        if (((startPoint.i + rectDimensions.i) <= table.length)
+                && ((startPoint.j + rectDimensions.j) <= table[0].length)) {
 
             // Проверка на наличие только одной вакансии
-            for (int i = startPoint.i; i < startPoint.i + rectDimentions.i; i++) {
-                for (int j = startPoint.j; j < startPoint.j + rectDimentions.j; j++) {
+            for (int i = startPoint.i; i < startPoint.i + rectDimensions.i; i++) {
+                for (int j = startPoint.j; j < startPoint.j + rectDimensions.j; j++) {
                     if (table[i][j] == 'o') {
                         counter++;
-                        // Можно добавить условие остановки counter>1
+                        // Можно добавить условие остановки if (counter>1)
                     }
                 }
             }
@@ -164,7 +178,7 @@ public class SplitTheMap {
         }
     }
 
-    class DoublePair{
+    class DoublePair {
         Pair startPoint;
         Pair rectDimensions;
 
