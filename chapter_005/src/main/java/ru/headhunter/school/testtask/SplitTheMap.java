@@ -2,13 +2,15 @@ package ru.headhunter.school.testtask;
 
 import ru.job4j.bomberman.Board;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.Set;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.*;
 
 public class SplitTheMap {
 
+    //
+    ArrayList<String> preTable = new ArrayList<>();
     char[][] table;
     //    char[][] tempTable;
     private int vacNumber;
@@ -29,18 +31,33 @@ public class SplitTheMap {
     //ArrayList<Pair>
 
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws FileNotFoundException {
         SplitTheMap splitTheMap = new SplitTheMap();
+
+
         // INPUT
-        char[][] map = {{'.', 'o', '.', 'o', '.', '.', '.', '.'},
+
+        FileReader myFile = new FileReader("input.txt");
+        Scanner scanner = new Scanner(myFile);
+        ArrayList<String> mapList = new ArrayList<>();
+
+        while (scanner.hasNextLine()) {
+            mapList.add(scanner.nextLine());
+        }
+
+        splitTheMap.table = splitTheMap.convertListToArray(mapList);
+
+
+
+        /*char[][] map = {{'.', 'o', '.', 'o', '.', '.', '.', '.'},
                 {'.', '.', '.', '.', '.', '.', '.', '.'},
                 {'.', '.', '.', '.', 'o', '.', '.', '.'},
                 {'.', '.', '.', '.', '.', '.', '.', '.'},
                 {'.', '.', '.', '.', '.', 'o', '.', '.'},
-                {'.', '.', '.', '.', '.', '.', '.', '.'}};
+                {'.', '.', '.', '.', '.', '.', '.', '.'}};*/
 
-        /*char[][] map = {{'o','.'},
-                        {'.','o'}};*/
+        /*char[][] map = {{'o', '.', 'o', '.'},
+                {'.', 'o', 'o', '.'}};*/
 
 
 
@@ -53,14 +70,27 @@ public class SplitTheMap {
             }
         }*/
         long t1 = System.currentTimeMillis();
-        if (splitTheMap.parseTable(map)) {
+        if (splitTheMap.parseTable(splitTheMap.table)) {
             System.out.println("Вариант найден");
             // OUTPUT
+
         } else {
             System.out.println("Вариант не найден");
         }
         long t2 = System.currentTimeMillis();
-        System.out.println(t2-t1);
+        System.out.println(t2 - t1);
+
+    }
+
+    private char[][] convertListToArray(ArrayList<String> mapList) {
+        char[][] map = new char[mapList.get(0).toCharArray().length][mapList.size()];
+        for (int i = 0; i < mapList.size(); i++){
+            map[i] = mapList.get(i).toCharArray();
+        }
+        return map;
+    }
+
+    private void printResults() {
 
     }
 
