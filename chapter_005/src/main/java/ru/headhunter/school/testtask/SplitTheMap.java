@@ -1,32 +1,31 @@
 package ru.headhunter.school.testtask;
 
-import ru.job4j.bomberman.Board;
-
-import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.*;
 
 public class SplitTheMap {
 
+    /**
+     *
+     * Попробую кодировку Integer element = 1000*i + j;
+     */
     //
-    ArrayList<String> preTable = new ArrayList<>();
     char[][] table;
-    //    char[][] tempTable;
     private int vacNumber;
     private int tempVacNumber = 0;
     // Варианты прямоугольников заданной площади
-    ArrayList<Pair> rectangleVariants = new ArrayList<>();
+    ArrayList<Integer> rectangleVariants = new ArrayList<>();
     // Начальные точки для прямоугольников
-    ArrayList<Pair> startingPoints = new ArrayList<>();
+    ArrayList<Integer> startingPoints = new ArrayList<>();
 
     //ArrayList<Pair> removingPoints;
 
     //ArrayList<Pair> tempStartingPoints;
     // Последовательность стартовых точек и прямоугольников
-    LinkedList<DoublePair> winningCombination = new LinkedList<>();
+    LinkedList<Integer[]> winningCombination = new LinkedList<>();
     //Последовательность уменьшения списка стартовых точек(Чтобы откатывать назад, при необходимости)
-    ArrayList<ArrayList<Pair>> startingPointsHistory = new ArrayList<>();
+    ArrayList<ArrayList<Integer>> startingPointsHistory = new ArrayList<>();
 
     //ArrayList<Pair>
 
@@ -47,44 +46,30 @@ public class SplitTheMap {
 
         splitTheMap.table = splitTheMap.convertListToArray(mapList);
 
-
-
-        /*char[][] map = {{'.', 'o', '.', 'o', '.', '.', '.', '.'},
-                {'.', '.', '.', '.', '.', '.', '.', '.'},
-                {'.', '.', '.', '.', 'o', '.', '.', '.'},
-                {'.', '.', '.', '.', '.', '.', '.', '.'},
-                {'.', '.', '.', '.', '.', 'o', '.', '.'},
-                {'.', '.', '.', '.', '.', '.', '.', '.'}};*/
-
-        /*char[][] map = {{'o', '.', 'o', '.'},
-                {'.', 'o', 'o', '.'}};*/
-
-
-
-
-
-        /*for (int i = 0; i < map.length; i++) {
-            for (int j = 0; j < map[0].length; j++) {
-                System.out.println(map[i][j]);
+        /*for (int i = 0; i < splitTheMap.table.length; i++) {
+            for (int j = 0; j < splitTheMap.table[0].length; j++) {
+                System.out.print(splitTheMap.table[i][j]);
 
             }
+            System.out.println();
         }*/
-        long t1 = System.currentTimeMillis();
+        //long t1 = System.currentTimeMillis();
         if (splitTheMap.parseTable(splitTheMap.table)) {
-            System.out.println("Вариант найден");
+            //System.out.println("Вариант найден");
             // OUTPUT
+            splitTheMap.printResults();
 
-        } else {
-            System.out.println("Вариант не найден");
-        }
-        long t2 = System.currentTimeMillis();
-        System.out.println(t2 - t1);
+        }// else {
+        //System.out.println("Вариант не найден");
+        //}
+        //long t2 = System.currentTimeMillis();
+        //System.out.println(t2 - t1);
 
     }
 
     private char[][] convertListToArray(ArrayList<String> mapList) {
-        char[][] map = new char[mapList.get(0).toCharArray().length][mapList.size()];
-        for (int i = 0; i < mapList.size(); i++){
+        char[][] map = new char[mapList.size()][mapList.get(0).toCharArray().length];
+        for (int i = 0; i < mapList.size(); i++) {
             map[i] = mapList.get(i).toCharArray();
         }
         return map;
@@ -92,6 +77,21 @@ public class SplitTheMap {
 
     private void printResults() {
 
+        for (int n = 1; n < winningCombination.size(); n++) {
+
+            for (int i = winningCombination.get(n)[0]; i < winningCombination.get(n)[0] +
+                    rectangleVariants.get(winningCombination.get(n)[2])/1000; i++) {
+
+                for (int j = winningCombination.get(n)[1]; j < winningCombination.get(n)[1] +
+                        rectangleVariants.get(winningCombination.get(n)[2])%1000; j++) {
+
+                    System.out.print(table[i][j]);
+
+                }
+                System.out.println();
+            }
+            System.out.println();
+        }
     }
 
     private int getN(char[][] table) {
@@ -105,16 +105,7 @@ public class SplitTheMap {
         return counter;
     }
 
-    /**
-     * Находим N
-     * Вычисляем S(прямоугольной части)  = Общее количество элементов/N
-     * Находим различные варианты прямоугольников при этой площади (S = 10 ->  10x1; 5x2; 2x5; 1x10)
-     * Убираем варианты которые не помещаются в общую площадь
-     * Разработать алгоритм перебора вариантов заполнения общей карты прямоугольниками
-     *
-     * @param table
-     * @return
-     */
+
     public boolean parseTable(char[][] table) {
         // Находим количество вакансий
         this.table = table;
@@ -127,39 +118,44 @@ public class SplitTheMap {
         int Square = (table[0].length * table.length) / vacNumber;
 
         // Перебор вариантов разбиения на прямоугольники при этой площади
-        for (int j = 1; j <= Square; j++) {
-            if (Square % j == 0) {
-                int i = Square / j;
+        for (int i = 1; i <= Square; i++) {
+            if (Square % i == 0) {
+                int j = Square / i;
                 // Проверка на соответсвие размеров частей и целого
                 if (table[0].length >= j && table.length >= i) {
                     // Записать вариант в структуру данных ArrayList<i, j>
-                    rectangleVariants.add(new Pair(i, j));
+                    rectangleVariants.add(i * 1000 + j);
                 }
             }
         }
 
         // Формируем начальный  ArrayList startingPoints = все точки table
-        for (int j = 0; j < table[0].length; j++) {
-            for (int i = 0; i < table.length; i++) {
-                startingPoints.add(new Pair(i, j));
+        for (int i = 0; i < table.length; i++) {
+            for (int j = 0; j < table[0].length; j++) {
+                startingPoints.add(i*1000 +j);
             }
         }
         // Добаавляем начальный список в историю
-        startingPointsHistory.add(startingPoints);
-
+        //startingPointsHistory.add(startingPoints);
+        startingPointsHistory.add(new ArrayList<>(startingPoints));
+        winningCombination.add(new Integer[]{(startingPoints.get(0)/1000), (startingPoints.get(0)%1000), (0)});
         // Проверяем прямоугольники с первой стартовой точкой
         int tempRectVariant = 0;
         while (tempVacNumber <= vacNumber) {
             for (int i = tempRectVariant; i < rectangleVariants.size(); i++) {
                 if (checkRectangle(startingPointsHistory.get(tempVacNumber).get(0), rectangleVariants.get(i))) {
+                    //Добавляем стартовую точку и тип фигуры в итоговый массив
+                    winningCombination.add(new Integer[]{startingPointsHistory.get(tempVacNumber).get(0)/1000,
+                            startingPointsHistory.get(tempVacNumber).get(0)%1000, i});
+                    //(startingPointsHistory.get(tempVacNumber).get(0), i));
                     //При успешном заполнении одного из вариантов корректируем стартовые точки
+                    startingPoints = new ArrayList<>(startingPointsHistory.get(tempVacNumber));
                     startingPointsCorrection(rectangleVariants.get(i));
                     if (startingPoints.size() == 0) return true;
                     //Добавляем измененые стартовые точки в Историю
-                    startingPointsHistory.add(startingPoints);
-                    //Добавляем стартовую точку и тип фигуры в итоговый массив
-                    winningCombination.add(new DoublePair(startingPoints.get(0), i));
+                    startingPointsHistory.add(new ArrayList<>(startingPoints));
                     tempVacNumber++;
+                    tempRectVariant = 0;
                     break;
                 }
                 // Если ни один вариант не подходит - возвращаемся к предыдущей ступени
@@ -169,87 +165,114 @@ public class SplitTheMap {
                     if (tempVacNumber == 0) {
                         return false;
                     }
-                    //?? winningCombination.removeLast();
-                    tempRectVariant = winningCombination.getLast().rectDimensionsVariantNumber + 1;
+                    tempRectVariant = winningCombination.getLast()[2] + 1;
                     // Если в N-1 не остается вариантов фигур, то возвращием на N-2 и тд;
-                    while (tempRectVariant >= rectangleVariants.size()) {
+                    //
+                    while (tempRectVariant >= rectangleVariants.size() - 1) {
                         //Условие, что нет вариантов заполения не осталось совсем.
                         if (tempVacNumber == 0) {
                             return false;
                         }
                         //Метод возвращающий стартовые точки
                         startingPointsHistory.remove(tempVacNumber);
+                        // Пересчитываем оставшиеся варианты
+                        tempRectVariant = winningCombination.getLast()[2] + 1;
 
                         winningCombination.removeLast();
 
                         // Уменьшаем N
                         tempVacNumber--;
-                        // Пересчитываем оставшиеся варианты
-                        tempRectVariant = winningCombination.getLast().rectDimensionsVariantNumber + 1;
+                        break;
                     }
                 }
             }
         }
-
-
-        // Перебор выриантов заполнения
-        // Берем ArrayList[0], вставляем его в table, проверяем на вхождение только одной вакансии
-        // Метод checkRectangle()
-        // Корректируем ArrayList startingPoints
-
-
         return true;
     }
 
     //Корректировка ArrayList startingPoints
-    private void startingPointsCorrection(Pair rectDimensions) {
-        ArrayList<Pair> removingPoints = new ArrayList<>();
-        for (int j = startingPoints.get(0).j; j < startingPoints.get(0).j + rectDimensions.j; j++) {
-            for (int i = startingPoints.get(0).i; i < startingPoints.get(0).i + rectDimensions.i; i++) {
-                removingPoints.add(new Pair(i, j));
+    private void startingPointsCorrection(Integer rectDimensions) {
+        List<Integer> removingPoints = new ArrayList<>();
+        //List<Integer> removingPoints = new LinkedList<>();
+        for (int i = startingPoints.get(0)/1000; i < startingPoints.get(0)/1000 + rectDimensions/1000; i++) {
+            for (int j = startingPoints.get(0)%1000; j < startingPoints.get(0)%1000 + rectDimensions%1000; j++) {
+                removingPoints.add(i*1000+j);
             }
         }
+
         startingPoints.removeAll(removingPoints);
+
+
+
+        //List<Integer> startingList = new LinkedList<>(startingPoints);
+
+        //startingPoints = new ArrayList<>(startingList);
+    }
+
+    private void removeListFromList(List<Integer> starting, List<Integer> removing){
+        for (Integer remove: removing) {
+            starting.remove(Collections.binarySearch(starting,remove));
+        }
+        /*for (Integer[] remove : removing) {
+            for (Integer[] item : starting) {
+                if (Arrays.equals(item, remove)) {
+                    starting.remove(item);
+                    break;
+                }
+            }
+        }*/
     }
 
     //Проверка одного варианта прямоугольника на вхождение
-    //TODO Проверить метод дополнительно для tempVacNumber>1, на вхождение в starting points
-    private boolean checkRectangle(Pair startPoint, Pair rectDimensions) {
+    private boolean checkRectangle(Integer startPoint, Integer rectDimensions) {
         int counter = 0;
         // Проверка влезает ли прямоугольник в table
-        if (((startPoint.i + rectDimensions.i) <= table.length)
-                && ((startPoint.j + rectDimensions.j) <= table[0].length)) {
+        if (((startPoint/1000 + rectDimensions/1000) <= table.length)
+                && ((startPoint%1000 + rectDimensions%1000) <= table[0].length)) {
 
             // Проверка на наличие только одной вакансии
-            for (int i = startPoint.i; i < startPoint.i + rectDimensions.i; i++) {
-                for (int j = startPoint.j; j < startPoint.j + rectDimensions.j; j++) {
+            for (int i = startPoint/1000; i < startPoint/1000 + rectDimensions/1000; i++) {
+                for (int j = startPoint%1000; j < startPoint%1000 + rectDimensions%1000; j++) {
                     if (table[i][j] == 'o') {
                         counter++;
                         // Можно добавить условие остановки if (counter>1)
                     }
                 }
             }
-            //TODO
             return counter == 1 && checkIncludingRectIntoStartingList(startingPoints, rectDimensions);
         }
         return false;
     }
 
     // Проверка на вхождение в стартовый лист
-    // TODO Проверить метод contains
-    private boolean checkIncludingRectIntoStartingList(ArrayList<Pair> startingPoints, Pair rectDimensions) {
-        ArrayList<Pair> removingPoints = new ArrayList<>();
-        for (int j = startingPoints.get(0).j; j < startingPoints.get(0).j + rectDimensions.j; j++) {
-            for (int i = startingPoints.get(0).i; i < startingPoints.get(0).i + rectDimensions.i; i++) {
-                removingPoints.add(new Pair(i, j));
+    private boolean checkIncludingRectIntoStartingList(ArrayList<Integer> startingPoints, Integer rectDimensions) {
+        ArrayList<Integer> removingPoints = new ArrayList<>();
+        for (int i = startingPoints.get(0)/1000; i < startingPoints.get(0)/1000 + rectDimensions/1000; i++) {
+            for (int j = startingPoints.get(0)%1000; j < startingPoints.get(0)%1000 + rectDimensions%1000; j++) {
+                removingPoints.add(i*1000+j);
             }
         }
-        Set<Pair> startingPointsSet = new HashSet<>(startingPoints);
-        Set<Pair> removingPointsSet = new HashSet<>(removingPoints);
-        return startingPointsSet.containsAll(removingPointsSet);
+
+        boolean result = startingPoints.containsAll(removingPoints);
+        return result;
     }
 
-    class Pair {
+    private boolean isInList(List<Integer[]> list, List<Integer[]> candidate) {
+        boolean result = false;
+        for (Integer[] cand : candidate) {
+            result = false;
+            for (Integer[] item : list) {
+                if (Arrays.equals(item, cand)) {
+                    result = true;
+                    break;
+                }
+            }
+        }
+        return result;
+    }
+
+
+    /*class Pair {
         private int i;
         private int j;
 
@@ -286,7 +309,5 @@ public class SplitTheMap {
             this.startPoint = startPoint;
             this.rectDimensionsVariantNumber = rectDimensionsVariantNumber;
         }
-    }
+    }*/
 }
-
-
