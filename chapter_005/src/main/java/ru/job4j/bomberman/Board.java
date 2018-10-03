@@ -14,9 +14,9 @@ public class Board {
     private int monsterQuantity;
 
     private final ReentrantLock[][] board = new ReentrantLock[size][size];
-    Random random = new Random();
+    private Random random = new Random();
 
-    ExecutorService monsterPool = Executors.newFixedThreadPool(monsterQuantity);
+    private ExecutorService monsterPool = Executors.newFixedThreadPool(monsterQuantity);
 
     private List<ReentrantLock> blocks;
 
@@ -63,19 +63,21 @@ public class Board {
         return result;
     }
 
-    private List<ReentrantLock> makeBlocks(int blockFillPercentage) {
+    private void makeBlocks(int blockFillPercentage) {
         Cell result;
-        int blocks = this.size*this.size*blockFillPercentage/100;
-        for (int i = 0; i <blocks; i++) {
+        int blocksQuantity = this.size*this.size*blockFillPercentage/100;
+        for (int i = 0; i <blocksQuantity; i++) {
             do {
                 result = new Cell(random.nextInt(size), random.nextInt(size));
             }
             while (boardCell(result).tryLock());
-        }return null;
+            this.blocks.add(boardCell(result));
+        }
     }
 
     private void heroMovement() {
-
+        //реализовать движение героя
+        //
     }
 
 
@@ -108,7 +110,7 @@ public class Board {
 
     //ThreadPool для чудовищ
 
-    //TODO Переменный размер доски и количество чудовищ
+    //Переменный размер доски и количество чудовищ
 
 
     /*Thread hero = new Thread(new Runnable() {
