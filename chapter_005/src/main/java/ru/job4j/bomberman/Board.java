@@ -1,21 +1,33 @@
 package ru.job4j.bomberman;
 
+import java.util.List;
 import java.util.Random;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 
 
 public class Board {
 
-    private final int size = 8;
+    private int size;
+    private int monsterQuantity;
 
     private final ReentrantLock[][] board = new ReentrantLock[size][size];
     Random random = new Random();
+
+    ExecutorService monsterPool = Executors.newFixedThreadPool(monsterQuantity);
+
+    private List<ReentrantLock> blocks;
 
     private ReentrantLock boardCell(Cell cell) {
         return this.board[cell.getX()][cell.getY()];
     }
 
+    public Board(int size, int monsterQuantity) {
+        this.size = size;
+        this.monsterQuantity = monsterQuantity;
+    }
 
     /**
      * Метод move() пробует залочить новую ячейку в течении 500мс,
@@ -51,8 +63,55 @@ public class Board {
         return result;
     }
 
+    private List<ReentrantLock> makeBlocks(int blockFillPercentage) {
+        Cell result;
+        int blocks = this.size*this.size*blockFillPercentage/100;
+        for (int i = 0; i <blocks; i++) {
+            do {
+                result = new Cell(random.nextInt(size), random.nextInt(size));
+            }
+            while (boardCell(result).tryLock());
+        }return null;
+    }
 
-    Thread heroOne = new Thread(new Runnable() {
+    private void heroMovement() {
+
+    }
+
+
+    public void monsterMovement() {
+        monsterPool.submit(new Runnable() {
+            @Override
+            public void run() {
+                Cell startCell = startPosition();
+                Cell nextCell;
+                while (!Thread.currentThread().isInterrupted()) {
+                    try {
+                        nextCell = changePosition(startCell);
+                        if (move(startCell, nextCell)) {
+                            boardCell(startCell).unlock();
+                            startCell = nextCell;
+                            Thread.sleep(1000);
+                        }
+                    } catch (InterruptedException e) {
+                        Thread.currentThread().interrupt();
+                        e.printStackTrace();
+                    }
+                }
+            }
+        });
+    }
+
+    //TODO API bomberman
+
+    //TODO блоки
+
+    //ThreadPool для чудовищ
+
+    //TODO Переменный размер доски и количество чудовищ
+
+
+    /*Thread hero = new Thread(new Runnable() {
         @Override
         public void run() {
             Cell startCell = startPosition();
@@ -71,29 +130,7 @@ public class Board {
                 }
             }
         }
-    });
-
-    Thread heroTwo = new Thread(new Runnable() {
-        @Override
-        public void run() {
-            Cell startCell = startPosition();
-            Cell nextCell;
-            while (!Thread.currentThread().isInterrupted()) {
-                try {
-                    nextCell = changePosition(startCell);
-                    if (move(startCell, nextCell)) {
-                        boardCell(startCell).unlock();
-                        startCell = nextCell;
-                        Thread.sleep(1000);
-                    }
-                } catch (InterruptedException e) {
-                    Thread.currentThread().interrupt();
-                    e.printStackTrace();
-                }
-            }
-
-        }
-    });
+    });*/
 
 
 }
