@@ -13,12 +13,12 @@ public class Board {
     private int size;
     private int monsterQuantity;
 
+    private char input;
+
     private final ReentrantLock[][] board = new ReentrantLock[size][size];
     private Random random = new Random();
 
     private ExecutorService monsterPool = Executors.newFixedThreadPool(monsterQuantity);
-
-    private List<ReentrantLock> blocks;
 
     private ReentrantLock boardCell(Cell cell) {
         return this.board[cell.getX()][cell.getY()];
@@ -63,21 +63,22 @@ public class Board {
         return result;
     }
 
-    private void makeBlocks(int blockFillPercentage) {
-        Cell result;
-        int blocksQuantity = this.size*this.size*blockFillPercentage/100;
-        for (int i = 0; i <blocksQuantity; i++) {
-            do {
-                result = new Cell(random.nextInt(size), random.nextInt(size));
-            }
-            while (boardCell(result).tryLock());
-            this.blocks.add(boardCell(result));
-        }
-    }
 
-    private void heroMovement() {
-        //реализовать движение героя
-        //
+    private Cell heroChangePosition(Cell source) throws InterruptedException {
+        int x = 0;
+        int y = 0;
+        if (input == 'w' && (source.getY() + 1) < size) {
+            y = 1;
+        } else if (input == 's' && (source.getY() - 1) >= 0) {
+            y = -1;
+        } else if (input == 'a' && (source.getX() - 1) >= 0) {
+            x = -1;
+        } else if (input == 'd' && (source.getX() + 1) < size) {
+            x = 1;
+        } else {
+            System.out.println("Некорректный ввод. Введите один из символов: w,a,s,d");
+        }
+        return new Cell(source.getX() + x, source.getY() + y);
     }
 
 
@@ -104,23 +105,14 @@ public class Board {
         });
     }
 
-    //TODO API bomberman
-
-    //TODO блоки
-
-    //ThreadPool для чудовищ
-
-    //Переменный размер доски и количество чудовищ
-
-
-    /*Thread hero = new Thread(new Runnable() {
+    Thread hero = new Thread(new Runnable() {
         @Override
         public void run() {
             Cell startCell = startPosition();
             Cell nextCell;
             while (!Thread.currentThread().isInterrupted()) {
                 try {
-                    nextCell = changePosition(startCell);
+                    nextCell = heroChangePosition(startCell);
                     if (move(startCell, nextCell)) {
                         boardCell(startCell).unlock();
                         startCell = nextCell;
@@ -132,7 +124,5 @@ public class Board {
                 }
             }
         }
-    });*/
-
-
+    });
 }
