@@ -1,50 +1,65 @@
 package ru.job4j.deadlock;
 
-public class DeadlockExample {
+import java.sql.SQLOutput;
 
-    public static Object lock1 = new Object();
-    public static Object lock2 = new Object();
+class DeadlockExample implements Runnable {
+    A a = new A();
+    B b = new B();
+
+    DeadlockExample() {
+        Thread.currentThread().setName("Главный поток");
+        Thread t = new Thread(this, "Соперничающий поток");
+        t.start();
+
+        a.foo(b);
+        System.out.println("Назад в главный поток");
+    }
+
+    @Override
+    public void run() {
+        b.bar(a);
+        System.out.println("Назад в другой поток");
+    }
 
     public static void main(String[] args) {
-        ThreadDemo1 thread1 = new ThreadDemo1();
-        ThreadDemo2 thread2 = new ThreadDemo2();
-        thread1.start();
-        thread2.start();
+        new DeadlockExample();
+    }
+}
+
+class A {
+    synchronized void foo(B b) {
+        String name = Thread.currentThread().getName();
+
+        try {
+            Thread.sleep(1000);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        System.out.println(name + " пытается вызвать метод B.last");
+        b.last();
     }
 
-    private static class ThreadDemo1 extends Thread {
-        public void run() {
-            synchronized (lock1) {
-                System.out.println("Thread 1: Holding lock 1...");
-
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-                }
-                System.out.println("Thread 1: Waiting for lock 2...");
-
-                synchronized (lock2) {
-                    System.out.println("Thread 1: Holding lock 1 & 2...");
-                }
-            }
-        }
+    synchronized void last() {
+        System.out.println("B в методе A.last");
     }
 
-    private static class ThreadDemo2 extends Thread {
-        public void run() {
-            synchronized (lock2) {
-                System.out.println("Thread 2: Holding lock 2...");
+}
 
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-                }
-                System.out.println("Thread 2: Waiting for lock 1...");
+class B {
+    synchronized void bar(A a) {
+        String name = Thread.currentThread().getName();
+        System.out.println(name + " вошел в метод B.bar()");
 
-                synchronized (lock1) {
-                    System.out.println("Thread 2: Holding lock 1 & 2...");
-                }
-            }
+        try {
+            Thread.sleep(1000);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
+        System.out.println(name + " пытается вызвать метод A.last()");
+        a.last();
+    }
+
+    synchronized void last() {
+        System.out.println("B в методе A.last()");
     }
 }
