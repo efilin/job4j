@@ -1,12 +1,11 @@
 package ru.job4j.deadlock;
 
-import java.sql.SQLOutput;
 
 class DeadlockExample implements Runnable {
-    A a = new A();
-    B b = new B();
+    private A a = new A();
+    private B b = new B();
 
-    DeadlockExample() {
+    private DeadlockExample() {
         Thread.currentThread().setName("Главный поток");
         Thread t = new Thread(this, "Соперничающий поток");
         t.start();
@@ -30,12 +29,14 @@ class A {
     synchronized void foo(B b) {
         String name = Thread.currentThread().getName();
 
+        System.out.println(name + " вошел в метод  A.last()");
+
         try {
             Thread.sleep(1000);
         } catch (Exception e) {
             e.printStackTrace();
         }
-        System.out.println(name + " пытается вызвать метод B.last");
+        System.out.println(name + " пытается вызвать метод B.last()");
         b.last();
     }
 

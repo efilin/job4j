@@ -18,8 +18,8 @@ public class BufferQueue {
 }
 
 class ThreadOne implements Runnable {
-    BufferQueue queue;
-    CountDownLatch countDownLatch;
+    private BufferQueue queue;
+    private CountDownLatch countDownLatch;
 
     ThreadOne(CountDownLatch countDownLatch, BufferQueue q) {
         this.countDownLatch = countDownLatch;
@@ -29,17 +29,22 @@ class ThreadOne implements Runnable {
 
     @Override
     public void run() {
-        while (!Thread.currentThread().isInterrupted()) {
+        for (int i = 0; i < 10; i++) {
             queue.buffer.add(1);
             System.out.println("ThreadOne add 1 to buffer");
             countDownLatch.countDown();
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
 
 class ThreadTwo implements Runnable {
-    BufferQueue queue;
-    CountDownLatch countDownLatch;
+    private BufferQueue queue;
+    private CountDownLatch countDownLatch;
 
     ThreadTwo(CountDownLatch countDownLatch, BufferQueue q) {
         this.countDownLatch = countDownLatch;
@@ -49,16 +54,15 @@ class ThreadTwo implements Runnable {
 
     @Override
     public void run() {
-        //while (!Thread.currentThread().isInterrupted()) {
-            try {
-                countDownLatch.await();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+        try {
+            countDownLatch.await();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        for (int i = 0; i < 10; i++) {
             queue.buffer.add(2);
             System.out.println("ThreadTwo add 2 to buffer");
-            //countDownLatch.countDown();
-        //}
+        }
     }
 }
 
