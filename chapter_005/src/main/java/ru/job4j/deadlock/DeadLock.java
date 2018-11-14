@@ -12,6 +12,7 @@ public class DeadLock {
                 latch.countDown();
                 this.latch.await();
                 synchronized (right) {
+                    System.out.println("Can't reach there!");
                 }
             }
         } catch (Exception e) {
