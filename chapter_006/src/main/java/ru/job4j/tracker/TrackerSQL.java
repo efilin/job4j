@@ -5,6 +5,7 @@ import org.slf4j.LoggerFactory;
 
 import java.io.InputStream;
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -44,18 +45,10 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     @Override
     public Item add(Item item) {
         try (TrackerSQL sql = new TrackerSQL()) {
-            /*Statement stat = connection.createStatement();
-            //String sqlUpdate = String.format("INSERT INTO item(name, description, created) values (%s,%s,%s);",item.getName(),item.getDescription(),item.getCreate());
-
-            stat.executeUpdate(String.format("INSERT INTO item(name, description, created) values (%s,%s,%s);",item.getName(),item.getDescription(),item.getCreate()));
-            //stat.*/
-
             PreparedStatement pStat = connection.prepareStatement("INSERT INTO item(name, description, created) values (?,?,?);");
-            pStat.setString(1,item.getName());
-            pStat.setString(2,item.getDescription());
+            pStat.setString(1, item.getName());
+            pStat.setString(2, item.getDescription());
             pStat.setLong(3, item.getCreate());
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -64,26 +57,44 @@ public class TrackerSQL implements ITracker, AutoCloseable {
 
     @Override
     public void replace(int id, Item item) {
-       /* try (TrackerSQL sql = new TrackerSQL()) {
-            PreparedStatement pStat = connection.prepareStatement("UPDATE item SET name=?, description=?, created=? WHERE id=?");
+        try (TrackerSQL sql = new TrackerSQL()) {
+            PreparedStatement pStat = connection.prepareStatement("UPDATE item SET name = ?, description = ?, created = ? WHERE id = ?");
             pStat.setString(1, item.getName());
-            pStat.setString(2,item.getDescription());
-            pStat.setTimestamp(, item.getCreate());
-
+            pStat.setString(2, item.getDescription());
+            pStat.setLong(3, item.getCreate());
+            pStat.setInt(4, id);
         } catch (Exception e) {
             e.printStackTrace();
-        }*/
+        }
 
     }
 
     @Override
     public void delete(int id) {
+        try (TrackerSQL sql = new TrackerSQL()) {
+            PreparedStatement pStat = connection.prepareStatement("DELETE FROM item WHERE id = ?");
+            pStat.setInt(1, id);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
     }
 
     @Override
     public List<Item> findAll() {
-        return null;
+        List<Item> result = new ArrayList<>();
+        try (TrackerSQL sql = new TrackerSQL()) {
+            Statement stat = connection.createStatement();
+            ResultSet rs = stat.executeQuery("SELECT * FROM TABLE item");
+            while (rs.next()) {
+                Item item = new Item(rs.getString("name"), rs.getString("description"), rs.getLong("created"));
+                result.add(item);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 
     @Override
