@@ -33,10 +33,10 @@ public class Tracker implements ITracker {
         this.items.add(item);
         return item;
     }
-    public Item findById(String id) {
+    public Item findById(int id) {
         Item result = null;
         for (Item item: items) {
-            if (item != null && item.getId().equals(id)) {
+            if (item != null && item.getId() == (id)) {
                 result = item;
                 break;
             }
@@ -46,9 +46,9 @@ public class Tracker implements ITracker {
         return this.items;
     }
 
-    public  void replace(String id, Item item) {
+    public  void replace(int id, Item item) {
         for (int index = 0; index != this.items.size(); index++) {
-            if (this.items.get(index).getId().equals(id)) {
+            if (this.items.get(index).getId() == (id)) {
                 this.items.add(item);
                 this.items.set(index, item);
             }
@@ -56,20 +56,20 @@ public class Tracker implements ITracker {
         }
     }
 
-    public void delete(String id) {
+    public void delete(int id) {
         for (Item item: items) {
-            if (item.getId().equals(id)) {
+            if (item.getId() == (id)) {
                 items.remove(item);
                 break;
             }
         }
     }
 
-    public List<Item> findByName(String key) {
+    public List<Item> findByName(String name) {
         List<Item> result = new ArrayList<>();
 
         for (Item item:items) {
-            if (item != null && item.getName().equals(key))  {
+            if (item != null && item.getName().equals(name))  {
                 result.add(item);
 
             }
@@ -82,7 +82,7 @@ public class Tracker implements ITracker {
      * Так как у заявки нет уникальности полей, имени и описание. Для идентификации нам нужен уникальный ключ.
      * @return Уникальный ключ.
      */
-    private String generateId() {
-        return String.valueOf(System.currentTimeMillis() + RN.nextInt());
+    private int generateId() {
+        return RN.nextInt();
     }
 }

@@ -2,9 +2,9 @@ package ru.job4j.tracker;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import java.io.InputStream;
-import java.sql.Connection;
-import java.sql.DriverManager;
+import java.sql.*;
 import java.util.List;
 import java.util.Properties;
 
@@ -13,6 +13,17 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     private Connection connection;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TrackerSQL.class);
+
+    public TrackerSQL() {
+        init();
+        try {
+            Statement stat = connection.createStatement();
+            stat.executeUpdate("CREATE TABLE IF NOT EXISTS item(id SERIAL PRIMARY KEY, name VARCHAR(30), description VARCHAR(30),created BIGINT);");
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public boolean init() {
         try (InputStream in = TrackerSQL.class.getClassLoader().getResourceAsStream("app.properties")) {
@@ -32,16 +43,41 @@ public class TrackerSQL implements ITracker, AutoCloseable {
 
     @Override
     public Item add(Item item) {
-        return null;
+        try (TrackerSQL sql = new TrackerSQL()) {
+            /*Statement stat = connection.createStatement();
+            //String sqlUpdate = String.format("INSERT INTO item(name, description, created) values (%s,%s,%s);",item.getName(),item.getDescription(),item.getCreate());
+
+            stat.executeUpdate(String.format("INSERT INTO item(name, description, created) values (%s,%s,%s);",item.getName(),item.getDescription(),item.getCreate()));
+            //stat.*/
+
+            PreparedStatement pStat = connection.prepareStatement("INSERT INTO item(name, description, created) values (?,?,?);");
+            pStat.setString(1,item.getName());
+            pStat.setString(2,item.getDescription());
+            pStat.setLong(3, item.getCreate());
+
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return item;
     }
 
     @Override
-    public void replace(String id, Item item) {
+    public void replace(int id, Item item) {
+       /* try (TrackerSQL sql = new TrackerSQL()) {
+            PreparedStatement pStat = connection.prepareStatement("UPDATE item SET name=?, description=?, created=? WHERE id=?");
+            pStat.setString(1, item.getName());
+            pStat.setString(2,item.getDescription());
+            pStat.setTimestamp(, item.getCreate());
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }*/
 
     }
 
     @Override
-    public void delete(String id) {
+    public void delete(int id) {
 
     }
 
@@ -51,12 +87,12 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     }
 
     @Override
-    public List<Item> findByName(String key) {
+    public List<Item> findByName(String name) {
         return null;
     }
 
     @Override
-    public Item findById(String id) {
+    public Item findById(int id) {
         return null;
     }
 
@@ -64,7 +100,6 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     public void close() throws Exception {
         this.connection.close();
     }
-
 
 
 }

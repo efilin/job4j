@@ -43,7 +43,7 @@ public class StartUITest {
     public void whenEdit() {
         Tracker tracker = new Tracker();
         Item item = tracker.add(new Item("test name", "desc", 3));
-        Input input = new StubInput(new String[]{"2", item.getId(), "test name2", "desc2", "y"});
+        Input input = new StubInput(new String[]{"2", String.format("%s", item.getId()), "test name2", "desc2", "y"});
         new StartUI(input, tracker).init();
         assertThat(tracker.findById(item.getId()).getName(), is("test name2"));
     }
@@ -53,7 +53,7 @@ public class StartUITest {
         Tracker tracker = new Tracker();
         Item itemOne = tracker.add(new Item("test name", "desc", 3));
         Item itemTwo = tracker.add(new Item("test name2", "desc2", 4));
-        Input input = new StubInput(new String[]{"3", itemOne.getId(), "y"});
+        Input input = new StubInput(new String[]{"3", String.format("%s", itemOne.getId()), "y"});
         new StartUI(input, tracker).init();
         assertThat(tracker.findAll().get(0).getName(), is("test name2"));
 
@@ -97,7 +97,7 @@ public class StartUITest {
         Tracker tracker = new Tracker();
         Item itemOne = tracker.add(new Item("test name", "desc", 3));
         Item itemTwo = tracker.add(new Item("test name2", "desc2", 4));
-        Input input = new StubInput(new String[]{"4", itemTwo.getId(), "y"});
+        Input input = new StubInput(new String[]{"4", String.format("%s", itemTwo.getId()), "y"});
         new StartUI(input, tracker).init();
         assertThat(
                 new String(out.toByteArray()),

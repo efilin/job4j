@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @author  Eugeniy Filin (2727fas@gmail.com)
+ * @author Eugeniy Filin (2727fas@gmail.com)
  * @version $Id$
  * @since 0.1
  */
-
 
 
 public class MenuTracker {
@@ -75,7 +74,6 @@ public class MenuTracker {
     }
 
 
-
     class DeleteId extends BaseAction {
 
         public DeleteId(int key, String name) {
@@ -83,7 +81,7 @@ public class MenuTracker {
         }
 
         public void execute(Input input, ITracker tracker) {
-            String id = input.ask("Please, enter the task's id: ");
+            int id = Integer.parseInt(input.ask("Please, enter the task's id: "));
             tracker.delete(id);
         }
 
@@ -97,7 +95,7 @@ public class MenuTracker {
         }
 
         public void execute(Input input, ITracker tracker) {
-            String id = input.ask("Please, enter the task's id: ");
+            int id = Integer.parseInt(input.ask("Please, enter the task's id: "));
             System.out.println(String.format("Name: %s| Desc: %s| Id: %s",
                     tracker.findById(id).getName(), tracker.findById(id).getDescription(), tracker.findById(id).getId()));
         }
@@ -131,7 +129,7 @@ class EditItem extends BaseAction {
     }
 
     public void execute(Input input, ITracker tracker) {
-        String id = input.ask("Please, enter the task's id: ");
+        int id = Integer.parseInt(input.ask("Please, enter the task's id: "));
         String name = input.ask("Please, enter the task's name: ");
         String desc = input.ask("Please, enter the task's desc: ");
         Item item = new Item(name, desc, 3);

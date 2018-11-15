@@ -4,9 +4,9 @@ import java.util.List;
 
 public interface ITracker {
     Item add(Item item);
-    void replace(String id, Item item);
-    void delete(String id);
+    void replace(int id, Item item);
+    void delete(int id);
     List<Item> findAll();
-    List<Item> findByName(String key);
-    Item findById(String id);
+    List<Item> findByName(String name);
+    Item findById(int id);
 }
