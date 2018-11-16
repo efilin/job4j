@@ -37,13 +37,21 @@ public class Item {
 
     @Override
     public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Item)) return false;
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Item)) {
+            return false;
+        }
 
         Item item = (Item) o;
 
-        if (create != item.create) return false;
-        if (!name.equals(item.name)) return false;
+        if (create != item.create) {
+            return false;
+        }
+        if (!name.equals(item.name)) {
+            return false;
+        }
         return description.equals(item.description);
     }
 
