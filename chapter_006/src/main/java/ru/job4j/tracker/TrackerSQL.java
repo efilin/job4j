@@ -1,5 +1,6 @@
 package ru.job4j.tracker;
 
+import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -13,7 +14,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
 
     private Connection connection;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(TrackerSQL.class);
+    //private static final Logger LOGGER = LoggerFactory.getLogger(TrackerSQL.class);
 
     public TrackerSQL() {
         init();
@@ -49,6 +50,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
             pStat.setString(1, item.getName());
             pStat.setString(2, item.getDescription());
             pStat.setLong(3, item.getCreate());
+            pStat.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -63,6 +65,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
             pStat.setString(2, item.getDescription());
             pStat.setLong(3, item.getCreate());
             pStat.setInt(4, id);
+            pStat.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -74,10 +77,11 @@ public class TrackerSQL implements ITracker, AutoCloseable {
         try (TrackerSQL sql = new TrackerSQL()) {
             PreparedStatement pStat = connection.prepareStatement("DELETE FROM item WHERE id = ?");
             pStat.setInt(1, id);
+            pStat.executeUpdate();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
     @Override
@@ -85,9 +89,11 @@ public class TrackerSQL implements ITracker, AutoCloseable {
         List<Item> result = new ArrayList<>();
         try (TrackerSQL sql = new TrackerSQL()) {
             Statement stat = connection.createStatement();
-            ResultSet rs = stat.executeQuery("SELECT * FROM TABLE item");
+            ResultSet rs = stat.executeQuery("SELECT * FROM item");
             while (rs.next()) {
-                Item item = new Item(rs.getString("name"), rs.getString("description"), rs.getLong("created"));
+                Item item = new Item(rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getLong("created"));
                 result.add(item);
             }
         } catch (Exception e) {
@@ -99,18 +105,59 @@ public class TrackerSQL implements ITracker, AutoCloseable {
 
     @Override
     public List<Item> findByName(String name) {
-        return null;
+        List<Item> result = new ArrayList<>();
+        try (TrackerSQL sql = new TrackerSQL()) {
+            PreparedStatement pStat = connection.prepareStatement("SELECT * FROM item WHERE name = ?");
+            pStat.setString(1, name);
+            ResultSet rs = pStat.executeQuery();
+            while (rs.next()) {
+                Item item = new Item(rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getLong("created"));
+                result.add(item);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
 
     @Override
     public Item findById(int id) {
-        return null;
+        Item result = null;
+        try (TrackerSQL sql = new TrackerSQL()) {
+            PreparedStatement pStat = connection.prepareStatement("SELECT * FROM item WHERE id = ?");
+            pStat.setInt(1, id);
+            ResultSet rs = pStat.executeQuery();
+            while (rs.next()) {
+                result = new Item(rs.getString("name"),
+                        rs.getString("description"),
+                        rs.getLong("created"));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return result;
     }
+
+    public void dropTable() {
+        try (TrackerSQL sql = new TrackerSQL()) {
+            PreparedStatement pStat = connection.prepareStatement("DROP TABLE item");
+            pStat.executeUpdate();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public void close() throws Exception {
         this.connection.close();
     }
 
-
+    public Connection getConnection() {
+        return connection;
+    }
 }

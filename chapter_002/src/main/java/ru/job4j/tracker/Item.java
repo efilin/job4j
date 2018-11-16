@@ -34,4 +34,24 @@ public class Item {
     public void setId(int id) {
         this.id = id;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Item)) return false;
+
+        Item item = (Item) o;
+
+        if (create != item.create) return false;
+        if (!name.equals(item.name)) return false;
+        return description.equals(item.description);
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name.hashCode();
+        result = 31 * result + description.hashCode();
+        result = 31 * result + (int) (create ^ (create >>> 32));
+        return result;
+    }
 }
