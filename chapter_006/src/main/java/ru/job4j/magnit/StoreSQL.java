@@ -9,14 +9,14 @@ public class StoreSQL {
 
     public StoreSQL(Config config) {
         this.config = config;
-        databaseConnect(config.getDb());
+        databaseConnect();
 
 
     }
 
-    public void databaseConnect(String dbName) {
+    public void databaseConnect() {
 
-        File file = new File(dbName);
+       /*File file = new File(dbName);
 
         if (file.exists()) {
             //TODO: check table &
@@ -27,53 +27,42 @@ public class StoreSQL {
 
             } catch (SQLException e) {
                 e.printStackTrace();
-            }
+            }*/
 
 
-            System.out.print("This database name already exists");
+//            System.out.print("This database name already exists");
 
-        } else {
-
-            try {
-                conn = DriverManager.getConnection(config.getUrl());
-                Statement stat = conn.createStatement();
-                stat.executeUpdate("CREATE TABLE entry(field INTEGER);");
-                if (conn != null) {
-                    System.out.println("Connection to SQLite has been established.");
-                }
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }
-        }
+//        } else {
 
         try {
+            conn = DriverManager.getConnection(config.getUrl());
+            Statement stat = conn.createStatement();
+            stat.executeUpdate("DROP TABLE IF EXISTS entry;");
+            stat.executeUpdate("CREATE TABLE  IF NOT EXISTS entry(field INTEGER);");
+            if (conn != null) {
+                System.out.println("Connection to SQLite has been established.");
+            }
             conn.setAutoCommit(false);
-            generate(20);
+            generate(1000000);
         } catch (SQLException e) {
             e.printStackTrace();
         }
+//        }
+
     }
 
     public void generate(int n) throws SQLException {
-        Statement stat=conn.createStatement();
-        for (int i = 0; i < n + 1; i++) {
-            String query = String.format("INSERT INTO entry (field) VALUES (%i);)",i);
+        Statement stat = conn.createStatement();
+        for (int i = 0; i < n; i++) {
+            String query = String.format("INSERT INTO entry (field) VALUES (%s);", i);
             stat.addBatch(query);
-
-            /*pStat = conn.prepareStatement("INSERT INTO entry (field) VALUES (?);");
-            pStat.setInt(1, i);
-            pStat.addBatch();*/
         }
         if (stat.executeBatch().length == n) {
+            stat.executeBatch();
             conn.commit();
         } else {
             conn.rollback();
         }
-
-
-        //String query = "INSERT INTO entry (field) VALUES "
-
     }
-
 
 }
