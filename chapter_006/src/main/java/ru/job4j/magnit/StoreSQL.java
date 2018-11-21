@@ -43,7 +43,7 @@ public class StoreSQL {
                 System.out.println("Connection to SQLite has been established.");
             }
             conn.setAutoCommit(false);
-            generate(1000000);
+            generate(5);
         } catch (SQLException e) {
             e.printStackTrace();
         }
