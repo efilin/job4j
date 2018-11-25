@@ -4,22 +4,21 @@ import java.io.File;
 import java.sql.*;
 
 public class StoreSQL {
-    Connection conn;
-    Config config;
+    private Connection conn;
+    private Config config;
 
     public StoreSQL(Config config) {
         this.config = config;
         databaseConnect();
 
-
     }
+
 
     public void databaseConnect() {
 
        /*File file = new File(dbName);
 
         if (file.exists()) {
-            //TODO: check table &
             try {
                 Connection conn = DriverManager.getConnection(config.getUrl());
                 PreparedStatement pStat = conn.prepareStatement("CREATE TABLE IF NOT EXISTS entry(field INTEGER);");
@@ -65,4 +64,7 @@ public class StoreSQL {
         }
     }
 
+    public Connection getConn() {
+        return conn;
+    }
 }

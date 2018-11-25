@@ -45,8 +45,8 @@ public class TrackerSQL implements ITracker, AutoCloseable {
 
     @Override
     public Item add(Item item) {
-        try (TrackerSQL sql = new TrackerSQL()) {
-            PreparedStatement pStat = connection.prepareStatement("INSERT INTO item(name, description, created) values (?,?,?);");
+        try {
+            PreparedStatement pStat = this.connection.prepareStatement("INSERT INTO item(name, description, created) values (?,?,?);");
             pStat.setString(1, item.getName());
             pStat.setString(2, item.getDescription());
             pStat.setLong(3, item.getCreate());
@@ -59,8 +59,8 @@ public class TrackerSQL implements ITracker, AutoCloseable {
 
     @Override
     public void replace(int id, Item item) {
-        try (TrackerSQL sql = new TrackerSQL()) {
-            PreparedStatement pStat = connection.prepareStatement("UPDATE item SET name = ?, description = ?, created = ? WHERE id = ?");
+        try {
+            PreparedStatement pStat = this.connection.prepareStatement("UPDATE item SET name = ?, description = ?, created = ? WHERE id = ?");
             pStat.setString(1, item.getName());
             pStat.setString(2, item.getDescription());
             pStat.setLong(3, item.getCreate());
@@ -74,8 +74,8 @@ public class TrackerSQL implements ITracker, AutoCloseable {
 
     @Override
     public void delete(int id) {
-        try (TrackerSQL sql = new TrackerSQL()) {
-            PreparedStatement pStat = connection.prepareStatement("DELETE FROM item WHERE id = ?");
+        try {
+            PreparedStatement pStat = this.connection.prepareStatement("DELETE FROM item WHERE id = ?");
             pStat.setInt(1, id);
             pStat.executeUpdate();
 
@@ -87,8 +87,8 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     @Override
     public List<Item> findAll() {
         List<Item> result = new ArrayList<>();
-        try (TrackerSQL sql = new TrackerSQL()) {
-            Statement stat = connection.createStatement();
+        try {
+            Statement stat = this.connection.createStatement();
             ResultSet rs = stat.executeQuery("SELECT * FROM item");
             while (rs.next()) {
                 Item item = new Item(rs.getString("name"),
@@ -106,8 +106,8 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     @Override
     public List<Item> findByName(String name) {
         List<Item> result = new ArrayList<>();
-        try (TrackerSQL sql = new TrackerSQL()) {
-            PreparedStatement pStat = connection.prepareStatement("SELECT * FROM item WHERE name = ?");
+        try {
+            PreparedStatement pStat = this.connection.prepareStatement("SELECT * FROM item WHERE name = ?");
             pStat.setString(1, name);
             ResultSet rs = pStat.executeQuery();
             while (rs.next()) {
@@ -126,8 +126,8 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     @Override
     public Item findById(int id) {
         Item result = null;
-        try (TrackerSQL sql = new TrackerSQL()) {
-            PreparedStatement pStat = connection.prepareStatement("SELECT * FROM item WHERE id = ?");
+        try {
+            PreparedStatement pStat = this.connection.prepareStatement("SELECT * FROM item WHERE id = ?");
             pStat.setInt(1, id);
             ResultSet rs = pStat.executeQuery();
             while (rs.next()) {
@@ -143,8 +143,8 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     }
 
     public void dropTable() {
-        try (TrackerSQL sql = new TrackerSQL()) {
-            PreparedStatement pStat = connection.prepareStatement("DROP TABLE item");
+        try {
+            PreparedStatement pStat = this.connection.prepareStatement("DROP TABLE item");
             pStat.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
