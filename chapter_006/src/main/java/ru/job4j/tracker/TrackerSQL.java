@@ -19,7 +19,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
     public TrackerSQL() {
         init();
         try {
-            Statement stat = connection.createStatement();
+            Statement stat = this.connection.createStatement();
             stat.executeUpdate("CREATE TABLE IF NOT EXISTS item(id SERIAL PRIMARY KEY, name VARCHAR(30), description VARCHAR(30),created BIGINT);");
         } catch (SQLException e) {
             e.printStackTrace();
@@ -45,7 +45,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
 
     @Override
     public Item add(Item item) {
-        try {
+        try  {
             PreparedStatement pStat = this.connection.prepareStatement("INSERT INTO item(name, description, created) values (?,?,?);");
             pStat.setString(1, item.getName());
             pStat.setString(2, item.getDescription());
@@ -59,7 +59,7 @@ public class TrackerSQL implements ITracker, AutoCloseable {
 
     @Override
     public void replace(int id, Item item) {
-        try {
+        try  {
             PreparedStatement pStat = this.connection.prepareStatement("UPDATE item SET name = ?, description = ?, created = ? WHERE id = ?");
             pStat.setString(1, item.getName());
             pStat.setString(2, item.getDescription());
