@@ -21,19 +21,16 @@ public class StoreXML {
     private Connection conn;
     //private StoreSQL sql;
 
-    public StoreXML(Connection conn) {
+    public StoreXML(Connection conn, File target) {
         this.conn = conn;
+        this.target = target;
     }
 
-    /*public StoreXML(File target) {
-        this.target = target;
-    }*/
     public void save(List<Field> list) throws JAXBException {
-        File file = new File("C:\\sqlite\\file.xml");
-        JAXBContext jaxbContext = JAXBContext.newInstance(Entry.class);
+        JAXBContext jaxbContext = JAXBContext.newInstance(Entries.class);
         Marshaller jaxbMarshaller = jaxbContext.createMarshaller();
         jaxbMarshaller.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, true);
-        jaxbMarshaller.marshal(new Entry(list), file);
+        jaxbMarshaller.marshal(new Entries(list), target);
 
     }
 
@@ -55,26 +52,26 @@ public class StoreXML {
 
 
     @XmlRootElement
-    public static class Entry {
-        public List<Field> fields;
+    public static class Entries {
+        public List<Field> entry;
 
-        public Entry() {
+        public Entries() {
         }
 
-        public Entry(List<Field> fields) {
-            this.fields = fields;
+        public Entries(List<Field> entry) {
+            this.entry = entry;
         }
     }
 
     @XmlRootElement
     public static class Field {
-        public int value;
+        public int field;
 
         public Field() {
         }
 
-        public Field(int value) {
-            this.value = value;
+        public Field(int field) {
+            this.field = field;
         }
     }
 
