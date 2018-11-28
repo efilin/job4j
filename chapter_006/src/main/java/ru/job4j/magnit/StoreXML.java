@@ -19,7 +19,6 @@ public class StoreXML {
     private List<Field> entries;
 
     private Connection conn;
-    //private StoreSQL sql;
 
     public StoreXML(Connection conn, File target) {
         this.conn = conn;
@@ -38,7 +37,6 @@ public class StoreXML {
 
         List<Field> result = new ArrayList<>();
         try {
-
             Statement stat = this.conn.createStatement();
             ResultSet rs = stat.executeQuery("SELECT * FROM entry");
             while (rs.next()) {
@@ -46,8 +44,20 @@ public class StoreXML {
             }
         } catch (Exception e) {
             e.printStackTrace();
+        } finally {
+            if (conn != null) {
+                try {
+                    close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         entries = result;
+    }
+
+    public void close() throws SQLException {
+        this.conn.close();
     }
 
 

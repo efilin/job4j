@@ -1,48 +1,30 @@
 package ru.job4j.magnit;
 
-import java.io.File;
 import java.sql.*;
 
 public class StoreSQL {
     private Connection conn;
     private Config config;
 
-    public StoreSQL(Config config) {
+    public StoreSQL(Config config, int n) {
         this.config = config;
-        databaseConnect();
+        databaseConnect(n);
 
     }
 
 
-    public void databaseConnect() {
-
-       /*File file = new File(dbName);
-
-        if (file.exists()) {
-            try {
-                Connection conn = DriverManager.getConnection(config.getUrl());
-                PreparedStatement pStat = conn.prepareStatement("CREATE TABLE IF NOT EXISTS entry(field INTEGER);");
-                pStat.executeUpdate();
-
-            } catch (SQLException e) {
-                e.printStackTrace();
-            }*/
-
-
-//            System.out.print("This database name already exists");
-
-//        } else {
+    public void databaseConnect(int n) {
 
         try {
             conn = DriverManager.getConnection(config.getUrl());
             Statement stat = conn.createStatement();
             stat.executeUpdate("DROP TABLE IF EXISTS entry;");
             stat.executeUpdate("CREATE TABLE  IF NOT EXISTS entry(field INTEGER);");
-            if (conn != null) {
+            /*if (conn != null) {
                 System.out.println("Connection to SQLite has been established.");
-            }
+            }*/
             conn.setAutoCommit(false);
-            generate(5);
+            generate(n);
         } catch (SQLException e) {
             e.printStackTrace();
         }

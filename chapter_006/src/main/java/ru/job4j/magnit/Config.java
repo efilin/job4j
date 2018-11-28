@@ -1,4 +1,5 @@
 package ru.job4j.magnit;
+
 import java.io.InputStream;
 import java.util.Properties;
 
@@ -20,14 +21,5 @@ public class Config {
     public String getUrl() {
         return this.values.getProperty("url");
     }
-
-    public String getDb() {
-        return this.values.getProperty("db");
-    }
-
-
-
-
-
 
 }

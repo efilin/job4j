@@ -10,8 +10,8 @@ import java.sql.SQLException;
 
 public class Main {
     public static void main(String[] args) {
-        StoreSQL sql = new StoreSQL(new Config());
-        StoreXML xml = new StoreXML(sql.getConn(), new File("C:\\sqlite\\file.xml"));
+        StoreSQL sql = new StoreSQL(new Config(), 100);
+        StoreXML xml = new StoreXML(sql.getConn(), new File("C:\\projects\\job4j\\chapter_006\\file.xml"));
         xml.makeListFromDb();
         try {
             xml.save(xml.getEntries());
@@ -20,12 +20,14 @@ public class Main {
         }
         ConvertXSQT convertXSQT = new ConvertXSQT();
         try {
-            convertXSQT.convert(new File("C:\\sqlite\\file.xml"),
-                    new File("C:\\sqlite\\converted.xml"),
-                    new File("C:\\sqlite\\scheme.xml"));
+            convertXSQT.convert(new File("C:\\projects\\job4j\\chapter_006\\file.xml"),
+                    new File("C:\\projects\\job4j\\chapter_006\\converted.xml"),
+                    new File("C:\\projects\\job4j\\chapter_006\\scheme.xml"));
         } catch (TransformerException e) {
             e.printStackTrace();
         }
+
+        new ParserXML();
 
     }
 
