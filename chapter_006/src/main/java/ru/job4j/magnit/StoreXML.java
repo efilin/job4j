@@ -5,23 +5,25 @@ import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.annotation.*;
 import java.io.File;
-import java.sql.Connection;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 
-public class StoreXML {
-    File target;
+public class StoreXML implements AutoCloseable {
+    private File target;
     private List<Field> entries;
-
+    private Config config;
     private Connection conn;
 
-    public StoreXML(Connection conn, File target) {
-        this.conn = conn;
+    public StoreXML(Config config, File target) {
+        this.config = config;
+        try {
+            conn = DriverManager.getConnection(this.config.getUrl());
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
         this.target = target;
     }
 
@@ -36,26 +38,18 @@ public class StoreXML {
     public void makeListFromDb() {
 
         List<Field> result = new ArrayList<>();
-        try {
-            Statement stat = this.conn.createStatement();
+        try (Statement stat = this.conn.createStatement()) {
             ResultSet rs = stat.executeQuery("SELECT * FROM entry");
             while (rs.next()) {
                 result.add(new Field(rs.getInt("field")));
             }
         } catch (Exception e) {
             e.printStackTrace();
-        } finally {
-            if (conn != null) {
-                try {
-                    close();
-                } catch (SQLException e) {
-                    e.printStackTrace();
-                }
-            }
         }
         entries = result;
     }
 
+    @Override
     public void close() throws SQLException {
         this.conn.close();
     }

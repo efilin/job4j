@@ -2,6 +2,7 @@ package ru.job4j.magnit;
 
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import javax.xml.bind.JAXBException;
@@ -20,20 +21,18 @@ public class ParserXMLTest {
 
     @Before
     public void loadOutput() {
-        System.out.println("execute before method");
         System.setOut(new PrintStream(this.out));
     }
 
     @After
     public void backOutput() {
         System.setOut(this.stdout);
-        System.out.println("execute after method");
     }
 
     @Test
     public void whenNIsTenAndAnswerIsFortyFive() {
         StoreSQL sql = new StoreSQL(new Config(), 10);
-        StoreXML xml = new StoreXML(sql.getConn(), new File("C:\\sqlite\\file.xml"));
+        StoreXML xml = new StoreXML(new Config(), new File("C:\\projects\\job4j\\chapter_006\\file.xml"));
         xml.makeListFromDb();
         try {
             xml.save(xml.getEntries());
@@ -42,9 +41,9 @@ public class ParserXMLTest {
         }
         ConvertXSQT convertXSQT = new ConvertXSQT();
         try {
-            convertXSQT.convert(new File("C:\\sqlite\\file.xml"),
-                    new File("C:\\sqlite\\converted.xml"),
-                    new File("C:\\sqlite\\scheme.xml"));
+            convertXSQT.convert(new File("C:\\projects\\job4j\\chapter_006\\file.xml"),
+                    new File("C:\\projects\\job4j\\chapter_006\\converted.xml"),
+                    new File("C:\\projects\\job4j\\chapter_006\\scheme.xml"));
         } catch (TransformerException e) {
             e.printStackTrace();
         }
@@ -53,9 +52,9 @@ public class ParserXMLTest {
     }
 
     @Test
-    public void whenNIsMillionAndTestTimeLessThanFiveMinutes() {
-        StoreSQL sql = new StoreSQL(new Config(), 1000000);
-        StoreXML xml = new StoreXML(sql.getConn(), new File("C:\\sqlite\\file.xml"));
+    public void whenNIsFiveAndAnswerIsTen() {
+        StoreSQL sql = new StoreSQL(new Config(), 5);
+        StoreXML xml = new StoreXML(new Config(), new File("C:\\projects\\job4j\\chapter_006\\file.xml"));
         xml.makeListFromDb();
         try {
             xml.save(xml.getEntries());
@@ -64,13 +63,14 @@ public class ParserXMLTest {
         }
         ConvertXSQT convertXSQT = new ConvertXSQT();
         try {
-            convertXSQT.convert(new File("C:\\sqlite\\file.xml"),
-                    new File("C:\\sqlite\\converted.xml"),
-                    new File("C:\\sqlite\\scheme.xml"));
+            convertXSQT.convert(new File("C:\\projects\\job4j\\chapter_006\\file.xml"),
+                    new File("C:\\projects\\job4j\\chapter_006\\converted.xml"),
+                    new File("C:\\projects\\job4j\\chapter_006\\scheme.xml"));
         } catch (TransformerException e) {
             e.printStackTrace();
         }
         new ParserXML();
-        assertThat(new String(out.toByteArray()), is("1783293664"));
+        assertThat(new String(out.toByteArray()), is("10"));
     }
+
 }
