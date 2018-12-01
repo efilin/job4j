@@ -5,6 +5,7 @@ sudo: false
 
 services:
   - postgresql
+  - sqlite
 
 
 
@@ -12,10 +13,7 @@ before_script:
   - psql -c 'create database tracker;' -U postgres
   - psql -c "ALTER USER postgres WITH PASSWORD 'password';" -U postgres
 
-  test:
-    adapter: sqlite3
-    database: ":memory:"
-    timeout: 500
+
 
 # после выполнения сборки запустить скрипт, который будет собирать статистику по JaCoCo
 # Здесь используется сторонни сервис https://codecov.io/

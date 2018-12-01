@@ -36,7 +36,7 @@ public class ParserXML {
 
         MyHandler handler = new MyHandler();
 
-        parser.parse(new File("C:\\projects\\job4j\\chapter_006\\converted.xml"), handler);
+        parser.parse(new File("converted.xml"), handler);
     }
 
     public int calculateSum() {

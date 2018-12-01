@@ -32,7 +32,7 @@ public class ParserXMLTest {
     @Test
     public void whenNIsTenAndAnswerIsFortyFive() {
         StoreSQL sql = new StoreSQL(new Config(), 10);
-        StoreXML xml = new StoreXML(new Config(), new File("C:\\projects\\job4j\\chapter_006\\file.xml"));
+        StoreXML xml = new StoreXML(new Config(), new File("file.xml"));
         xml.makeListFromDb();
         try {
             xml.save(xml.getEntries());
@@ -41,9 +41,9 @@ public class ParserXMLTest {
         }
         ConvertXSQT convertXSQT = new ConvertXSQT();
         try {
-            convertXSQT.convert(new File("C:\\projects\\job4j\\chapter_006\\file.xml"),
-                    new File("C:\\projects\\job4j\\chapter_006\\converted.xml"),
-                    new File("C:\\projects\\job4j\\chapter_006\\scheme.xml"));
+            convertXSQT.convert(new File("file.xml"),
+                    new File("converted.xml"),
+                    new File("scheme.xml"));
         } catch (TransformerException e) {
             e.printStackTrace();
         }
@@ -54,7 +54,7 @@ public class ParserXMLTest {
     @Test
     public void whenNIsFiveAndAnswerIsTen() {
         StoreSQL sql = new StoreSQL(new Config(), 5);
-        StoreXML xml = new StoreXML(new Config(), new File("C:\\projects\\job4j\\chapter_006\\file.xml"));
+        StoreXML xml = new StoreXML(new Config(), new File("file.xml"));
         xml.makeListFromDb();
         try {
             xml.save(xml.getEntries());
@@ -63,9 +63,9 @@ public class ParserXMLTest {
         }
         ConvertXSQT convertXSQT = new ConvertXSQT();
         try {
-            convertXSQT.convert(new File("C:\\projects\\job4j\\chapter_006\\file.xml"),
-                    new File("C:\\projects\\job4j\\chapter_006\\converted.xml"),
-                    new File("C:\\projects\\job4j\\chapter_006\\scheme.xml"));
+            convertXSQT.convert(new File("file.xml"),
+                    new File("converted.xml"),
+                    new File("scheme.xml"));
         } catch (TransformerException e) {
             e.printStackTrace();
         }
