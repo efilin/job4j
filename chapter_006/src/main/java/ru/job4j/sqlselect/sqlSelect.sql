@@ -14,6 +14,7 @@
 --CONSTRAINT person_pkey PRIMARY KEY (id)
 --);
 
+
 --  нужно
 -- 1) Retrieve in a single query:
 -- - names of all persons that are NOT in the company with id = 5
