@@ -22,10 +22,6 @@ public class StoreSQL implements AutoCloseable {
         try (Statement stat = conn.createStatement()) {
             stat.executeUpdate("DROP TABLE IF EXISTS entry;");
             stat.executeUpdate("CREATE TABLE  IF NOT EXISTS entry(field INTEGER);");
-            /*if (conn != null) {
-                System.out.println("Connection to SQLite has been established.");
-            }*/
-            conn.setAutoCommit(false);
             generate(n);
         } catch (SQLException e) {
             e.printStackTrace();
@@ -36,6 +32,7 @@ public class StoreSQL implements AutoCloseable {
 
     public void generate(int n) throws SQLException {
         try (Statement stat = conn.createStatement()) {
+            conn.setAutoCommit(false);
             for (int i = 0; i < n; i++) {
                 String query = String.format("INSERT INTO entry (field) VALUES (%s);", i);
                 stat.addBatch(query);
@@ -46,11 +43,8 @@ public class StoreSQL implements AutoCloseable {
             } else {
                 conn.rollback();
             }
+            conn.setAutoCommit(true);
         }
-    }
-
-    public Connection getConn() {
-        return conn;
     }
 
     @Override
