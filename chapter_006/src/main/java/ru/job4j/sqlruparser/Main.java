@@ -1,20 +1,19 @@
 package ru.job4j.sqlruparser;
 
-        import org.jsoup.Jsoup;
-        import org.jsoup.nodes.Document;
-        import org.jsoup.nodes.Element;
-        import org.jsoup.select.Elements;
-
-        import java.io.IOException;
-        import java.time.LocalDateTime;
-        import java.util.List;
 
 public class Main {
 
     public static void main(String[] args) {
         PageParser pageParser = new PageParser();
-        pageParser.parserPages();
-        LocalDateTime time = pageParser.parseTime("4 дек 18, 17:39    ");
+        StoreSQL storeSQL = new StoreSQL();
+        pageParser.firstStart();
+        //pageParser.nextStart();
+        storeSQL.setVacancyList(pageParser.getVacancyList());
+        storeSQL.addVacancyList(storeSQL.getVacancyList());
+
+
+
+        //pageParser.parserPages();
 
 
         /*try {
