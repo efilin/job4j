@@ -6,8 +6,11 @@ public class Main {
     public static void main(String[] args) {
         PageParser pageParser = new PageParser();
         StoreSQL storeSQL = new StoreSQL();
-        pageParser.firstStart();
-        //pageParser.nextStart();
+        if (storeSQL.getNumberOfStarts() > 1) {
+            pageParser.nextStart();
+        } else {
+            pageParser.firstStart();
+        }
         storeSQL.setVacancyList(pageParser.getVacancyList());
         storeSQL.addVacancyList(storeSQL.getVacancyList());
 

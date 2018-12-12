@@ -9,6 +9,7 @@ import java.util.Properties;
 public class StoreSQL implements AutoCloseable {
     private Connection conn;
     private List<Vacancy> vacancyList;
+    private int numberOfStarts;
 
     public StoreSQL() {
         init();
@@ -20,6 +21,13 @@ public class StoreSQL implements AutoCloseable {
                     "description VARCHAR(10000)," +
                     "url VARCHAR(300)," +
                     "createDate TIMESTAMP);");
+            stat.executeUpdate("CREATE TABLE IF NOT EXISTS version(" +
+                    "run_number SERIAL PRIMARY KEY, " +
+                    "description VARCHAR(300))");
+            stat.executeUpdate("INSERT INTO version (description) VALUES ('default description');");
+            ResultSet rs = stat.executeQuery("SELECT COUNT(description) FROM version;");
+            rs.next();
+            this.numberOfStarts = rs.getInt("count");
         } catch (SQLException e) {
             e.printStackTrace();
         }
@@ -79,7 +87,9 @@ public class StoreSQL implements AutoCloseable {
         }
     }
 
-
+    public int getNumberOfStarts() {
+        return numberOfStarts;
+    }
 
     public List<Vacancy> getVacancyList() {
         return vacancyList;
