@@ -7,10 +7,12 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
+
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -21,20 +23,8 @@ public class PageParser {
             "http://www.sql.ru/forum/actualsearch.aspx?search=%22java%22&sin=1&bid=66&a=&ma=0&dt=1&s=4&so=1";
     private static boolean stopParseFlag = false;
     private List<Vacancy> vacancyList = new LinkedList<>();
-    private LocalDateTime lastStartDate;
+    private static final Logger LOG = LogManager.getLogger(StoreSQL.class.getName());
 
-
-    //todo: QUARTZ for timing
-    //todo: Check last start time of parsing(12h or 1y)
-
-    public PageParser() {
-        this.lastStartDate = LocalDateTime.now();
-    }
-
-
-    //url = "http://www.sql.ru/forum/job-offers/$page$"
-    //1y url = "http://www.sql.ru/forum/actualsearch.aspx?search=java&sin=1&bid=66&a=&ma=0&dt=356&s=4&so=1"
-    //24h url = "http://www.sql.ru/forum/actualsearch.aspx?search=%22java%22&sin=1&bid=66&a=&ma=0&dt=1&s=4&so=1"
 
     public void firstStart() {
         stopParseFlag = false;
@@ -42,13 +32,14 @@ public class PageParser {
         while (!stopParseFlag) {
             i++;
             parserPages(URL_YEAR + i);
-
         }
+        LOG.info("add one-year vacancies  to vacancyList");
     }
 
     public void nextStart() {
         stopParseFlag = false;
         parserPages(URL_DAY);
+        LOG.info("add one-day vacancies  to vacancyList");
     }
 
     public void parserPages(String parseUrl) {
@@ -73,7 +64,7 @@ public class PageParser {
                 }
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
     }
 
@@ -94,14 +85,14 @@ public class PageParser {
         //обычное время тип: "4 дек 18, 17:39" 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("d MMM yy, HH:mm");
         if (date.contains("май")) {
-            date = date.replace("май","мая");
+            date = date.replace("май", "мая");
         }
         result = LocalDateTime.parse(date, formatter);
         return result;
     }
 
-    public void setListToNull() {
-        this.vacancyList = null;
+    public void clearVacancyList() {
+        this.vacancyList.clear();
     }
 
     public List<Vacancy> getVacancyList() {

@@ -1,5 +1,7 @@
 package ru.job4j.sqlruparser;
 
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
 import java.io.InputStream;
 import java.sql.*;
@@ -10,6 +12,7 @@ public class StoreSQL implements AutoCloseable {
     private Connection conn;
     private List<Vacancy> vacancyList;
     private int numberOfStarts;
+    private static final Logger LOG = LogManager.getLogger(StoreSQL.class.getName());
 
     public StoreSQL() {
         init();
@@ -24,12 +27,13 @@ public class StoreSQL implements AutoCloseable {
             stat.executeUpdate("CREATE TABLE IF NOT EXISTS version(" +
                     "run_number SERIAL PRIMARY KEY, " +
                     "description VARCHAR(300))");
+            LOG.info("connecting and creating tables");
             stat.executeUpdate("INSERT INTO version (description) VALUES ('default description');");
             ResultSet rs = stat.executeQuery("SELECT COUNT(description) FROM version;");
             rs.next();
             this.numberOfStarts = rs.getInt("count");
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
     }
 
@@ -44,6 +48,7 @@ public class StoreSQL implements AutoCloseable {
                     config.getProperty("password")
             );
         } catch (Exception e) {
+            LOG.error(e.getMessage(), e);
             throw new IllegalStateException(e);
         }
         return this.conn != null;
@@ -59,7 +64,7 @@ public class StoreSQL implements AutoCloseable {
             pStat.setTimestamp(4, Timestamp.valueOf(vacancy.getDate()));
             pStat.executeUpdate();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return vacancy;
     }
@@ -74,7 +79,7 @@ public class StoreSQL implements AutoCloseable {
                 return true;
             }
         } catch (SQLException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage(), e);
         }
         return false;
     }
@@ -85,6 +90,10 @@ public class StoreSQL implements AutoCloseable {
                 add(vacancy);
             }
         }
+    }
+
+    public void clearVacancyList() {
+        this.vacancyList.clear();
     }
 
     public int getNumberOfStarts() {
