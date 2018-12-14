@@ -1,15 +1,15 @@
 package ru.job4j.sqlruparser;
 
 
-        import org.quartz.*;
-        import org.quartz.impl.StdSchedulerFactory;
+import org.quartz.*;
+import org.quartz.impl.StdSchedulerFactory;
 
-        import org.apache.logging.log4j.Logger;
-        import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.LogManager;
 
-        import java.io.IOException;
-        import java.io.InputStream;
-        import java.util.Properties;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.Properties;
 
 public class Main implements Job {
 
