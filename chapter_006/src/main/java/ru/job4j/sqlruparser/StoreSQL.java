@@ -14,19 +14,19 @@ public class StoreSQL implements AutoCloseable {
     private int numberOfStarts;
     private static final Logger LOG = LogManager.getLogger(StoreSQL.class.getName());
 
-    public StoreSQL() {
-        init();
+    public StoreSQL(String config) {
+        init(config);
         try {
             Statement stat = this.conn.createStatement();
-            stat.executeUpdate("CREATE TABLE IF NOT EXISTS vacancy(" +
-                    "id SERIAL PRIMARY KEY, " +
-                    "name VARCHAR(300), " +
-                    "description VARCHAR(10000)," +
-                    "url VARCHAR(300)," +
-                    "createDate TIMESTAMP);");
-            stat.executeUpdate("CREATE TABLE IF NOT EXISTS version(" +
-                    "run_number SERIAL PRIMARY KEY, " +
-                    "description VARCHAR(300))");
+            stat.executeUpdate("CREATE TABLE IF NOT EXISTS vacancy("
+                    + "id SERIAL PRIMARY KEY, "
+                    + "name VARCHAR(300), "
+                    + "description VARCHAR(10000),"
+                    + "url VARCHAR(300),"
+                    + "createDate TIMESTAMP);");
+            stat.executeUpdate("CREATE TABLE IF NOT EXISTS version("
+                    + "run_number SERIAL PRIMARY KEY, "
+                    + "description VARCHAR(300))");
             LOG.info("connecting and creating tables");
             stat.executeUpdate("INSERT INTO version (description) VALUES ('default description');");
             ResultSet rs = stat.executeQuery("SELECT COUNT(description) FROM version;");
@@ -37,15 +37,15 @@ public class StoreSQL implements AutoCloseable {
         }
     }
 
-    public boolean init() {
-        try (InputStream in = StoreSQL.class.getClassLoader().getResourceAsStream("app3.properties")) {
-            Properties config = new Properties();
-            config.load(in);
-            Class.forName(config.getProperty("driver-class-name"));
+    public boolean init(String config) {
+        try (InputStream in = StoreSQL.class.getClassLoader().getResourceAsStream(config)) {
+            Properties properties = new Properties();
+            properties.load(in);
+            Class.forName(properties.getProperty("driver-class-name"));
             this.conn = DriverManager.getConnection(
-                    config.getProperty("url"),
-                    config.getProperty("username"),
-                    config.getProperty("password")
+                    properties.getProperty("url"),
+                    properties.getProperty("username"),
+                    properties.getProperty("password")
             );
         } catch (Exception e) {
             LOG.error(e.getMessage(), e);

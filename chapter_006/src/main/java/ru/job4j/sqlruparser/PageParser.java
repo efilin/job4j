@@ -69,9 +69,9 @@ public class PageParser {
     }
 
     public LocalDateTime parseTime(String date) {
-        LocalDateTime result = null;
+        LocalDateTime result;
         if (date.contains("сегодня") || date.contains("вчера")) {
-            String dates[] = date.split(",");
+            String[] dates = date.split(",");
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern(" HH:mm");
             //сегодня:"сегодня, 20:41"
             if (dates[0].equalsIgnoreCase("сегодня")) {
@@ -97,10 +97,6 @@ public class PageParser {
 
     public List<Vacancy> getVacancyList() {
         return vacancyList;
-    }
-
-    public void setVacancyList(List<Vacancy> vacancyList) {
-        this.vacancyList = vacancyList;
     }
 
     public boolean checkContainsJava(String text) {

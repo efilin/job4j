@@ -1,43 +1,49 @@
 package ru.job4j.sqlruparser;
 
 
-import org.quartz.*;
-import org.quartz.impl.StdSchedulerFactory;
+        import org.quartz.*;
+        import org.quartz.impl.StdSchedulerFactory;
 
-import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.LogManager;
+        import org.apache.logging.log4j.Logger;
+        import org.apache.logging.log4j.LogManager;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.Properties;
+        import java.io.IOException;
+        import java.io.InputStream;
+        import java.util.Properties;
 
 public class Main implements Job {
-    PageParser pageParser = new PageParser();
-    StoreSQL storeSQL = new StoreSQL();
-    private static final Logger LOG = LogManager.getLogger(StoreSQL.class.getName());
 
+    private static final Logger LOG = LogManager.getLogger(StoreSQL.class.getName());
+    private static final String DEFAULT_CONFIG = "app3.properties";
+    private String config;
+
+    private final PageParser pageParser = new PageParser();
+
+    public Main(String config) {
+        this.config = config;
+    }
 
     public static void main(String[] args) {
-        PageParser pageParser = new PageParser();
-        StoreSQL storeSQL = new StoreSQL();
-        if (storeSQL.getNumberOfStarts() > 1) {
-            pageParser.nextStart();
-        } else {
-            LOG.info("detects first start of program");
-            pageParser.firstStart();
-        }
-        storeSQL.setVacancyList(pageParser.getVacancyList());
-        storeSQL.addVacancyList(storeSQL.getVacancyList());
-        pageParser.clearVacancyList();
-        storeSQL.clearVacancyList();
 
+
+        String config = DEFAULT_CONFIG;
+        if (args.length == 0) {
+            LOG.info("load default properties");
+        } else {
+            config = args[0];
+            LOG.info("load properties from args");
+        }
         Properties properties = new Properties();
         ClassLoader loader = Thread.currentThread().getContextClassLoader();
-        try (InputStream is = loader.getResourceAsStream("app3.properties")) {
-            properties.load(is);
+        try (InputStream in = loader.getResourceAsStream(config)) {
+            properties.load(in);
         } catch (IOException e) {
             LOG.error(e.getMessage(), e);
         }
+
+        Main main = new Main(config);
+
+        main.firstStart(config);
 
         String cronExp = properties.getProperty("cron.time");
 
@@ -57,9 +63,24 @@ public class Main implements Job {
         }
     }
 
+    public void firstStart(String config) {
+        StoreSQL storeSQL = new StoreSQL(config);
+        if (storeSQL.getNumberOfStarts() > 1) {
+            pageParser.nextStart();
+        } else {
+            LOG.info("detects first start of program");
+            pageParser.firstStart();
+        }
+        storeSQL.setVacancyList(pageParser.getVacancyList());
+        storeSQL.addVacancyList(storeSQL.getVacancyList());
+        pageParser.clearVacancyList();
+        storeSQL.clearVacancyList();
+    }
+
     @Override
-    public void execute(JobExecutionContext jobExecutionContext) throws JobExecutionException {
+    public void execute(JobExecutionContext jobExecutionContext) {
         LOG.info("Execute scheduler job");
+        StoreSQL storeSQL = new StoreSQL(config);
         pageParser.nextStart();
         storeSQL.setVacancyList(pageParser.getVacancyList());
         storeSQL.addVacancyList(storeSQL.getVacancyList());
