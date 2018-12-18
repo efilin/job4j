@@ -54,21 +54,6 @@ public class StoreSQL implements AutoCloseable {
         return this.conn != null;
     }
 
-
-    public Vacancy add(Vacancy vacancy) {
-        try (PreparedStatement pStat = this.conn
-                .prepareStatement("INSERT INTO vacancy(name, description, url, createDate) values (?,?,?,?);")) {
-            pStat.setString(1, vacancy.getName());
-            pStat.setString(2, vacancy.getText());
-            pStat.setString(3, vacancy.getUrl());
-            pStat.setTimestamp(4, Timestamp.valueOf(vacancy.getDate()));
-            pStat.executeUpdate();
-        } catch (Exception e) {
-            LOG.error(e.getMessage(), e);
-        }
-        return vacancy;
-    }
-
     public boolean checkDoublesInDb(Vacancy vacancy) {
         String vacancyName = vacancy.getName();
         try (PreparedStatement pStat = this.conn
@@ -84,12 +69,26 @@ public class StoreSQL implements AutoCloseable {
         return false;
     }
 
-    public void addVacancyList(List<Vacancy> vacancyList) {
-        for (Vacancy vacancy : vacancyList) {
-            if (checkDoublesInDb(vacancy)) {
-                add(vacancy);
+    public void addVacancyList(List<Vacancy> vacancyList) throws SQLException {
+        String sql = "INSERT INTO vacancy(name, description, url, createDate) values (?,?,?,?);";
+        try (PreparedStatement pStat = conn.prepareStatement(sql)) {
+            conn.setAutoCommit(false);
+            for (Vacancy vacancy : vacancyList) {
+                if (checkDoublesInDb(vacancy)) {
+                    pStat.setString(1, vacancy.getName());
+                    pStat.setString(2, vacancy.getText());
+                    pStat.setString(3, vacancy.getUrl());
+                    pStat.setTimestamp(4, Timestamp.valueOf(vacancy.getDate()));
+                    pStat.addBatch();
+                }
             }
+            pStat.executeBatch();
+            conn.commit();
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+            conn.rollback();
         }
+        conn.setAutoCommit(true);
     }
 
     public void clearVacancyList() {

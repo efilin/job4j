@@ -9,6 +9,7 @@ import org.apache.logging.log4j.LogManager;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.SQLException;
 import java.util.Properties;
 
 public class Main implements Job {
@@ -72,7 +73,11 @@ public class Main implements Job {
             pageParser.firstStart();
         }
         storeSQL.setVacancyList(pageParser.getVacancyList());
-        storeSQL.addVacancyList(storeSQL.getVacancyList());
+        try {
+            storeSQL.addVacancyList(storeSQL.getVacancyList());
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
         pageParser.clearVacancyList();
         storeSQL.clearVacancyList();
     }
@@ -83,7 +88,11 @@ public class Main implements Job {
         StoreSQL storeSQL = new StoreSQL(config);
         pageParser.nextStart();
         storeSQL.setVacancyList(pageParser.getVacancyList());
-        storeSQL.addVacancyList(storeSQL.getVacancyList());
+        try {
+            storeSQL.addVacancyList(storeSQL.getVacancyList());
+        } catch (SQLException e) {
+            LOG.error(e.getMessage(), e);
+        }
         pageParser.clearVacancyList();
         storeSQL.clearVacancyList();
     }
