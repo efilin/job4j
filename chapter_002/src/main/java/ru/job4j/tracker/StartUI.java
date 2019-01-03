@@ -3,9 +3,10 @@ package ru.job4j.tracker;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
- * @author  Eugeniy Filin (2727fas@gmail.com)
+ * @author Eugeniy Filin (2727fas@gmail.com)
  * @version $Id$
  * @since 0.1
  */
@@ -14,30 +15,34 @@ import java.util.List;
 public class StartUI {
 
     private List<Integer> ranges;
-   /**
+    /**
      * Константа меню для добавления новой заявки.
      */
-   private final Input input;
+    private final Input input;
 
     /**
      * Хранилище заявок.
      */
     private final ITracker tracker;
 
+    private final Consumer<String> output;
+
     /**
      * Конструтор инициализирующий поля.
+     *
      * @param input ввод данных.
      */
-    public StartUI(Input input, ITracker tracker) {
+    public StartUI(Input input, ITracker tracker, Consumer<String> output) {
         this.input = input;
         this.tracker = tracker;
+        this.output = output;
     }
 
     /**
      * Основой цикл программы.
      */
     public void init() {
-        MenuTracker menu = new MenuTracker(this.input, this.tracker);
+        MenuTracker menu = new MenuTracker(this.input, this.tracker, this.output);
         menu.fillActions();
         do {
             menu.show();
@@ -46,9 +51,9 @@ public class StartUI {
     }
 
 
-
     /**
      * Запускт программы.
+     *
      * @param args
      */
 
@@ -57,7 +62,7 @@ public class StartUI {
                 new ValidateInput(
                         new ConsoleInput()
                 ),
-                new Tracker()
+                new Tracker(), System.out::println
         ).init();
     }
 }

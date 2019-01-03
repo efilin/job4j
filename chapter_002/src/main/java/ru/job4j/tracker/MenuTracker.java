@@ -2,6 +2,7 @@ package ru.job4j.tracker;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 /**
  * @author Eugeniy Filin (2727fas@gmail.com)
@@ -14,10 +15,12 @@ public class MenuTracker {
     private Input input;
     private ITracker tracker;
     private List<UserAction> actions = new ArrayList<>();
+    private final Consumer<String> output;
 
-    public MenuTracker(Input input, ITracker tracker) {
+    public MenuTracker(Input input, ITracker tracker, Consumer<String> output) {
         this.input = input;
         this.tracker = tracker;
+        this.output = output;
     }
 
 
@@ -37,7 +40,7 @@ public class MenuTracker {
     public void show() {
         for (UserAction action : this.actions) {
             if (action != null) {
-                System.out.println(action.info());
+                output.accept(action.info());
             }
         }
     }
@@ -66,7 +69,7 @@ public class MenuTracker {
         public void execute(Input input, ITracker tracker) {
             for (Item item : tracker.findAll()) {
                 if (item != null) {
-                    System.out.println(String.format("Name: %s| Desc: %s| Id: %s",
+                    output.accept(String.format("Name: %s| Desc: %s| Id: %s",
                             item.getName(), item.getDescription(), item.getId()));
                 }
             }
@@ -96,7 +99,7 @@ public class MenuTracker {
 
         public void execute(Input input, ITracker tracker) {
             int id = Integer.parseInt(input.ask("Please, enter the task's id: "));
-            System.out.println(String.format("Name: %s| Desc: %s| Id: %s",
+            output.accept(String.format("Name: %s| Desc: %s| Id: %s",
                     tracker.findById(id).getName(), tracker.findById(id).getDescription(), tracker.findById(id).getId()));
         }
 
@@ -112,7 +115,7 @@ public class MenuTracker {
         public void execute(Input input, ITracker tracker) {
             String name = input.ask("Please, enter the task's name: ");
             for (Item item : tracker.findByName(name)) {
-                System.out.println(String.format("Name: %s| Desc: %s| Id: %s",
+                output.accept(String.format("Name: %s| Desc: %s| Id: %s",
                         item.getName(), item.getDescription(), item.getId()));
             }
         }
