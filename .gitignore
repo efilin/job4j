@@ -18,6 +18,9 @@
 *.tar.gz
 *.rar
 
+# SQLite Files
+*.sqlite
+
 .idea
 *.iml
 

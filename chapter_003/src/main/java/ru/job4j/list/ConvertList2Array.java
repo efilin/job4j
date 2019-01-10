@@ -1,7 +1,10 @@
 package ru.job4j.list;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * public int[][] toArray (List<Integer> list, int rows) {} - метод toArray должен равномерно разбить лист на количество
@@ -12,7 +15,10 @@ import java.util.List;
  * с разбиением на 3 строки должен получиться двумерный массив {{1, 2, 3} {4, 5, 6} {7, 0 ,0}}
  *
  * public List<Integer> convert (List<int[]> list) *
- * В этом методе вы должны пройтись по всем элементам всех массивов в списке list и добавить их в один общий лист Integer.
+ * В этом методе вы должны пройтись по всем элементам всех массивов в списке list
+ * и добавить их в один общий лист Integer.
+ *
+ * Изменено на Stream API
  */
 
 public class ConvertList2Array {
@@ -33,13 +39,8 @@ public class ConvertList2Array {
     }
 
     public List<Integer> convert(List<int[]> list) {
-        List<Integer> resultList = new ArrayList<>();
-        for (int[] cells: list) {
-            for (int cell: cells) {
-                resultList.add(cell);
-
-            }
-        }
-        return resultList;
+        return list.stream()
+                .flatMapToInt(Arrays::stream).boxed()
+                .collect(Collectors.toList());
     }
 }
