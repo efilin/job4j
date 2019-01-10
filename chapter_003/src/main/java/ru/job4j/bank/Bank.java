@@ -1,15 +1,16 @@
 package ru.job4j.bank;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
+
+/**
+ * Изменено на Stream API
+ */
 
 public class Bank {
     Map<User, List<Account>> users;
 
     public Bank() {
-        this.users = new TreeMap<User, List<Account>>();
+        this.users = new TreeMap<>();
     }
 
     public void addUser(User user) {
@@ -40,24 +41,29 @@ public class Bank {
 
 
     public User getUserByPassport(String passport) {
-        User result = null;
+        /*User result = null;
         for (User user : this.users.keySet()) {
             if (user.getPassport().equals(passport)) {
                 result = new User(user.getName(), user.getPassport());
                 break;
             }
-        }
-        return result;
+        }*/
+        return users.keySet().stream()
+                .filter(u -> u.getPassport().equals(passport)).findFirst().get();
     }
 
     public Account getAccountByRequisites(User user, String requisites) {
-        Account result = null;
+        /*Account result = null;
         for (Account account : this.users.get(user)) {
             if (requisites.equals(account.getRequisites())) {
                 result = account;
                 break;
             }
-        }
-        return result;
+        }*/
+        return users.entrySet().stream()
+                .filter(u ->  u.getKey().equals(user))
+                .map(Map.Entry::getValue)
+                .flatMap(Collection::stream)
+                .filter(a -> a.getRequisites().equals(requisites)).findFirst().get();
     }
 }

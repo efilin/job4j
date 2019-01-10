@@ -28,7 +28,7 @@ public class BankTest {
         result.addUser(userTwo);
         result.deleteUser(userTwo);
         expect.addUser(userOne);
-        assertThat(expect.getUserByPassport("54321"), is(result.getUserByPassport("54321")));
+        assertThat(expect.getUserByPassport("12345"), is(result.getUserByPassport("12345")));
     }
 
     @Test
