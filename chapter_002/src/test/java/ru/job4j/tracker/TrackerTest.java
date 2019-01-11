@@ -12,6 +12,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.hamcrest.core.Is.is;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
 
 
@@ -52,6 +53,12 @@ public class TrackerTest {
         tracker.add(itemThree);
         assertThat(tracker.findById(itemOne.getId()).getName(), is("test1"));
 
+    }
+    @Test
+    public void whenFindByIdThenNull() {
+        Tracker tracker = new Tracker();
+        final Item byId = tracker.findById(100500);
+        assertNull(byId);
     }
 
     @Test
