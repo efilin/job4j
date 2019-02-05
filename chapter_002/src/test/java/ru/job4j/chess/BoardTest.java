@@ -7,6 +7,7 @@ import static org.hamcrest.core.Is.is;
 
 public class BoardTest {
 
+/*
     @Test
     public void whenCorrectMove() throws OccupiedWayException, ImpossibleMoveException, FigureNotFoundException {
         Board board = new Board();
@@ -61,5 +62,5 @@ public class BoardTest {
         Board board = new Board();
         board.add(new Bishop(new Cell(4, 7)));
         assertThat(board.getFigureIndexByCell(new Cell(4, 7)), is(0));
-    }
+    }*/
 }
