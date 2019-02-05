@@ -23,7 +23,7 @@ public class QueenWhite implements Figure {
 
     public boolean isCorrectMove(Cell source, Cell dest) {
         return (Math.abs(source.x - dest.x) == Math.abs(source.y - dest.y))
-                || ((source.x - dest.x) == 0 || (source.y - dest.y) == 0);
+                || (((source.x - dest.x) == 0) || (source.y - dest.y) == 0);
     }
 
     @Override
@@ -33,7 +33,7 @@ public class QueenWhite implements Figure {
         }
         int deltaX = Integer.compare(dest.x, source.x);
         int deltaY = Integer.compare(dest.y, source.y);
-        int size = Math.abs(source.x - dest.x) + Math.abs(source.y - dest.y);
+        int size = deltaX == 0 ? Math.abs(source.y - dest.y) : Math.abs(source.x - dest.x);
         Cell[] steps = new Cell[size];
         for (int i = 0; i < size; i++) {
             int x = source.x + (i + 1) * deltaX;

@@ -22,8 +22,8 @@ public class PawnBlack implements Figure {
     }
 
     public boolean isCorrectMove(Cell source, Cell dest) {
-        return (source.y == 6 && (source.y == dest.y - 1 || source.y == dest.y - 2) && source.x == dest.x)
-                || (source.y == dest.y - 1 && source.x == dest.x);
+        return (source.y == 6 && (source.y == dest.y + 1 || source.y == dest.y + 2) && source.x == dest.x)
+                || (source.y == dest.y + 1 && source.x == dest.x);
     }
 
     @Override

@@ -22,8 +22,8 @@ public class KnightBlack implements Figure {
     }
 
     public boolean isCorrectMove(Cell source, Cell dest) {
-        return (Math.abs(source.x - dest.x) == 1 && Math.abs(source.y - dest.y) == 2) ||
-                (Math.abs(source.x - dest.x) == 2 && Math.abs(source.y - dest.y) == 1);
+        return (Math.abs(source.x - dest.x) == 1 && Math.abs(source.y - dest.y) == 2)
+                || (Math.abs(source.x - dest.x) == 2 && Math.abs(source.y - dest.y) == 1);
     }
 
     @Override
