@@ -6,8 +6,6 @@ import ru.job4j.chess.firuges.Figure;
 import java.util.Optional;
 
 /**
- *
- *
  * @author Petr Arsentev (parsentev@yandex.ru)
  * @version $Id$
  * @since 0.1
@@ -20,18 +18,26 @@ public class Logic {
         this.figures[this.index++] = figure;
     }
 
-    public boolean move(Cell source, Cell dest) {
+    public boolean move(Cell source, Cell dest) throws OccupiedWayException, FigureNotFoundException, ImpossibleMoveException {
         boolean rst = false;
         int index = this.findBy(source);
         if (index != -1) {
             Cell[] steps = this.figures[index].way(source, dest);
+            for (Cell step : steps) {
+                if (findBy(step) != -1) {
+                    throw new OccupiedWayException();
+                }
+            }
             if (steps.length > 0 && steps[steps.length - 1].equals(dest)) {
                 rst = true;
                 this.figures[index] = this.figures[index].copy(dest);
             }
+        } else {
+            throw new FigureNotFoundException();
         }
         return rst;
     }
+
 
     public void clean() {
         for (int position = 0; position != this.figures.length; position++) {
