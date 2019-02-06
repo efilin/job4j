@@ -16,6 +16,11 @@ public class Address {
     private int home;
     private int apartment;
 
+
+    public String getCity() {
+        return city;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
