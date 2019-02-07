@@ -1,6 +1,5 @@
 package ru.job4j.tracker;
 
-import jdk.nashorn.internal.ir.annotations.Ignore;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
