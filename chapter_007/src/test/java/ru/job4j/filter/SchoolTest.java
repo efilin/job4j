@@ -12,15 +12,17 @@ public class SchoolTest {
     @Test
     public void whenScoreAboveSeventy() {
         School school = new School();
-        List<Student> students = new ArrayList<>();
-        students.add(new Student(75));
-        students.add(new Student(67));
-        students.add(new Student(55));
-        students.add(new Student(32));
-        students.add(new Student(93));
-        List<Student> expected = new ArrayList<>();
-        expected.add(new Student(75));
-        expected.add(new Student(93));
+        List<Student> students = List.of(
+                new Student(75),
+                new Student(67),
+                new Student(55),
+                new Student(32),
+                new Student(93)
+        );
+        List<Student> expected = List.of(
+                new Student(75),
+                new Student(93)
+        );
         List<Student> aClassStudents = school.collect(students, s -> s.getScore() >= 70);
         assertEquals(aClassStudents, expected);
     }
@@ -28,15 +30,17 @@ public class SchoolTest {
     @Test
     public void whenScoreBetweenFiftyAndSeventy() {
         School school = new School();
-        List<Student> students = new ArrayList<>();
-        students.add(new Student(75));
-        students.add(new Student(67));
-        students.add(new Student(55));
-        students.add(new Student(32));
-        students.add(new Student(93));
-        List<Student> expected = new ArrayList<>();
-        expected.add(new Student(67));
-        expected.add(new Student(55));
+        List<Student> students = List.of(
+                new Student(75),
+                new Student(67),
+                new Student(55),
+                new Student(32),
+                new Student(93)
+        );
+        List<Student> expected = List.of(
+                new Student(67),
+                new Student(55)
+        );
         List<Student> bClassStudents = school.collect(students, s -> (s.getScore() < 70 && s.getScore() >= 50));
         assertEquals(bClassStudents, expected);
     }
@@ -44,14 +48,16 @@ public class SchoolTest {
     @Test
     public void whenScoreBelowFifty() {
         School school = new School();
-        List<Student> students = new ArrayList<>();
-        students.add(new Student(75));
-        students.add(new Student(67));
-        students.add(new Student(55));
-        students.add(new Student(32));
-        students.add(new Student(93));
-        List<Student> expected = new ArrayList<>();
-        expected.add(new Student(32));
+        List<Student> students = List.of(
+                new Student(75),
+                new Student(67),
+                new Student(55),
+                new Student(32),
+                new Student(93)
+        );
+        List<Student> expected = List.of(
+                new Student(32)
+        );
         List<Student> cClassStudents = school.collect(students, s -> s.getScore() < 50);
         assertEquals(cClassStudents, expected);
     }
