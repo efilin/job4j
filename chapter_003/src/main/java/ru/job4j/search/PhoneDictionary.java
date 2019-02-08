@@ -26,7 +26,8 @@ public class PhoneDictionary {
                 result.add(person);
             }
         }*/
-         return persons.stream().filter(person -> person.getName().contains(key)
+         return persons.stream()
+                 .filter(person -> person.getName().contains(key)
                  || person.getSurname().contains(key)
                  || person.getAddress().contains(key)
                  || person.getPhone().contains(key))

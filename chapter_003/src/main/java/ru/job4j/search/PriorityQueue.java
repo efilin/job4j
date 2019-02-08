@@ -9,7 +9,7 @@ public class PriorityQueue {
      * Метод должен вставлять в нужную позицию элемент.
      * Позиция определять по полю приоритет.
      * Для вставки использовать add(int index, E value)
-     *
+     * <p>
      * Изменено на Stream API
      *
      * @param task задача
@@ -22,7 +22,9 @@ public class PriorityQueue {
                 break;
             }
         }*/
-        int i = (int) tasks.stream().filter(t -> t.getPriority() < task.getPriority()).count();
+        var i = (int) tasks.stream()
+                .filter(t -> t.getPriority() < task.getPriority())
+                .count();
         tasks.add(i, task);
     }
 
