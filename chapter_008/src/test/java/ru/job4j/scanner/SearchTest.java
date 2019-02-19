@@ -16,10 +16,8 @@ public class SearchTest {
 
     @Before
     public void setUp() throws Exception {
-        File testDir1 = new File(System.getProperty("java.io.tmpdir") + "/testingFolder1");
-        File testDir2 = new File(System.getProperty("java.io.tmpdir") + "/test2/test2/test2");
-        testDir1.mkdir();
-        testDir2.mkdirs();
+        File testDir = new File(System.getProperty("java.io.tmpdir") + "/test2/test2/test2");
+        testDir.mkdirs();
     }
 
     @Test
@@ -29,22 +27,22 @@ public class SearchTest {
         exts.add("abc");
         exts.add("cba");
         List<File> expected = new ArrayList<>();
-
-        File testOne = new File(System.getProperty("java.io.tmpdir") + "/testingFolder1", "testFileOne.abc");
+        File testOne = new File(System.getProperty("java.io.tmpdir") + "/test2/test2/test2", "testFileOne.abc");
         File testTwo = new File(System.getProperty("java.io.tmpdir") + "/test2/test2/test2", "testFileTwo.cba");
+        new File(System.getProperty("java.io.tmpdir") + "/test2/test2/test2", "testFileThree.cbc").createNewFile();
         testOne.createNewFile();
         testTwo.createNewFile();
-        expected.add(testTwo);
         expected.add(testOne);
+        expected.add(testTwo);
         List<File> result = search.files(System.getProperty("java.io.tmpdir"), exts);
         assertThat(result, is(expected));
     }
 
     @After
     public void tearDown() throws Exception {
-        new File(System.getProperty("java.io.tmpdir") + "/testingFolder1", "testFileOne.abc").delete();
+        new File(System.getProperty("java.io.tmpdir") + "/test2/test2/test2", "testFileOne.abc").delete();
         new File(System.getProperty("java.io.tmpdir") + "/test2/test2/test2", "testFileTwo.cba").delete();
-        new File(System.getProperty("java.io.tmpdir") + "/testingFolder1").delete();
+        new File(System.getProperty("java.io.tmpdir") + "/test2/test2/test2", "testFileThree.cbc").delete();
         new File(System.getProperty("java.io.tmpdir") + "/test2/test2/test2").delete();
         new File(System.getProperty("java.io.tmpdir") + "/test2/test2").delete();
         new File(System.getProperty("java.io.tmpdir") + "/test2").delete();
