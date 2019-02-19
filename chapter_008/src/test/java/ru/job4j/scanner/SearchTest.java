@@ -34,7 +34,7 @@ public class SearchTest {
         testTwo.createNewFile();
         expected.add(testOne);
         expected.add(testTwo);
-        List<File> result = search.files(System.getProperty("java.io.tmpdir"), exts);
+        List<File> result = search.files(System.getProperty("java.io.tmpdir"), exts, new ArrayList<>());
         assertThat(result, is(expected));
     }
 

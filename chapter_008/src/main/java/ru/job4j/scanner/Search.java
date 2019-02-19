@@ -6,8 +6,6 @@ import java.util.List;
 
 public class Search {
 
-    private boolean isRecursive = false;
-    private List<File> result;
 
     /*
      *
@@ -30,23 +28,20 @@ public class Search {
      *
      * */
 
-    public List<File> files(String parent, List<String> exts) {
-        if (!this.isRecursive) {
-            this.result = new ArrayList<>();
-        }
+    public List<File> files(String parent, List<String> exts, List<File> result) {
+
         File file = new File(parent);
         var filesAndDirectories = file.listFiles();
         if (filesAndDirectories != null) {
             for (File fd : filesAndDirectories) {
                 if (fd.isDirectory()) {
-                    this.isRecursive = true;
-                    files(fd.getPath(), exts);
+                    files(fd.getPath(), exts, result);
                 } else if (checkExt(fd, exts)) {
-                    this.result.add(fd);
+                    result.add(fd);
                 }
             }
         }
-        return this.result;
+        return result;
     }
 
     private boolean checkExt(File file, List<String> exts) {
