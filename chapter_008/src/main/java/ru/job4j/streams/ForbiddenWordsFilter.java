@@ -22,6 +22,16 @@ public class ForbiddenWordsFilter {
     }
 
     private String removeAbuseWords(String line, String[] abuse) {
+        /*
+        вариант с потоком от ментора
+        try (final PrintStream writer = new PrintStream(out);
+             final BufferedReader reader = new BufferedReader(new InputStreamReader(in))) {
+            reader.lines()
+                    .map(s -> Arrays.stream(abuse)
+                            .reduce(s, (s1, s2) -> s1.replaceAll(s2, ""))
+                    ).forEach(writer::println);
+        }*/
+
         for (String abWord : abuse) {
             if (line.contains(abWord)) {
                 line = line.replaceAll(abWord, "");
