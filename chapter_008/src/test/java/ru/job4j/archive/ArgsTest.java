@@ -22,7 +22,7 @@ public class ArgsTest {
         new File(System.getProperty("java.io.tmpdir") + "/FolderForTestingZipping", "testFileTwo.cba").createNewFile();
         String[] args = {"-d", System.getProperty("java.io.tmpdir") + "/FolderForTestingZipping", "-e", "cba", "-o", "ZipTestFile.zip"};
         Args.main(args);
-        assertTrue(new File("C:/projects/job4j/chapter_008", "ZipTestFile.zip").exists());
+        assertTrue(new File("ZipTestFile.zip").exists());
     }
 
     @After
@@ -30,6 +30,6 @@ public class ArgsTest {
         new File(System.getProperty("java.io.tmpdir") + "/FolderForTestingZipping", "testFileOne.abc").delete();
         new File(System.getProperty("java.io.tmpdir") + "/FolderForTestingZipping", "testFileTwo.cba").delete();
         new File(System.getProperty("java.io.tmpdir") + "/FolderForTestingZipping").delete();
-        new File("C:/projects/job4j/chapter_008", "ZipTestFile.zip").delete();
+        new File("ZipTestFile.zip").delete();
     }
 }
