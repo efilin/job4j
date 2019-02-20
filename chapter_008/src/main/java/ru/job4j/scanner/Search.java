@@ -1,11 +1,9 @@
 package ru.job4j.scanner;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Search {
-
 
     /*
      *
@@ -29,7 +27,6 @@ public class Search {
      * */
 
     public List<File> files(String parent, List<String> exts, List<File> result) {
-
         File file = new File(parent);
         var filesAndDirectories = file.listFiles();
         if (filesAndDirectories != null) {
@@ -48,5 +45,4 @@ public class Search {
         String extension = file.getName().substring(file.getName().lastIndexOf(".") + 1);
         return exts.contains(extension);
     }
-
 }
