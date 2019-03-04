@@ -38,7 +38,7 @@ public class FileFinderTest {
         try (BufferedReader br = new BufferedReader(new FileReader(f))) {
             readline = br.readLine();
         }
-        return readline.substring(readline.lastIndexOf('\\') + 1);
+        return readline.substring(readline.length() - 12);
     }
 
     @Test
