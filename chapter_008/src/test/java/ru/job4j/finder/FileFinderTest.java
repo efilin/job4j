@@ -33,7 +33,7 @@ public class FileFinderTest {
 
     public String finderTest(String[] args) throws IOException {
         FileFinder.main(args);
-        File f = new File(System.getProperty("java.io.tmpdir") + "test1/log.txt");
+        File f = new File(System.getProperty("java.io.tmpdir") + "/test1/log.txt");
         String readline;
         try (BufferedReader br = new BufferedReader(new FileReader(f))) {
             readline = br.readLine();
@@ -47,7 +47,7 @@ public class FileFinderTest {
                 "-d",
                 System.getProperty("java.io.tmpdir") + "/test1",
                 "-n", "*.doc", "-m", "-o",
-                System.getProperty("java.io.tmpdir") + "test1/log.txt"};
+                System.getProperty("java.io.tmpdir") + "/test1/log.txt"};
         String result = finderTest(args);
         String expected = "testdoc1.doc";
         assertThat(result, is(expected));
@@ -59,7 +59,7 @@ public class FileFinderTest {
                 "-d",
                 System.getProperty("java.io.tmpdir") + "/test1",
                 "-n", "testdoc2.txt", "-f", "-o",
-                System.getProperty("java.io.tmpdir") + "test1/log.txt"};
+                System.getProperty("java.io.tmpdir") + "/test1/log.txt"};
         String result = finderTest(args);
         String expected = "testdoc2.txt";
         assertThat(result, is(expected));
@@ -71,7 +71,7 @@ public class FileFinderTest {
                 "-d",
                 System.getProperty("java.io.tmpdir") + "/test1",
                 "-n", "(testdoc1).*", "-r", "-o",
-                System.getProperty("java.io.tmpdir") + "test1/log.txt"};
+                System.getProperty("java.io.tmpdir") + "/test1/log.txt"};
         String result = finderTest(args);
         String expected = "testdoc1.doc";
         assertThat(result, is(expected));
