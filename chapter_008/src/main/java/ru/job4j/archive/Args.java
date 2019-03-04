@@ -12,6 +12,7 @@ package ru.job4j.archive;
         с методами directory() exclude() output();
         5. Для архивации использовать классы https://docs.oracle.com/javase/7/docs/api/java/util/zip/ZipOutputStream.html*/
 
+//Убрал сборку в .jar, для работы над заданием finder.FileFinder
 
 import java.io.*;
 import java.nio.file.Files;
