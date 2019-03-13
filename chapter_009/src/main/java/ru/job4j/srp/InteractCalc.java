@@ -2,7 +2,10 @@ package ru.job4j.srp;
 
 import com.google.common.base.Joiner;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Scanner;
+import java.util.function.BiFunction;
 
 /**
  * Class for UI of Calculator.
@@ -13,6 +16,7 @@ public class InteractCalc {
      */
     private final Scanner scanner;
     private final Calculator calculator;
+    private final Map<String, BiFunction<Double, Double, Double>> functionMap = new HashMap<>();
 
     /**
      * String value for return result of last operation.
@@ -29,12 +33,33 @@ public class InteractCalc {
 
     /**
      * Default constructor.
-     * @param scanner Scanner.
+     *
+     * @param scanner    Scanner.
      * @param calculator Calculator.
      */
     public InteractCalc(final Scanner scanner, final Calculator calculator) {
         this.scanner = scanner;
         this.calculator = calculator;
+    }
+
+    public void init() {
+        this.functionMap.put("+", (x, y) -> {
+            this.calculator.add(x, y);
+            return this.calculator.getResult();
+        });
+        this.functionMap.put("-", (x, y) -> {
+            this.calculator.subtract(x, y);
+            return this.calculator.getResult();
+        });
+        this.functionMap.put("*", (x, y) -> {
+            this.calculator.multiple(x, y);
+            return this.calculator.getResult();
+        });
+        this.functionMap.put("/", (x, y) -> {
+            this.calculator.div(x, y);
+            return this.calculator.getResult();
+        });
+
     }
 
     /**
@@ -80,6 +105,7 @@ public class InteractCalc {
         return strings;
     }
 
+
     /**
      * Calculates result of operation.
      *
@@ -90,26 +116,21 @@ public class InteractCalc {
         double firstNumber = Double.valueOf(strings[0]);
         double secondNumber = Double.valueOf(strings[2]);
         String action = strings[1];
-        if (action.equals("+")) {
-            calculator.add(firstNumber, secondNumber);
-        } else if (action.equals("-")) {
-            calculator.subtract(firstNumber, secondNumber);
-        } else if (action.equals("*")) {
-            calculator.multiple(firstNumber, secondNumber);
-        } else if (action.equals("/")) {
-            calculator.div(firstNumber, secondNumber);
+        if (this.functionMap.containsKey(action)) {
+            return this.functionMap.get(action).apply(firstNumber, secondNumber);
         } else {
-            System.out.println("Математическое действие не разпознано.");
+            throw new UnsupportedOperationException("Математическое действие не разпознано.");
         }
-        return calculator.getResult();
     }
 
     /**
      * Main method.
+     *
      * @param args
      */
     public static void main(String[] args) {
         InteractCalc interactCalc = new InteractCalc(new Scanner(System.in), new Calculator());
+        interactCalc.init();
         interactCalc.showStartMenu();
         interactCalc.menu();
     }

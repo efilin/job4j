@@ -51,6 +51,7 @@ public class InteractCalcTest {
         Scanner scanner = new Scanner(System.in);
         InteractCalc iCalc = new InteractCalc(scanner, new Calculator());
         String expected = "7.0" + LN;
+        iCalc.init();
         iCalc.menu();
         System.setIn(System.in);
         assertThat(tempOut.toString(), is(expected));
@@ -64,6 +65,7 @@ public class InteractCalcTest {
         Scanner scanner = new Scanner(System.in);
         InteractCalc iCalc = new InteractCalc(scanner, new Calculator());
         String expected = "3.0" + LN;
+        iCalc.init();
         iCalc.menu();
         System.setIn(System.in);
         assertThat(tempOut.toString(), is(expected));
@@ -77,6 +79,7 @@ public class InteractCalcTest {
         Scanner scanner = new Scanner(System.in);
         InteractCalc iCalc = new InteractCalc(scanner, new Calculator());
         String expected = "10.0" + LN;
+        iCalc.init();
         iCalc.menu();
         System.setIn(System.in);
         assertThat(tempOut.toString(), is(expected));
@@ -90,6 +93,7 @@ public class InteractCalcTest {
         Scanner scanner = new Scanner(System.in);
         InteractCalc iCalc = new InteractCalc(scanner, new Calculator());
         String expected = "2.0" + LN;
+        iCalc.init();
         iCalc.menu();
         System.setIn(System.in);
         assertThat(tempOut.toString(), is(expected));
