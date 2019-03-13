@@ -27,6 +27,7 @@ import java.util.stream.Stream;
 public class FileFinder {
 
     private List<Path> fileList;
+    private Args args;
     private String directory;
     private String inputFilename;
     private String mask;
@@ -34,45 +35,24 @@ public class FileFinder {
     private String outputFilename;
 
     public FileFinder(String[] args) {
-        argsProcessing(args);
+        this.args = new Args(args);
+    }
+
+    public void init() {
+        this.directory = args.getDirectory();
+        this.inputFilename = args.getInputFilename();
+        this.mask = args.getMask();
+        this.regExp = args.getRegExp();
+        this.outputFilename = args.getOutputFilename();
     }
 
     public static void main(String[] args) throws IOException {
         FileFinder finder = new FileFinder(args);
+        finder.init();
         finder.find();
         finder.writeToFile();
     }
 
-    public void argsProcessing(String[] args) {
-        if (args.length == 0) {
-            System.out.println("Не найдено ключей!\n"
-                    + "Ключи:\n"
-                    + "        -d - директория в которая начинать поиск.\n"
-                    + "        -n - имя файл, маска, либо регулярное выражение.\n"
-                    + "        -m - искать по маске, либо -f - полное совпадение имени. -r регулярное выражение.\n"
-                    + "        -o - результат записать в файл."
-                    + "Пример использования: java -jar find.jar -d c:/ -n *.txt -m -o log.txt");
-        } else {
-            for (int i = 0; i < args.length; i++) {
-                if (args[i].equals("-d")) {
-                    directory = args[i + 1];
-                } else if (args[i].equals("-n")) {
-                    inputFilename = args[i + 1];
-                } else if (args[i].equals("-o")) {
-                    outputFilename = args[i + 1];
-                } else if (args[i].equals("-m")) {
-                    mask = inputFilename;
-                    inputFilename = null;
-                } else if (args[i].equals("-r")) {
-                    regExp = inputFilename;
-                    inputFilename = null;
-                } else if (args[i].equals("-f")) {
-                    regExp = null;
-                    mask = null;
-                }
-            }
-        }
-    }
 
     //Поиск и запись найденных файлов в List
     public void find() throws IOException {
