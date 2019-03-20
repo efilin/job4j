@@ -1,24 +1,45 @@
 package ru.job4j.srp;
 
+import java.util.Map;
+import java.util.function.BiFunction;
+
 public class Calculator {
     private double result;
+    private final Map<String, BiFunction<Double, Double, Double>> functionMap;
 
-    public void add(double first, double second) {
-        this.result = first + second;
-    }
-    public void subtract(double first, double second) {
-        this.result = first - second;
+    public Calculator(Map<String, BiFunction<Double, Double, Double>> functionMap) {
+        this.functionMap = functionMap;
     }
 
-    public void div(double first, double second) {
-        this.result = first / second;
+    public void init() {
+        this.functionMap.put("+", (x, y) -> {
+            setResult(x + y);
+            return result;
+        });
+        this.functionMap.put("-", (x, y) -> {
+            setResult(x - y);
+            return result;
+        });
+        this.functionMap.put("*", (x, y) -> {
+            setResult(x * y);
+            return result;
+        });
+        this.functionMap.put("/", (x, y) -> {
+            setResult(x / y);
+            return result;
+        });
     }
 
-    public void multiple(double first, double second) {
-        this.result = first * second;
+    public void setResult(double result) {
+        this.result = result;
     }
+
+    public Map<String, BiFunction<Double, Double, Double>> getFunctionMap() {
+        return functionMap;
+    }
+
     public double getResult() {
-        return this.result;
+        return result;
     }
 }
 

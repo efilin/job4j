@@ -8,6 +8,7 @@ import org.junit.Test;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
+import java.util.HashMap;
 import java.util.Scanner;
 
 import static org.hamcrest.core.Is.is;
@@ -30,7 +31,7 @@ public class InteractCalcTest {
 
     @Test
     public void whenShowsStartMenu() {
-        InteractCalc iCalc = new InteractCalc(new Scanner(System.in), new Calculator());
+        InteractCalc iCalc = new InteractCalc(new Scanner(System.in), new Calculator(new HashMap<>()));
         iCalc.showStartMenu();
         String expected = Joiner.on(LN)
                 .join("Вас приветствует программа калькулятор",
@@ -49,9 +50,8 @@ public class InteractCalcTest {
         ByteArrayInputStream tempIn = new ByteArrayInputStream(input.getBytes());
         System.setIn(tempIn);
         Scanner scanner = new Scanner(System.in);
-        InteractCalc iCalc = new InteractCalc(scanner, new Calculator());
+        InteractCalc iCalc = new InteractCalc(scanner, new Calculator(new HashMap<>()));
         String expected = "7.0" + LN;
-        iCalc.init();
         iCalc.menu();
         System.setIn(System.in);
         assertThat(tempOut.toString(), is(expected));
@@ -63,9 +63,8 @@ public class InteractCalcTest {
         ByteArrayInputStream tempIn = new ByteArrayInputStream(input.getBytes());
         System.setIn(tempIn);
         Scanner scanner = new Scanner(System.in);
-        InteractCalc iCalc = new InteractCalc(scanner, new Calculator());
+        InteractCalc iCalc = new InteractCalc(scanner, new Calculator(new HashMap<>()));
         String expected = "3.0" + LN;
-        iCalc.init();
         iCalc.menu();
         System.setIn(System.in);
         assertThat(tempOut.toString(), is(expected));
@@ -77,9 +76,8 @@ public class InteractCalcTest {
         ByteArrayInputStream tempIn = new ByteArrayInputStream(input.getBytes());
         System.setIn(tempIn);
         Scanner scanner = new Scanner(System.in);
-        InteractCalc iCalc = new InteractCalc(scanner, new Calculator());
+        InteractCalc iCalc = new InteractCalc(scanner, new Calculator(new HashMap<>()));
         String expected = "10.0" + LN;
-        iCalc.init();
         iCalc.menu();
         System.setIn(System.in);
         assertThat(tempOut.toString(), is(expected));
@@ -91,12 +89,65 @@ public class InteractCalcTest {
         ByteArrayInputStream tempIn = new ByteArrayInputStream(input.getBytes());
         System.setIn(tempIn);
         Scanner scanner = new Scanner(System.in);
-        InteractCalc iCalc = new InteractCalc(scanner, new Calculator());
+        InteractCalc iCalc = new InteractCalc(scanner, new Calculator(new HashMap<>()));
         String expected = "2.0" + LN;
-        iCalc.init();
         iCalc.menu();
         System.setIn(System.in);
         assertThat(tempOut.toString(), is(expected));
     }
+
+    @Test
+    public void whenInputOneSinusZeroAndReturnZero() {
+        String input = "1 sin 0" + LN + "exit" + LN;
+        ByteArrayInputStream tempIn = new ByteArrayInputStream(input.getBytes());
+        System.setIn(tempIn);
+        Scanner scanner = new Scanner(System.in);
+        InteractCalc iCalc = new InteractCalc(scanner, new EngiCalculator(new HashMap<>()));
+        String expected = "0.0" + LN;
+        iCalc.menu();
+        System.setIn(System.in);
+        assertThat(tempOut.toString(), is(expected));
+    }
+
+    @Test
+    public void whenInputOneCosinusZeroAndReturnOne() {
+        String input = "1 cos 0" + LN + "exit" + LN;
+        ByteArrayInputStream tempIn = new ByteArrayInputStream(input.getBytes());
+        System.setIn(tempIn);
+        Scanner scanner = new Scanner(System.in);
+        InteractCalc iCalc = new InteractCalc(scanner, new EngiCalculator(new HashMap<>()));
+        String expected = "1.0" + LN;
+        iCalc.menu();
+        System.setIn(System.in);
+        assertThat(tempOut.toString(), is(expected));
+    }
+
+    @Test
+    public void whenInputOneTanZeroAndReturnZero() {
+        String input = "1 tan 0" + LN + "exit" + LN;
+        ByteArrayInputStream tempIn = new ByteArrayInputStream(input.getBytes());
+        System.setIn(tempIn);
+        Scanner scanner = new Scanner(System.in);
+        InteractCalc iCalc = new InteractCalc(scanner, new EngiCalculator(new HashMap<>()));
+        String expected = "0.0" + LN;
+        iCalc.menu();
+        System.setIn(System.in);
+        assertThat(tempOut.toString(), is(expected));
+    }
+
+    @Test
+    public void whenInputOneCTanPiDivideFourAndReturnOne() {
+        Double argument = Math.PI / 4;
+        String input = "1 ctg " + argument.toString() + LN + "exit" + LN;
+        ByteArrayInputStream tempIn = new ByteArrayInputStream(input.getBytes());
+        System.setIn(tempIn);
+        Scanner scanner = new Scanner(System.in);
+        InteractCalc iCalc = new InteractCalc(scanner, new EngiCalculator(new HashMap<>()));
+        Double expected = 1.0;
+        iCalc.menu();
+        System.setIn(System.in);
+        assertEquals(Double.parseDouble(tempOut.toString()), expected, 0.1);
+    }
+
 
 }

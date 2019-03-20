@@ -3,9 +3,7 @@ package ru.job4j.srp;
 import com.google.common.base.Joiner;
 
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
-import java.util.function.BiFunction;
 
 /**
  * Class for UI of Calculator.
@@ -16,7 +14,6 @@ public class InteractCalc {
      */
     private final Scanner scanner;
     private final Calculator calculator;
-    private final Map<String, BiFunction<Double, Double, Double>> functionMap = new HashMap<>();
 
     /**
      * String value for return result of last operation.
@@ -34,33 +31,36 @@ public class InteractCalc {
     /**
      * Default constructor.
      *
-     * @param scanner    Scanner.
-     * @param calculator Calculator.
+     * @param scanner Scanner.
      */
     public InteractCalc(final Scanner scanner, final Calculator calculator) {
         this.scanner = scanner;
+        calculator.init();
         this.calculator = calculator;
     }
-
+/*
     public void init() {
-        this.functionMap.put("+", (x, y) -> {
+        this.calculator.getFunctionMap().put("+", (x, y) -> {
             this.calculator.add(x, y);
             return this.calculator.getResult();
         });
-        this.functionMap.put("-", (x, y) -> {
+        this.calculator.getFunctionMap().put("-", (x, y) -> {
             this.calculator.subtract(x, y);
             return this.calculator.getResult();
         });
-        this.functionMap.put("*", (x, y) -> {
+        this.calculator.getFunctionMap().put("*", (x, y) -> {
             this.calculator.multiple(x, y);
             return this.calculator.getResult();
         });
-        this.functionMap.put("/", (x, y) -> {
+        this.calculator.getFunctionMap().put("/", (x, y) -> {
             this.calculator.div(x, y);
             return this.calculator.getResult();
         });
-
-    }
+        this.calculator.getFunctionMap().put("sin", (x, y) -> {
+           this.calculator.setResult(x * Math.sin(y));
+           return  this.calculator.getResult();
+        });
+    }*/
 
     /**
      * Shows start menu.
@@ -116,8 +116,8 @@ public class InteractCalc {
         double firstNumber = Double.valueOf(strings[0]);
         double secondNumber = Double.valueOf(strings[2]);
         String action = strings[1];
-        if (this.functionMap.containsKey(action)) {
-            return this.functionMap.get(action).apply(firstNumber, secondNumber);
+        if (this.calculator.getFunctionMap().containsKey(action)) {
+            return this.calculator.getFunctionMap().get(action).apply(firstNumber, secondNumber);
         } else {
             throw new UnsupportedOperationException("Математическое действие не разпознано.");
         }
@@ -129,8 +129,7 @@ public class InteractCalc {
      * @param args
      */
     public static void main(String[] args) {
-        InteractCalc interactCalc = new InteractCalc(new Scanner(System.in), new Calculator());
-        interactCalc.init();
+        InteractCalc interactCalc = new InteractCalc(new Scanner(System.in), new EngiCalculator(new HashMap<>()));
         interactCalc.showStartMenu();
         interactCalc.menu();
     }
