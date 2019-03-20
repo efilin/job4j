@@ -1,13 +1,18 @@
 package ru.job4j.lsp.storage;
 
-import java.util.Set;
+import java.util.List;
 
 public class Warehouse implements Storage {
 
-    private Set<Food> storage;
+    private List<Food> storage;
 
-    public Warehouse(Set<Food> storage) {
+    public Warehouse(List<Food> storage) {
         this.storage = storage;
+    }
+
+    @Override
+    public boolean isAppropriate(Food food) {
+        return food.getExpirePercent() <= 25;
     }
 
     @Override
@@ -15,7 +20,9 @@ public class Warehouse implements Storage {
         return this.storage.add(food);
     }
 
-    public Set<Food> getStorage() {
+    @Override
+    public List getStorage() {
         return this.storage;
     }
+
 }

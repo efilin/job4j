@@ -7,32 +7,33 @@ import java.time.LocalDate;
 import static org.hamcrest.core.Is.is;
 import static org.junit.Assert.*;
 
-public class ClientTest {
+public class ControlQualityTest {
 
     @Test
     public void whenAddMilkToStorage() {
-        Client client = new Client();
+        ControlQuality cq = new ControlQuality();
         Food milk = new Food("milk", LocalDate.now(),
                 LocalDate.now().plusDays(8), 60);
-        client.addFoodToStorages(milk);
-        assertThat(true, is(client.getWarehouse().getStorage().contains(milk)));
+        cq.add(milk);
+        assertThat(true, is(cq.getStorageList().get(0).getStorage().contains(milk)));
     }
 
     @Test
     public void whenAddCheeseToStorage() {
-        Client client = new Client();
+        ControlQuality cq = new ControlQuality();
         Food cheese = new Food("milk", LocalDate.now().minusDays(10),
                 LocalDate.now().plusDays(10), 600);
-        client.addFoodToStorages(cheese);
-        assertThat(true, is(client.getShop().getStorage().contains(cheese)));
+        cq.add(cheese);
+        assertThat(true, is(cq.getStorageList().get(1).getStorage().contains(cheese)));
     }
 
     @Test
     public void whenAddBreadToStorage() {
-        Client client = new Client();
+        ControlQuality cq = new ControlQuality();
         Food bread = new Food("milk", LocalDate.now().minusDays(10),
                 LocalDate.now().minusDays(2), 30);
-        client.addFoodToStorages(bread);
-        assertThat(true, is(client.getTrash().getStorage().contains(bread)));
+        cq.add(bread);
+        assertThat(true, is(cq.getStorageList().get(2).getStorage().contains(bread)));
     }
+
 }
