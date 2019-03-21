@@ -15,7 +15,7 @@ public class ControlQualityTest {
         Food milk = new Food("milk", LocalDate.now(),
                 LocalDate.now().plusDays(8), 60);
         cq.add(milk);
-        assertThat(true, is(cq.getStorageList().get(0).getStorage().contains(milk)));
+        assertThat(true, is(cq.load().get(0).getStorage().contains(milk)));
     }
 
     @Test
@@ -24,7 +24,7 @@ public class ControlQualityTest {
         Food cheese = new Food("milk", LocalDate.now().minusDays(10),
                 LocalDate.now().plusDays(10), 600);
         cq.add(cheese);
-        assertThat(true, is(cq.getStorageList().get(1).getStorage().contains(cheese)));
+        assertThat(true, is(cq.load().get(1).getStorage().contains(cheese)));
     }
 
     @Test
@@ -33,7 +33,7 @@ public class ControlQualityTest {
         Food bread = new Food("milk", LocalDate.now().minusDays(10),
                 LocalDate.now().minusDays(2), 30);
         cq.add(bread);
-        assertThat(true, is(cq.getStorageList().get(2).getStorage().contains(bread)));
+        assertThat(true, is(cq.load().get(2).getStorage().contains(bread)));
     }
 
 }

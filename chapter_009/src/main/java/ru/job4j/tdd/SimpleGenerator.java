@@ -20,27 +20,26 @@ import java.util.regex.Pattern;
 public class SimpleGenerator implements Template {
 
     private static final String REGEX = "\\$\\{(.*?)}";
+    private static final Pattern PATTERN = Pattern.compile(REGEX);
+
 
     @Override
     public String generate(String template, Map<String, String> data) {
         Set<String> usedKeys = new HashSet<>();
-        Matcher m = Pattern.compile(REGEX).matcher(template);
-        String key;
-        String value;
+        Matcher m = PATTERN.matcher(template);
         String result = null;
         while (m.find()) {
-            key = m.group(1);
-            if (data.containsKey(key)) {
-                value = data.get(key);
-                usedKeys.add(key);
-                result = m.replaceFirst(value);
-                m = Pattern.compile(REGEX).matcher(result);
-            } else {
+            final String key = m.group(1);
+            if (!data.containsKey(key)) {
                 throw new UnsupportedOperationException("Ключ не найден!");
             }
+            final String value = data.get(key);
+            usedKeys.add(key);
+            result = m.replaceFirst(value);
+            m = PATTERN.matcher(result);
         }
         if (!usedKeys.containsAll(data.keySet())) {
-            throw new RedundantKeyException("Лишние ключи в карте!");
+            throw new UnsupportedOperationException("Лишние ключи в карте!");
         }
         return result;
     }

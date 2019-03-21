@@ -29,34 +29,24 @@ public class SimpleGeneratorTest {
 
     @Test
     public void whenTakeTextWithMoreDataShouldReplaceParamsToData() {
-        //assign
         Template template = new SimpleGenerator();
         String text = "I am a ${name}, Who are ${subject}?";
         Map<String, String> data = new HashMap<>();
         data.put("name", "Petr");
         data.put("subject", "you");
         String checked = "I am a Petr, Who are you?";
-
-        //act
         String result = template.generate(text, data);
-
-        //action
         assertThat(result, is(checked));
     }
 
     @Test
     public void whenTakeTextWithTripleDataShouldReplaceParamsToData() {
-        //assign
         Template template = new SimpleGenerator();
         String text = " Help, ${sos}, ${sos}, ${sos}";
         Map<String, String> data = new HashMap<>();
         data.put("sos", "Aaa");
         String checked = " Help, Aaa, Aaa, Aaa";
-
-        //act
         String result = template.generate(text, data);
-
-        //action
         assertThat(result, is(checked));
     }
 
@@ -67,11 +57,10 @@ public class SimpleGeneratorTest {
         Map<String, String> data = new HashMap<>();
         data.put("name", "Petr");
         String checked = "Hello, Petr.";
-
         String result = template.generate(text, data);
     }
 
-    @Test(expected = RedundantKeyException.class)
+    @Test(expected = UnsupportedOperationException.class)
     public void whenTakeDataWithRedundantKeysThenThrowsException() {
         Template template = new SimpleGenerator();
         String text = "Hello, ${name}.";
@@ -79,7 +68,6 @@ public class SimpleGeneratorTest {
         data.put("name", "Petr");
         data.put("subject", "you");
         String checked = "Hello, Petr.";
-
         String result = template.generate(text, data);
     }
 

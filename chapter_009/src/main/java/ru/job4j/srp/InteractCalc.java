@@ -18,15 +18,21 @@ public class InteractCalc {
     /**
      * String value for return result of last operation.
      */
-    public static final String LAST_RESULT = "r";
+    private static final String LAST_RESULT = "r";
+
+    /**
+     * Double value for return result of last operation.
+     */
+    private Double result;
+
     /**
      * String value for exit from main loop.
      */
-    public static final String EXIT = "exit";
+    private static final String EXIT = "exit";
     /**
      * String value for separate lines.
      */
-    public static final String LN = System.lineSeparator();
+    private static final String LN = System.lineSeparator();
 
     /**
      * Default constructor.
@@ -38,29 +44,6 @@ public class InteractCalc {
         calculator.init();
         this.calculator = calculator;
     }
-/*
-    public void init() {
-        this.calculator.getFunctionMap().put("+", (x, y) -> {
-            this.calculator.add(x, y);
-            return this.calculator.getResult();
-        });
-        this.calculator.getFunctionMap().put("-", (x, y) -> {
-            this.calculator.subtract(x, y);
-            return this.calculator.getResult();
-        });
-        this.calculator.getFunctionMap().put("*", (x, y) -> {
-            this.calculator.multiple(x, y);
-            return this.calculator.getResult();
-        });
-        this.calculator.getFunctionMap().put("/", (x, y) -> {
-            this.calculator.div(x, y);
-            return this.calculator.getResult();
-        });
-        this.calculator.getFunctionMap().put("sin", (x, y) -> {
-           this.calculator.setResult(x * Math.sin(y));
-           return  this.calculator.getResult();
-        });
-    }*/
 
     /**
      * Shows start menu.
@@ -99,7 +82,7 @@ public class InteractCalc {
         String[] strings = input.split("\\s+");
         for (int i = 0; i < strings.length; i++) {
             if (strings[i].equals(LAST_RESULT)) {
-                strings[i] = String.valueOf(calculator.getResult());
+                strings[i] = String.valueOf(this.result);
             }
         }
         return strings;
@@ -116,11 +99,12 @@ public class InteractCalc {
         double firstNumber = Double.valueOf(strings[0]);
         double secondNumber = Double.valueOf(strings[2]);
         String action = strings[1];
-        if (this.calculator.getFunctionMap().containsKey(action)) {
-            return this.calculator.getFunctionMap().get(action).apply(firstNumber, secondNumber);
-        } else {
+        if (!this.calculator.getFunctionMap().containsKey(action)) {
             throw new UnsupportedOperationException("Математическое действие не разпознано.");
         }
+        this.result = this.calculator.getFunctionMap().get(action).apply(firstNumber, secondNumber);
+        return this.result;
+
     }
 
     /**
