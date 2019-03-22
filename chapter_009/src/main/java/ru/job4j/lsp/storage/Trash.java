@@ -21,7 +21,7 @@ public class Trash implements Storage {
     }
 
     @Override
-    public List getStorage() {
+    public List<Food> getStorage() {
         return this.storage;
     }
 }

@@ -12,8 +12,11 @@ public class ControlQuality {
     }
 
     public void init() {
+        this.store.add(new ColdWarehouse(new Warehouse(new ArrayList<>())));
         this.store.add(new Warehouse(new ArrayList<>()));
+        this.store.add(new NewWarehouse(new Warehouse(new ArrayList<>())));
         this.store.add(new Shop(new ArrayList<>()));
+        this.store.add(new Recycler(new Trash(new ArrayList<>())));
         this.store.add(new Trash(new ArrayList<>()));
     }
 
@@ -22,6 +25,7 @@ public class ControlQuality {
         for (Storage storage : this.store) {
             if (storage.isAppropriate(food)) {
                 storage.add(food);
+                break;
             }
         }
     }

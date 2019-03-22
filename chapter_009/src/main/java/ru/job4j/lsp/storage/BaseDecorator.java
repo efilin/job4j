@@ -2,29 +2,26 @@ package ru.job4j.lsp.storage;
 
 import java.util.List;
 
-public class Shop implements Storage {
+public class BaseDecorator implements Storage {
 
-    private List<Food> storage;
+    private Storage storage;
 
-    public Shop(List<Food> storage) {
+    public BaseDecorator(Storage storage) {
         this.storage = storage;
     }
 
     @Override
     public boolean isAppropriate(Food food) {
-        return food.getExpirePercent() > 25 && food.getExpirePercent() < 100;
+        return this.storage.isAppropriate(food);
     }
 
     @Override
     public boolean add(Food food) {
-        if (food.getExpirePercent() >= 75) {
-            food.setDiscount(25);
-        }
         return this.storage.add(food);
     }
 
     @Override
     public List<Food> getStorage() {
-        return this.storage;
+        return this.storage.getStorage();
     }
 }
