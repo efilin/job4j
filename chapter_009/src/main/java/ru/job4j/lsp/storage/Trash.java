@@ -21,6 +21,11 @@ public class Trash implements Storage {
     }
 
     @Override
+    public void clearStorage() {
+        this.storage.clear();
+    }
+
+    @Override
     public List<Food> getStorage() {
         return this.storage;
     }

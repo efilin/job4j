@@ -21,6 +21,11 @@ public class BaseDecorator implements Storage {
     }
 
     @Override
+    public void clearStorage() {
+        this.storage.clearStorage();
+    }
+
+    @Override
     public List<Food> getStorage() {
         return this.storage.getStorage();
     }

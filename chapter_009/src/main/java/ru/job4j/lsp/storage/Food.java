@@ -64,6 +64,10 @@ public class Food {
         this.discount = discount;
     }
 
+    public void setVegetable(boolean vegetable) {
+        isVegetable = vegetable;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {

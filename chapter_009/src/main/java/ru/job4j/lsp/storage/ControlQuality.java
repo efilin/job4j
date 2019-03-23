@@ -30,6 +30,15 @@ public class ControlQuality {
         }
     }
 
+    public void resort() {
+        List<Food> foods = new ArrayList<>();
+        for (Storage storage : store) {
+            foods.addAll(storage.getStorage());
+            storage.clearStorage();
+        }
+        foods.forEach(this::add);
+    }
+
     public List<Storage> load() {
         return store;
     }

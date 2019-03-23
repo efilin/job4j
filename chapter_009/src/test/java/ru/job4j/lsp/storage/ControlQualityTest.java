@@ -54,4 +54,14 @@ public class ControlQualityTest {
         assertThat(cq.load().get(0).getStorage().contains(pepper), is(true));
     }
 
+    @Test
+    public void whenResortAll() {
+        ControlQuality cq = new ControlQuality();
+        Food milk = new Food("milk", LocalDate.now().minusDays(1),
+                LocalDate.now().plusDays(8), 60, false, false);
+        cq.add(milk);
+        cq.load().get(1).getStorage().get(0).setVegetable(true);
+        cq.resort();
+        assertThat(cq.load().get(0).getStorage().contains(milk), is(true));
+    }
 }

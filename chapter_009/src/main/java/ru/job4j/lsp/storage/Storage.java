@@ -9,5 +9,8 @@ public interface Storage {
 
     boolean add(Food food);
 
+    void clearStorage();
+
     List<Food> getStorage();
+
 }
