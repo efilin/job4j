@@ -2,6 +2,7 @@ package ru.job4j.tracker;
 
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -14,7 +15,7 @@ import java.util.function.Consumer;
 
 public class StartUI {
 
-    private List<Integer> ranges;
+    private List<Integer> ranges = Arrays.asList(0,1,2,3,4,5,6);
     /**
      * Константа меню для добавления новой заявки.
      */
