@@ -15,7 +15,7 @@ import java.util.function.Consumer;
 
 public class StartUI {
 
-    private List<Integer> ranges = Arrays.asList(0,1,2,3,4,5,6);
+    private List<Integer> ranges = Arrays.asList(0, 1, 2, 3, 4, 5, 6);
     /**
      * Константа меню для добавления новой заявки.
      */
