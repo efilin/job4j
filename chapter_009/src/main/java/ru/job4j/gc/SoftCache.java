@@ -15,25 +15,25 @@ import java.util.stream.Collectors;
 
 public class SoftCache {
 
-    Scanner scanner = new Scanner(System.in);
+    private Scanner scanner;
     private SoftHashMap<String, String> softMap = new SoftHashMap<>();
 
     private static final String LN = System.lineSeparator();
 
     private static final String START_MESSAGE = Joiner.on(LN)
-            .join("Программа с Кэшем на SoftReference"
-                    , "Программа считывает данные из кэша по имени файла"
-                    , "если данных в кэше нет, записывает в кэш из файла"
-                    , "Для выхода из программы введите exit");
+            .join("Программа с Кэшем на SoftReference",
+                    "Программа считывает данные из кэша по имени файла",
+                    "если данных в кэше нет, записывает в кэш из файла",
+                    "Для выхода из программы введите exit");
     private static final String ENTER_FILENAME = "Введите имя файла:";
     private static final String EXIT = "exit";
     private final String directory;
 
-    public SoftCache(String directory) {
+    public SoftCache(String directory, Scanner scanner) {
         this.directory = directory;
+        this.scanner = scanner;
     }
 
-    //Shows start text, and wait for filename
     public void show() throws IOException {
         System.out.println(START_MESSAGE);
         String input;
@@ -45,25 +45,26 @@ public class SoftCache {
             if (output != null) {
                 System.out.println(output);
             } else {
-                // Загрузить в кэш
                 loadToCache(input);
-                // прочитать из кэша
                 System.out.println(this.softMap.get(input));
             }
         } while (!input.equalsIgnoreCase(EXIT));
     }
 
     public void loadToCache(String filename) throws IOException {
-        try (BufferedReader bw = new BufferedReader(new FileReader(this.directory + "/" + filename))) {
-            String value = bw.lines().collect(Collectors.joining());
-            this.softMap.put(filename, value);
-        } catch (FileNotFoundException e) {
-            System.out.println("Файл не найден");
+        File file = new File(this.directory + "/" + filename);
+        if (file.exists()) {
+            try (BufferedReader bw = new BufferedReader(new FileReader(file))) {
+                String value = bw.lines().collect(Collectors.joining());
+                this.softMap.put(filename, value);
+            }
+        } else {
+            System.out.println("Файл не найден, введите правильное имя файла.");
         }
     }
 
     public static void main(String[] args) throws IOException {
-        SoftCache cache = new SoftCache(System.getProperty("java.io.tmpdir"));
+        SoftCache cache = new SoftCache(System.getProperty("java.io.tmpdir"), new Scanner(System.in));
         cache.show();
     }
 }
