@@ -1,19 +1,31 @@
 package ru.job4j.tictactoe;
 
+import java.util.Scanner;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Logic {
+    private static final String CHOOSE_MOVE_AND_COLUMN = "Введите ваш ход" + System.lineSeparator() + "Введите номер столбца:";
+    private static final String CHOOSE_ROW = "Введите номер строки:";
+    private static final String NO_MOVES = "Ходов не осталось";
+    private static final String CROSSES_IS_WIN = "Крестики победили";
+    private static final String ZEROES_IS_WIN = "Нолики победили";
+    private static final char CROSS = 'X';
+    private static final char ZERO = 'O';
+
+
     private Field field;
     private final int winLine;
+    private Scanner scanner;
 
-    public Logic(Field field, final int winLine) {
+    public Logic(Scanner scanner, Field field, final int winLine) {
+        this.scanner = scanner;
         this.field = field;
         this.winLine = winLine;
     }
 
     public boolean isWin(char sign) {
-        return field.isCharFillLine(sign, winLine, 0, 0, 1, 0)
+        boolean result = field.isCharFillLine(sign, winLine, 0, 0, 1, 0)
                 || field.isCharFillLine(sign, winLine, 0, 0, 0, 1)
                 || field.isCharFillLine(sign, winLine, 0, 0, 1, 1)
                 || field.isCharFillLine(sign, winLine, 1, 0, 0, 1)
@@ -21,22 +33,66 @@ public class Logic {
                 || field.isCharFillLine(sign, winLine, 0, 1, 1, 0)
                 || field.isCharFillLine(sign, winLine, 0, this.field.loadSize() - 1, 1, 0)
                 || field.isCharFillLine(sign, winLine, this.field.loadSize() - 1, 0, -1, 1);
+        if (result) {
+            if (sign == CROSS) {
+                System.out.println(CROSSES_IS_WIN);
+            } else if (sign == ZERO) {
+                System.out.println(ZEROES_IS_WIN);
+            }
+        }
+        return result;
     }
+
 
     public void computerMove() {
-        int column;
-        int row;
-        do {
-            column = (int) (Math.random() * field.loadSize());
-            row = (int) (Math.random() * field.loadSize());
-        } while (field.isCellOccupied(column, row));
-        setO(column, row);
+        if (!hasGap()) {
+            System.out.println(NO_MOVES);
+        } else {
+            int column;
+            int row;
+            do {
+                column = (int) (Math.random() * field.loadSize());
+                row = (int) (Math.random() * field.loadSize());
+            } while (field.isCellOccupied(column, row));
+            setO(column, row);
+            printField();
+        }
     }
 
+    public void userMove() {
+        String column;
+        String row;
+        do {
+            System.out.println(CHOOSE_MOVE_AND_COLUMN);
+            column = this.scanner.nextLine();
+            System.out.println(CHOOSE_ROW);
+            row = this.scanner.nextLine();
+        } while (!inputValidate(column, row));
+        setX(Integer.parseInt(column), Integer.parseInt(row));
+        printField();
+    }
+
+    public void move(int moveCounter) {
+        if (moveCounter % 2 == 0) {
+            computerMove();
+        } else {
+            userMove();
+        }
+    }
+
+    public boolean hasWinner(int moveCounter) {
+        return moveCounter % 2 == 0 ? isWin(CROSS) : isWin(ZERO);
+    }
+
+
     public boolean hasGap() {
-        return Stream.of(this.field.loadField())
+        boolean result = Stream.of(this.field.loadField())
                 .flatMap(e -> IntStream.range(0, e.length).mapToObj(i -> e[i]))
                 .anyMatch(e -> e == '.');
+        if (!result) {
+            System.out.println(NO_MOVES);
+        }
+        return result;
     }
 
     public void setX(int column, int row) {
