@@ -1,5 +1,7 @@
 package ru.job4j.crud;
 
+import java.util.List;
+
 public class ValidateService implements Validate {
 
     private final Store logic = MemoryStore.getInstance();
@@ -48,13 +50,12 @@ public class ValidateService implements Validate {
     }
 
     @Override
-    public String findAll() {
-        String result;
-        if (this.logic.findAll().size() == 0) {
-            result = "List of users is empty";
-        } else {
-            result = this.logic.findAll().toString();
-        }
-        return result;
+    public List<User> findAll() {
+        return this.logic.findAll();
+    }
+
+    @Override
+    public User findById(int id) {
+        return this.logic.findById(id);
     }
 }

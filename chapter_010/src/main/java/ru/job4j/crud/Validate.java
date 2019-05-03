@@ -1,5 +1,7 @@
 package ru.job4j.crud;
 
+import java.util.List;
+
 public interface Validate {
     String add(User user);
 
@@ -7,5 +9,7 @@ public interface Validate {
 
     String delete(int id);
 
-    String findAll();
+    List<User> findAll();
+
+    User findById(int id);
 }
