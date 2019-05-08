@@ -28,6 +28,18 @@ public class User {
         return name;
     }
 
+    public String getLogin() {
+        return login;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public String getCreateDate() {
+        return createDate;
+    }
+
     @Override
     public String toString() {
         return "User{"
