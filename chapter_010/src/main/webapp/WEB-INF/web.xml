@@ -5,13 +5,13 @@
          http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
          version="2.4">
     <servlet>
-        <servlet-name>UserServlet</servlet-name>
-        <servlet-class>ru.job4j.crud.UserServlet</servlet-class>
+        <servlet-name>User Controller Servlet</servlet-name>
+        <servlet-class>ru.job4j.crud.UserController</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>UserServlet</servlet-name>
-        <url-pattern>/list</url-pattern>
+        <servlet-name>User Controller Servlet</servlet-name>
+        <url-pattern>/</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>EchoServlet</servlet-name>
@@ -23,12 +23,12 @@
         <url-pattern>/echo</url-pattern>
     </servlet-mapping>
     <servlet>
-        <servlet-name>UserUpdateServlet</servlet-name>
-        <servlet-class>ru.job4j.crud.UserUpdateServlet</servlet-class>
+        <servlet-name>User Update Controller Servlet</servlet-name>
+        <servlet-class>ru.job4j.crud.UserUpdateController</servlet-class>
         <load-on-startup>1</load-on-startup>
     </servlet>
     <servlet-mapping>
-        <servlet-name>UserUpdateServlet</servlet-name>
+        <servlet-name>User Update Controller Servlet</servlet-name>
         <url-pattern>/update</url-pattern>
     </servlet-mapping>
 </web-app>
