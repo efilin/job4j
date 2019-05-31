@@ -6,14 +6,20 @@ public class User {
     private String login;
     private String email;
     private String createDate;
+    private String password;
+    private String role;
 
-    public User(String name) {
+    public User(String name, String password, String role) {
         this.name = name;
+        this.password = password;
+        this.role = role;
     }
 
-    public User(int id, String name) {
+    public User(int id, String name, String password, String role) {
         this.id = id;
         this.name = name;
+        this.password = password;
+        this.role = role;
     }
 
     public int getId() {
@@ -40,6 +46,14 @@ public class User {
         return createDate;
     }
 
+    public String getPassword() {
+        return password;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
     @Override
     public String toString() {
         return "User{"
@@ -48,6 +62,8 @@ public class User {
                 + ", login='" + login + '\''
                 + ", email='" + email + '\''
                 + ", createDate='" + createDate + '\''
+                + ", password='" + password + '\''
+                + ", role='" + role + '\''
                 + '}';
     }
 }

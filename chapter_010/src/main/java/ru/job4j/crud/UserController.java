@@ -4,6 +4,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -27,8 +28,9 @@ public class UserController extends HttpServlet {
         req.getRequestDispatcher("/WEB-INF/views/UsersView.jsp").forward(req, resp);
     }
 
+
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws IOException, ServletException {
         resp.setContentType("text/html");
         String key = req.getParameter("action");
         int id = -1;
@@ -36,8 +38,16 @@ public class UserController extends HttpServlet {
             id = Integer.parseInt(req.getParameter("id"));
         }
         String name = req.getParameter("name");
-        this.actions.get(key).apply(new User(id, name));
-        resp.sendRedirect(String.format("%s/", req.getContextPath()));
+        String password = req.getParameter("password");
+        String role = req.getParameter("role");
+        HttpSession session = req.getSession();
+        if (session.getAttribute("role").equals("administrator")) {
+            this.actions.get(key).apply(new User(id, name, password, role));
+            resp.sendRedirect(String.format("%s/", req.getContextPath()));
+        } else {
+            req.setAttribute("error", "Access denied. Not enough access rights.");
+            doGet(req, resp);
+        }
     }
 
     public String add(User user) {

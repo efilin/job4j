@@ -13,9 +13,22 @@
     <meta charset='UTF-8'>
 </head>
 <body>
+<c:if test="${error !=''}">
+    <div style="background-color: red">
+        <c:out value="${error}"/>
+    </div>
+</c:if>
+<form action="${pageContext.servletContext.contextPath}/logout" method="get">
+    <input type="submit" value="Logout"/>
+</form>
 <form action="${pageContext.servletContext.contextPath}/" method="post">
     <input type="hidden" name="action" value="add"/>
-    Name : <input type="text" name="name"/>
+    Name : <input type="text" name="name"/><br>
+    Password : <input type="password" name="password"/><br>
+    <select name="role">
+        <option value="user">user</option>
+        <option value="administrator">administrator</option>
+    </select>
     <input type="submit" value="Create"/>
 </form>
 <table>

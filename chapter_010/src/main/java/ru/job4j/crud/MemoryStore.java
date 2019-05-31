@@ -47,6 +47,23 @@ public final class MemoryStore implements Store {
                 .findFirst().orElse(null);
     }
 
+    @Override
+    public boolean isCredential(String name, String password) {
+        boolean exists = false;
+        for (User user: this.users) {
+            if (user.getName().equals(name) && user.getPassword().equals(password)) {
+                exists = true;
+                break;
+            }
+        }
+        return exists;
+    }
+
+    @Override
+    public String userRole(String name, String password) {
+        return null;
+    }
+
     private int generateId() {
         return RN.nextInt();
     }

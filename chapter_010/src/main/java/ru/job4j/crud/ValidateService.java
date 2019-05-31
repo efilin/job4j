@@ -58,4 +58,14 @@ public class ValidateService implements Validate {
     public User findById(int id) {
         return this.logic.findById(id);
     }
+
+    @Override
+    public boolean isCredential(String name, String password) {
+        return this.logic.isCredential(name, password);
+    }
+
+    @Override
+    public String userRole(String name, String password) {
+        return this.logic.userRole(name, password);
+    }
 }

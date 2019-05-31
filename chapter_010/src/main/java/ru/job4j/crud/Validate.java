@@ -12,4 +12,8 @@ public interface Validate {
     List<User> findAll();
 
     User findById(int id);
+
+    boolean isCredential(String name, String password);
+
+    String userRole(String name, String password);
 }

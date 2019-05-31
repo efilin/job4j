@@ -5,7 +5,6 @@ import org.apache.commons.dbcp2.BasicDataSource;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class DbStore implements Store {
 
@@ -25,9 +24,12 @@ public class DbStore implements Store {
             Connection connection = SOURCE.getConnection();
             Statement stat = connection.createStatement();
             stat.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS users(id SERIAL PRIMARY KEY, name VARCHAR(100), login VARCHAR(100),email VARCHAR(100),create_date VARCHAR(100));");
+                    "CREATE TABLE IF NOT EXISTS users(id SERIAL PRIMARY KEY, name VARCHAR(100), login VARCHAR(100),email VARCHAR(100),create_date VARCHAR(100), password VARCHAR(100), role VARCHAR(100));");
         } catch (SQLException e) {
             e.printStackTrace();
+        }
+        if (!isCredential("root", "root")) {
+            add(new User("root", "root", "administrator"));
         }
     }
 
@@ -40,12 +42,14 @@ public class DbStore implements Store {
         boolean result = false;
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement pStat = connection.prepareStatement(
-                     "INSERT INTO users(name, login, email, create_date) values (?,?,?,?);")
+                     "INSERT INTO users(name, login, email, create_date, password, role) values (?,?,?,?,?,?);")
         ) {
             pStat.setString(1, user.getName());
             pStat.setString(2, user.getLogin());
             pStat.setString(3, user.getEmail());
             pStat.setString(4, user.getCreateDate());
+            pStat.setString(5, user.getPassword());
+            pStat.setString(6, user.getRole());
             pStat.executeUpdate();
             result = true;
         } catch (Exception e) {
@@ -58,13 +62,15 @@ public class DbStore implements Store {
     public void update(int id, User user) {
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement pStat = connection.prepareStatement(
-                     "UPDATE users SET name = ?, login = ?, email = ?, create_date = ? WHERE id = ?")
+                     "UPDATE users SET name = ?, login = ?, email = ?, create_date = ?, password = ?, role = ? WHERE id = ?")
         ) {
             pStat.setString(1, user.getName());
             pStat.setString(2, user.getLogin());
             pStat.setString(3, user.getEmail());
             pStat.setString(4, user.getCreateDate());
-            pStat.setInt(5, id);
+            pStat.setString(5, user.getPassword());
+            pStat.setString(6, user.getRole());
+            pStat.setInt(7, id);
             pStat.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -95,7 +101,7 @@ public class DbStore implements Store {
              Statement stat = connection.createStatement()) {
             ResultSet rs = stat.executeQuery("SELECT * FROM users");
             while (rs.next()) {
-                User user = new User(rs.getInt("id"), rs.getString("name"));
+                User user = new User(rs.getInt("id"), rs.getString("name"), rs.getString("password"), rs.getString("role"));
                 result.add(user);
             }
 
@@ -113,7 +119,41 @@ public class DbStore implements Store {
             pStat.setInt(1, id);
             ResultSet rs = pStat.executeQuery();
             while (rs.next()) {
-                result = new User(rs.getInt("id"), rs.getString("name"));
+                result = new User(rs.getInt("id"), rs.getString("name"), rs.getString("password"), rs.getString("role"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @Override
+    public boolean isCredential(String name, String password) {
+        User result = null;
+        try (Connection connection = SOURCE.getConnection();
+             PreparedStatement pStat = connection.prepareStatement("SELECT * FROM users WHERE name=? AND password=?")) {
+            pStat.setString(1, name);
+            pStat.setString(2, password);
+            ResultSet rs = pStat.executeQuery();
+            while (rs.next()) {
+                result = new User(rs.getInt("id"), rs.getString("name"), rs.getString("password"), rs.getString("role"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result != null;
+    }
+
+    @Override
+    public String userRole(String name, String password) {
+        String result = null;
+        try (Connection connection = SOURCE.getConnection();
+             PreparedStatement pStat = connection.prepareStatement("SELECT * FROM users WHERE name=? AND password=?")) {
+            pStat.setString(1, name);
+            pStat.setString(2, password);
+            ResultSet rs = pStat.executeQuery();
+            while (rs.next()) {
+                result = rs.getString("role");
             }
         } catch (SQLException e) {
             e.printStackTrace();
