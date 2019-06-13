@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Bootstrap Example</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container-fluid">
+    <h1>My First Bootstrap Page</h1>
+</div>
+
+<form action="/action_page.php">
+    <div class="form-group">
+        <label for="name">First name:</label>
+        <input type="text" class="form-control" id="name">
+    </div>
+    <div class="form-group">
+        <label for="lastName">Last name:</label>
+        <input type="text" class="form-control" id="lastName">
+    </div>
+    <div class="form-group">
+        <label>Gender:</label>
+        <label class="radio-inline"><input type="radio" name="optradio" checked>Male</label>
+        <label class="radio-inline"><input type="radio" name="optradio">Female</label>
+    </div>
+    <div class="form-group">
+        <label for="desc">Description:</label>
+        <textarea class="form-control" rows="3" id="desc"></textarea>
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button>
+</form>
+
+<div class="container">
+    <h2>Table</h2>
+    <table class="table table-bordered">
+        <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Gender</th>
+            <th>Description</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr>
+            <td>Ivan</td>
+            <td>Petrov</td>
+            <td>Male</td>
+            <td>Null</td>
+        </tr>
+        <tr>
+            <td>Anna</td>
+            <td>Ivanova</td>
+            <td>Female</td>
+            <td>Null</td>
+        </tr>
+        <tr>
+            <td>Alex</td>
+            <td>Sidorov</td>
+            <td>Male</td>
+            <td>Null</td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+</body>
+</html>
