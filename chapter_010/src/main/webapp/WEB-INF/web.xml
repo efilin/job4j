@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
          http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
          version="2.4">
-    <filter>
+    <!--<filter>
         <filter-name>AuthFilter</filter-name>
         <filter-class>ru.job4j.crud.AuthFilter</filter-class>
     </filter>
@@ -19,7 +19,19 @@
     <filter-mapping>
         <filter-name>AccessFilter</filter-name>
         <url-pattern>/update</url-pattern>
-    </filter-mapping>
+    </filter-mapping>-->
+    <welcome-file-list>
+        <welcome-file>index.html</welcome-file>
+    </welcome-file-list>
+    <servlet>
+        <servlet-name>JsonController</servlet-name>
+        <servlet-class>ru.job4j.crud.JsonController</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>JsonController</servlet-name>
+        <url-pattern>/json</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>User Controller Servlet</servlet-name>
         <servlet-class>ru.job4j.crud.UserController</servlet-class>
@@ -27,7 +39,7 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>User Controller Servlet</servlet-name>
-        <url-pattern>/</url-pattern>
+        <url-pattern>/users</url-pattern>
     </servlet-mapping>
     <servlet>
         <servlet-name>EchoServlet</servlet-name>

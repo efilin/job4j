@@ -26,10 +26,54 @@
                 var lastName = $('#lastName').val();
                 var gender = $("[name='gender']:checked").val();
                 var desc = $('#desc').val();
-                //alert(gender);
                 $('#table tr:last').after('<tr><td>' + name + '</td><td>' + lastName + '</td><td>' + gender + '</td><td>' + desc + '</td></tr>');
             }
         }
+
+        function sendData() {
+            if (validate()) {
+                var data = {
+                    "name": $('#name').val(),
+                    "lastName": $('#lastName').val(),
+                    "gender": $("[name='gender']:checked").val(),
+                    "desc": $('#desc').val()
+                };
+                $.ajax({
+                    method: "post",
+                    url: "json",
+                    data: JSON.stringify(data),
+                    contentType: "application/json",
+                    complete: function () {
+                        readData();
+                    }
+                });
+            }
+        }
+
+        function clearTable() {
+            $("#table").find("tr:gt(0)").remove();
+        }
+
+        function readData() {
+            $.ajax({
+                method: "get",
+                url: "json",
+                contentType: "text/json",
+                complete: function (data) {
+                    clearTable();
+                    var users = JSON.parse(data.responseText);
+                    for (var i = 0; i !== users.length; ++i) {
+                        var name = users[i].name;
+                        var lastName = users[i].lastName;
+                        var gender = users[i].gender;
+                        var desc = users[i].desc;
+                        $('#table tr:last')
+                            .after('<tr><td>' + name + '</td><td>' + lastName + '</td><td>' + gender + '</td><td>' + desc + '</td></tr>');
+                    }
+                }
+            })
+        }
+
     </script>
 </head>
 <body>
@@ -57,6 +101,8 @@
         <textarea class="form-control" rows="3" id="desc"></textarea>
     </div>
     <button type="button" class="btn btn-default" onclick="validate(); addRow();">Submit</button>
+    </div>
+    <button type="button" class="btn btn-default" value="Ajax" onclick="sendData();">Ajax</button>
 </form>
 
 <div class="container">
@@ -71,24 +117,6 @@
         </tr>
         </thead>
         <tbody>
-        <tr>
-            <td>Ivan</td>
-            <td>Petrov</td>
-            <td>Male</td>
-            <td>Null</td>
-        </tr>
-        <tr>
-            <td>Anna</td>
-            <td>Ivanova</td>
-            <td>Female</td>
-            <td>Null</td>
-        </tr>
-        <tr>
-            <td>Alex</td>
-            <td>Sidorov</td>
-            <td>Male</td>
-            <td>Null</td>
-        </tr>
         </tbody>
     </table>
 </div>
