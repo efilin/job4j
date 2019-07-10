@@ -1,7 +1,6 @@
 package ru.job4j.crud;
 
 import org.junit.After;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.powermock.api.mockito.PowerMockito;
@@ -43,7 +42,7 @@ public class UserControllerTest {
 
     @Test
     public void whenAddUserThenUpdateIt() throws IOException, ServletException {
-        validate.add(new User("Bill", "root", "administrator"));
+        validate.add(new User("Bill", "root", "administrator", "Russia", "Moscow"));
         int id = validate.findAll().iterator().next().getId();
         PowerMockito.mockStatic(ValidateService.class);
         when(ValidateService.getInstance()).thenReturn(validate);
@@ -63,8 +62,8 @@ public class UserControllerTest {
 
     @Test
     public void whenAddUserThenDeleteIt() throws IOException, ServletException {
-        validate.add(new User("Bill", "root", "administrator"));
-        validate.add(new User("Alex", "root", "administrator"));
+        validate.add(new User("Bill", "root", "administrator", "Russia", "Moscow"));
+        validate.add(new User("Alex", "root", "administrator", "Russia", "Moscow"));
         int id = validate.findAll().iterator().next().getId();
         PowerMockito.mockStatic(ValidateService.class);
         when(ValidateService.getInstance()).thenReturn(validate);

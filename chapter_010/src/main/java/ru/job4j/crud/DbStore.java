@@ -4,6 +4,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class DbStore implements Store {
@@ -12,7 +13,6 @@ public class DbStore implements Store {
     private static final Store INSTANCE = new DbStore();
 
     public DbStore() {
-
         SOURCE.setDriverClassName("org.postgresql.Driver");
         SOURCE.setUrl("jdbc:postgresql://localhost:5432/postgres");
         SOURCE.setUsername("postgres");
@@ -23,13 +23,15 @@ public class DbStore implements Store {
         try {
             Connection connection = SOURCE.getConnection();
             Statement stat = connection.createStatement();
-            stat.executeUpdate(
-                    "CREATE TABLE IF NOT EXISTS users(id SERIAL PRIMARY KEY, name VARCHAR(100), login VARCHAR(100),email VARCHAR(100),create_date VARCHAR(100), password VARCHAR(100), role VARCHAR(100));");
+            if (isTableEmpty(stat, "countries")) {
+                addCountries(connection);
+                addCities(connection);
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         if (!isCredential("root", "root")) {
-            add(new User("root", "root", "administrator"));
+            add(new User("root", "root", "administrator", "Russia", "Moscow"));
         }
     }
 
@@ -37,12 +39,57 @@ public class DbStore implements Store {
         return INSTANCE;
     }
 
+    public boolean isTableEmpty(Statement stat, String tableName) {
+        boolean result = false;
+        try {
+            ResultSet rs = stat.executeQuery("SELECT * FROM " + tableName);
+            if (!rs.next()) {
+                result = true;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public void addCountries(Connection connection) {
+        try (PreparedStatement pStat = connection.prepareStatement("INSERT INTO countries(name) VALUES (?);")) {
+            pStat.setString(1, "Russia");
+            pStat.addBatch();
+            pStat.setString(1, "USA");
+            pStat.addBatch();
+            pStat.setString(1, "Germany");
+            pStat.addBatch();
+            pStat.executeBatch();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void addCities(Connection connection) {
+        List<String> countryList = Arrays.asList(
+                "Moscow", "SPB", "Sochi", "NY", "LA", "Chicago", "Berlin", "Munich", "Hamburg");
+        int counter = 0;
+        try (PreparedStatement pStat = connection.prepareStatement("INSERT INTO cities(country_id, name) VALUES (?,?);")) {
+            for (String city : countryList) {
+                counter++;
+                pStat.setInt(1, (int) Math.ceil(counter / 3.0));
+                pStat.setString(2, city);
+                pStat.addBatch();
+            }
+            pStat.executeBatch();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
     @Override
     public boolean add(User user) {
         boolean result = false;
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement pStat = connection.prepareStatement(
-                     "INSERT INTO users(name, login, email, create_date, password, role) values (?,?,?,?,?,?);")
+                     "INSERT INTO users(name, login, email, create_date, password, role, country, city) values (?,?,?,?,?,?,?,?);")
         ) {
             pStat.setString(1, user.getName());
             pStat.setString(2, user.getLogin());
@@ -50,6 +97,8 @@ public class DbStore implements Store {
             pStat.setString(4, user.getCreateDate());
             pStat.setString(5, user.getPassword());
             pStat.setString(6, user.getRole());
+            pStat.setString(7, user.getCountry());
+            pStat.setString(8, user.getCity());
             pStat.executeUpdate();
             result = true;
         } catch (Exception e) {
@@ -62,7 +111,7 @@ public class DbStore implements Store {
     public void update(int id, User user) {
         try (Connection connection = SOURCE.getConnection();
              PreparedStatement pStat = connection.prepareStatement(
-                     "UPDATE users SET name = ?, login = ?, email = ?, create_date = ?, password = ?, role = ? WHERE id = ?")
+                     "UPDATE users SET name = ?, login = ?, email = ?, create_date = ?, password = ?, role = ?, country = ?, city = ? WHERE id = ?")
         ) {
             pStat.setString(1, user.getName());
             pStat.setString(2, user.getLogin());
@@ -70,7 +119,9 @@ public class DbStore implements Store {
             pStat.setString(4, user.getCreateDate());
             pStat.setString(5, user.getPassword());
             pStat.setString(6, user.getRole());
-            pStat.setInt(7, id);
+            pStat.setString(7, user.getCountry());
+            pStat.setString(8, user.getCity());
+            pStat.setInt(9, id);
             pStat.executeUpdate();
         } catch (Exception e) {
             e.printStackTrace();
@@ -101,7 +152,13 @@ public class DbStore implements Store {
              Statement stat = connection.createStatement()) {
             ResultSet rs = stat.executeQuery("SELECT * FROM users");
             while (rs.next()) {
-                User user = new User(rs.getInt("id"), rs.getString("name"), rs.getString("password"), rs.getString("role"));
+                User user = new User(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("password"),
+                        rs.getString("role"),
+                        rs.getString("country"),
+                        rs.getString("city"));
                 result.add(user);
             }
 
@@ -119,7 +176,13 @@ public class DbStore implements Store {
             pStat.setInt(1, id);
             ResultSet rs = pStat.executeQuery();
             while (rs.next()) {
-                result = new User(rs.getInt("id"), rs.getString("name"), rs.getString("password"), rs.getString("role"));
+                result = new User(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("password"),
+                        rs.getString("role"),
+                        rs.getString("country"),
+                        rs.getString("city"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -136,7 +199,13 @@ public class DbStore implements Store {
             pStat.setString(2, password);
             ResultSet rs = pStat.executeQuery();
             while (rs.next()) {
-                result = new User(rs.getInt("id"), rs.getString("name"), rs.getString("password"), rs.getString("role"));
+                result = new User(
+                        rs.getInt("id"),
+                        rs.getString("name"),
+                        rs.getString("password"),
+                        rs.getString("role"),
+                        rs.getString("country"),
+                        rs.getString("city"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -154,6 +223,25 @@ public class DbStore implements Store {
             ResultSet rs = pStat.executeQuery();
             while (rs.next()) {
                 result = rs.getString("role");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    @Override
+    public List<String> getCities(String country) {
+        List<String> result = new ArrayList<>();
+        String sql = String.format(
+                "SELECT ci.name from cities as ci "
+                        + "LEFT OUTER JOIN countries as co ON ci.country_id=co.id "
+                        + "where co.name='%s';", country);
+        try (Connection connection = SOURCE.getConnection();
+             PreparedStatement pStat = connection.prepareStatement(sql)) {
+            ResultSet rs = pStat.executeQuery();
+            while (rs.next()) {
+                result.add(rs.getString("name"));
             }
         } catch (SQLException e) {
             e.printStackTrace();

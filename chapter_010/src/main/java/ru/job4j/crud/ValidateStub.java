@@ -60,4 +60,9 @@ public class ValidateStub implements Validate {
     public String userRole(String name, String password) {
         return null;
     }
+
+    @Override
+    public List<String> getCities(String country) {
+        return this.logic.getCities(country);
+    }
 }

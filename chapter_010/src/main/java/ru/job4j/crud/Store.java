@@ -18,4 +18,5 @@ public interface Store {
 
     String userRole(String name, String password);
 
+    List<String> getCities(String country);
 }

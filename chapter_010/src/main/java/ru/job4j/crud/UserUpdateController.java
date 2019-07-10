@@ -28,8 +28,13 @@ public class UserUpdateController extends HttpServlet {
             doGet(req, resp);
         } else {
             int id = this.validate.findById(Integer.parseInt(req.getParameter("id"))).getId();
-            this.validate.update(id, new User(req.getParameter("name"), req.getParameter("password"), req.getParameter("role")));
-            resp.sendRedirect(String.format("%s/", req.getContextPath()));
+            this.validate.update(id, new User(
+                    req.getParameter("name"),
+                    req.getParameter("password"),
+                    req.getParameter("role"),
+                    req.getParameter("country"),
+                    req.getParameter("city")));
+            resp.sendRedirect(String.format("%s/users", req.getContextPath()));
         }
     }
 }

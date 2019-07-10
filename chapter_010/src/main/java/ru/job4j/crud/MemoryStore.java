@@ -64,6 +64,11 @@ public final class MemoryStore implements Store {
         return null;
     }
 
+    @Override
+    public List<String> getCities(String country) {
+        return null;
+    }
+
     private int generateId() {
         return RN.nextInt();
     }
