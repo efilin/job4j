@@ -40,10 +40,12 @@ public class UserController extends HttpServlet {
         String name = req.getParameter("name");
         String password = req.getParameter("password");
         String role = req.getParameter("role");
+        String country = req.getParameter("country");
+        String city = req.getParameter("city");
         HttpSession session = req.getSession();
         if (session.getAttribute("role").equals("administrator")) {
-            this.actions.get(key).apply(new User(id, name, password, role));
-            resp.sendRedirect(String.format("%s/", req.getContextPath()));
+            this.actions.get(key).apply(new User(id, name, password, role, country, city));
+            resp.sendRedirect(String.format("%s/users", req.getContextPath()));
         } else {
             req.setAttribute("error", "Access denied. Not enough access rights.");
             doGet(req, resp);

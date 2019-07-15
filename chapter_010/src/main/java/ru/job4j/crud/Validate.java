@@ -16,4 +16,6 @@ public interface Validate {
     boolean isCredential(String name, String password);
 
     String userRole(String name, String password);
+
+    List<String> getCities(String country);
 }

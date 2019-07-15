@@ -8,18 +8,24 @@ public class User {
     private String createDate;
     private String password;
     private String role;
+    private String country;
+    private String city;
 
-    public User(String name, String password, String role) {
+    public User(String name, String password, String role, String country, String city) {
         this.name = name;
         this.password = password;
         this.role = role;
+        this.country = country;
+        this.city = city;
     }
 
-    public User(int id, String name, String password, String role) {
+    public User(int id, String name, String password, String role, String country, String city) {
         this.id = id;
         this.name = name;
         this.password = password;
         this.role = role;
+        this.country = country;
+        this.city = city;
     }
 
     public int getId() {
@@ -54,6 +60,14 @@ public class User {
         return role;
     }
 
+    public String getCountry() {
+        return country;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
     @Override
     public String toString() {
         return "User{"
@@ -64,6 +78,8 @@ public class User {
                 + ", createDate='" + createDate + '\''
                 + ", password='" + password + '\''
                 + ", role='" + role + '\''
+                + ", country='" + country + '\''
+                + ", city='" + city + '\''
                 + '}';
     }
 }

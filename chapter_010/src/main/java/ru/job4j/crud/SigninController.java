@@ -22,7 +22,7 @@ public class SigninController extends HttpServlet {
             String role = ValidateService.getInstance().userRole(name, password);
             session.setAttribute("name", name);
             session.setAttribute("role", role);
-            resp.sendRedirect(String.format("%s/", req.getContextPath()));
+            resp.sendRedirect(String.format("%s/users", req.getContextPath()));
         } else {
             req.setAttribute("error", "Credential invalid");
             doGet(req, resp);

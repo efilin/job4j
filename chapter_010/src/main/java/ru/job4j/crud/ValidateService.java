@@ -68,4 +68,9 @@ public class ValidateService implements Validate {
     public String userRole(String name, String password) {
         return this.logic.userRole(name, password);
     }
+
+    @Override
+    public List<String> getCities(String country) {
+        return this.logic.getCities(country);
+    }
 }
