@@ -18,3 +18,16 @@ CREATE TABLE IF NOT EXISTS cities (
   country_id INTEGER REFERENCES countries (id),
   name       VARCHAR(100)
 );
+CREATE TABLE IF NOT EXISTS accounts (
+  id    SERIAL PRIMARY KEY,
+  name  VARCHAR(100),
+  phone INTEGER
+);
+
+CREATE TABLE IF NOT EXISTS halls (
+  id                  SERIAL PRIMARY KEY,
+  row                 INTEGER,
+  seat                INTEGER,
+  price               INTEGER,
+  occupied_account_id INTEGER REFERENCES accounts (id)
+);
