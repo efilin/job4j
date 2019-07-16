@@ -18,3 +18,24 @@ CREATE TABLE IF NOT EXISTS cities (
   country_id INTEGER REFERENCES countries (id),
   name       VARCHAR(100)
 );
+CREATE TABLE IF NOT EXISTS accounts (
+  phone_id BIGINT PRIMARY KEY,
+  name     VARCHAR(100)
+);
+
+CREATE TABLE IF NOT EXISTS halls (
+  id                  SERIAL PRIMARY KEY,
+  seat                INTEGER,
+  occupied_account_id BIGINT REFERENCES accounts (phone_id)
+);
+
+INSERT INTO halls (seat) VALUES (1);
+INSERT INTO halls (seat) VALUES (2);
+INSERT INTO halls (seat) VALUES (3);
+INSERT INTO halls (seat) VALUES (4);
+INSERT INTO halls (seat) VALUES (5);
+INSERT INTO halls (seat) VALUES (6);
+INSERT INTO halls (seat) VALUES (7);
+INSERT INTO halls (seat) VALUES (8);
+INSERT INTO halls (seat) VALUES (9);
+

@@ -4,7 +4,7 @@
          xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee
          http://java.sun.com/xml/ns/j2ee/web-app_2_4.xsd"
          version="2.4">
-    <filter>
+    <!--<filter>
         <filter-name>AuthFilter</filter-name>
         <filter-class>ru.job4j.crud.AuthFilter</filter-class>
     </filter>
@@ -19,10 +19,19 @@
     <filter-mapping>
         <filter-name>AccessFilter</filter-name>
         <url-pattern>/update</url-pattern>
-    </filter-mapping>
-   <!-- <welcome-file-list>
-        <welcome-file>index.html</welcome-file>
-    </welcome-file-list>-->
+    </filter-mapping>-->
+    <welcome-file-list>
+        <welcome-file>cinema/index.html</welcome-file>
+    </welcome-file-list>
+    <servlet>
+        <servlet-name>HallServlet</servlet-name>
+        <servlet-class>ru.job4j.cinema.HallServlet</servlet-class>
+        <load-on-startup>1</load-on-startup>
+    </servlet>
+    <servlet-mapping>
+        <servlet-name>HallServlet</servlet-name>
+        <url-pattern>/cinema</url-pattern>
+    </servlet-mapping>
     <servlet>
         <servlet-name>CitiesController</servlet-name>
         <servlet-class>ru.job4j.crud.CitiesController</servlet-class>
