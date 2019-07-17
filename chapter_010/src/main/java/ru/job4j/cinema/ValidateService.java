@@ -1,5 +1,7 @@
 package ru.job4j.cinema;
 
+import java.util.List;
+
 public class ValidateService implements Validate {
 
     private final Store logic = DbStore.getInstance();
@@ -9,4 +11,13 @@ public class ValidateService implements Validate {
         return INSTANCE;
     }
 
+    @Override
+    public boolean add(Account account, int seat) {
+        return this.logic.add(account, seat);
+    }
+
+    @Override
+    public List<Integer> getOccupiedSeats() {
+        return this.logic.getOccupiedSeats();
+    }
 }
