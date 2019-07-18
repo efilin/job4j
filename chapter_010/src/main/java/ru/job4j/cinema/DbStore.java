@@ -26,11 +26,10 @@ public class DbStore implements Store {
     }
 
 
-    @Override
-    public boolean isAccountExists(Account account) {
+    public boolean isAccountExists(Connection connection, Account account) {
         Account result = null;
-        try (Connection connection = SOURCE.getConnection();
-             PreparedStatement pStat = connection.prepareStatement("SELECT * FROM accounts WHERE phone_id=? AND name=?")) {
+        try (PreparedStatement pStat = connection.prepareStatement(
+                "SELECT * FROM accounts WHERE phone_id=? AND name=?")) {
             pStat.setInt(1, account.getPhone());
             pStat.setString(2, account.getName());
             ResultSet rs = pStat.executeQuery();
@@ -50,6 +49,7 @@ public class DbStore implements Store {
         boolean result = false;
         try (Connection connection = SOURCE.getConnection()) {
             connection.setAutoCommit(false);
+            if (isAccountExists(connection, account))
 
 
             connection.commit();
