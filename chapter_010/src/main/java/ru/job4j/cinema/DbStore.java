@@ -3,6 +3,7 @@ package ru.job4j.cinema;
 import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.sql.*;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DbStore implements Store {
@@ -26,7 +27,7 @@ public class DbStore implements Store {
     }
 
 
-    public boolean isAccountExists(Connection connection, Account account) {
+    public boolean isAccountExists(Connection connection, Account account) throws SQLException {
         Account result = null;
         try (PreparedStatement pStat = connection.prepareStatement(
                 "SELECT * FROM accounts WHERE phone_id=? AND name=?")) {
@@ -38,8 +39,6 @@ public class DbStore implements Store {
                         rs.getString("name"),
                         rs.getInt("phone"));
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
         return result != null;
     }
@@ -49,31 +48,34 @@ public class DbStore implements Store {
         boolean result = false;
         try (Connection connection = SOURCE.getConnection()) {
             connection.setAutoCommit(false);
-            if (isAccountExists(connection, account))
-
-
-            connection.commit();
+            try {
+                if (!isAccountExists(connection, account)) {
+                    addAccount(connection, account);
+                }
+                addSeat(connection, account.getPhone(), seat);
+                connection.commit();
+            } catch (SQLException e) {
+                connection.rollback();
+                e.printStackTrace();
+            }
         } catch (SQLException e) {
             e.printStackTrace();
         }
         result = true;
-
         return result;
     }
 
-    public boolean addAccount(Connection connection, Account account) {
+    public boolean addAccount(Connection connection, Account account) throws SQLException {
         try (PreparedStatement pStat = connection.prepareStatement(
                 "INSERT INTO accounts(name, phone) values (?,?);")) {
             pStat.setString(1, account.getName());
             pStat.setInt(2, account.getPhone());
             pStat.executeUpdate();
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         return false;
     }
 
-    public boolean addSeat(Connection connection, int id, int seat) {
+    public boolean addSeat(Connection connection, int id, int seat) throws SQLException {
         boolean result = false;
         try (PreparedStatement ppStat = connection.prepareStatement(
                 "UPDATE halls SET occupied_account_id=? WHERE seat=?;")) {
@@ -81,14 +83,22 @@ public class DbStore implements Store {
             ppStat.setInt(2, seat);
             ppStat.executeUpdate();
             result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
         }
         return result;
     }
 
     @Override
     public List<Integer> getOccupiedSeats() {
-        return null;
+        List<Integer> result = new ArrayList<>();
+        try (Connection connection = SOURCE.getConnection();
+             Statement stat = connection.createStatement()) {
+            ResultSet rs = stat.executeQuery("SELECT seat FROM halls WHERE occupied_account_id IS NOT NULL;");
+            while (rs.next()) {
+                result.add(rs.getInt("seat"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return result;
     }
 }
