@@ -4,7 +4,9 @@ import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class DbStore implements Store {
 
@@ -67,9 +69,9 @@ public class DbStore implements Store {
 
     public boolean addAccount(Connection connection, Account account) throws SQLException {
         try (PreparedStatement pStat = connection.prepareStatement(
-                "INSERT INTO accounts(name, phone) values (?,?);")) {
-            pStat.setString(1, account.getName());
-            pStat.setInt(2, account.getPhone());
+                "INSERT INTO accounts(phone_id, name) values (?,?);")) {
+            pStat.setInt(1, account.getPhone());
+            pStat.setString(2, account.getName());
             pStat.executeUpdate();
         }
         return false;
@@ -88,13 +90,18 @@ public class DbStore implements Store {
     }
 
     @Override
-    public List<Integer> getOccupiedSeats() {
-        List<Integer> result = new ArrayList<>();
+    public List<Boolean> getSeats() {
+        List<Boolean> result = new ArrayList<>();
+        boolean occupancy;
         try (Connection connection = SOURCE.getConnection();
              Statement stat = connection.createStatement()) {
-            ResultSet rs = stat.executeQuery("SELECT seat FROM halls WHERE occupied_account_id IS NOT NULL;");
+            ResultSet rs = stat.executeQuery("SELECT occupied_account_id FROM halls ORDER BY seat;");
             while (rs.next()) {
-                result.add(rs.getInt("seat"));
+                occupancy = false;
+                if (rs.getObject("occupied_account_id") != null) {
+                    occupancy = true;
+                }
+                result.add(occupancy);
             }
         } catch (SQLException e) {
             e.printStackTrace();

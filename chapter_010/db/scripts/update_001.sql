@@ -30,12 +30,12 @@ CREATE TABLE IF NOT EXISTS halls (
   occupied_account_id INTEGER REFERENCES accounts (phone_id)
 );
 
-INSERT INTO halls (seat, price) VALUES (11, 700);
-INSERT INTO halls (seat, price) VALUES (12, 700);
-INSERT INTO halls (seat, price) VALUES (13, 700);
-INSERT INTO halls (seat, price) VALUES (21, 600);
-INSERT INTO halls (seat, price) VALUES (22, 600);
-INSERT INTO halls (seat, price) VALUES (23, 600);
-INSERT INTO halls (seat, price) VALUES (31, 500);
-INSERT INTO halls (seat, price) VALUES (32, 500);
-INSERT INTO halls (seat, price) VALUES (33, 500);
+INSERT INTO halls (seat, price) VALUES (1, 700);
+INSERT INTO halls (seat, price) VALUES (2, 700);
+INSERT INTO halls (seat, price) VALUES (3, 700);
+INSERT INTO halls (seat, price) VALUES (4, 600);
+INSERT INTO halls (seat, price) VALUES (5, 600);
+INSERT INTO halls (seat, price) VALUES (6, 600);
+INSERT INTO halls (seat, price) VALUES (7, 500);
+INSERT INTO halls (seat, price) VALUES (8, 500);
+INSERT INTO halls (seat, price) VALUES (9, 500);

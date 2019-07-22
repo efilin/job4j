@@ -17,7 +17,7 @@ public class ValidateService implements Validate {
     }
 
     @Override
-    public List<Integer> getOccupiedSeats() {
-        return this.logic.getOccupiedSeats();
+    public List<Boolean> getSeats() {
+        return this.logic.getSeats();
     }
 }

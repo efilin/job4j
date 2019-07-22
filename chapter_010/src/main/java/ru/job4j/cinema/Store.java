@@ -4,5 +4,5 @@ import java.util.List;
 
 public interface Store {
     boolean add(Account account, int seat);
-    List<Integer> getOccupiedSeats();
+    List<Boolean> getSeats();
 }
