@@ -18,20 +18,21 @@ public class HallServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        //validate.add(new Account("fas", 777), 3);
         hall = this.validate.getSeats();
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
         PrintWriter writer = new PrintWriter(resp.getOutputStream());
         ObjectMapper mapper = new ObjectMapper();
-        //String json = mapper.writeValueAsString(hall);
         mapper.writeValue(writer, hall);
         writer.flush();
-        //req.getRequestDispatcher("index.html").forward(req, resp);
     }
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+        Integer phone = Integer.parseInt(req.getParameter("phone"));
+        String username = req.getParameter("username");
+        Integer seat = Integer.parseInt(req.getParameter("place"));
+        this.validate.add(new Account(username, phone), seat);
+        resp.sendRedirect(String.format("%s/cinema", req.getContextPath()));
     }
 }

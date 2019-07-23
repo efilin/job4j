@@ -26,16 +26,16 @@ CREATE TABLE IF NOT EXISTS accounts (
 CREATE TABLE IF NOT EXISTS halls (
   id                  SERIAL PRIMARY KEY,
   seat                INTEGER,
-  price               INTEGER,
   occupied_account_id INTEGER REFERENCES accounts (phone_id)
 );
 
-INSERT INTO halls (seat, price) VALUES (1, 700);
-INSERT INTO halls (seat, price) VALUES (2, 700);
-INSERT INTO halls (seat, price) VALUES (3, 700);
-INSERT INTO halls (seat, price) VALUES (4, 600);
-INSERT INTO halls (seat, price) VALUES (5, 600);
-INSERT INTO halls (seat, price) VALUES (6, 600);
-INSERT INTO halls (seat, price) VALUES (7, 500);
-INSERT INTO halls (seat, price) VALUES (8, 500);
-INSERT INTO halls (seat, price) VALUES (9, 500);
+INSERT INTO halls (seat) VALUES (1);
+INSERT INTO halls (seat) VALUES (2);
+INSERT INTO halls (seat) VALUES (3);
+INSERT INTO halls (seat) VALUES (4);
+INSERT INTO halls (seat) VALUES (5);
+INSERT INTO halls (seat) VALUES (6);
+INSERT INTO halls (seat) VALUES (7);
+INSERT INTO halls (seat) VALUES (8);
+INSERT INTO halls (seat) VALUES (9);
+

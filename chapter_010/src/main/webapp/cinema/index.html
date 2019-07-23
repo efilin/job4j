@@ -41,7 +41,7 @@
     function nextPage() {
         var value = $('input[name=place]:checked').val();
         if (value !== undefined) {
-            window.document.location = "./payment.html?name=" + value;
+            window.document.location = "cinema/payment.html?name=" + value;
         } else {
             alert('Please choose a place!');
             return (false);
