@@ -13,12 +13,12 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class HallServlet extends HttpServlet {
 
-    private List<Boolean> hall = new CopyOnWriteArrayList<>();
+    //private List<Boolean> hall = new CopyOnWriteArrayList<>();
     private final Validate validate = ValidateService.getInstance();
 
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        hall = this.validate.getSeats();
+        List<Boolean> hall = this.validate.getSeats();
         resp.setContentType("application/json");
         resp.setCharacterEncoding("UTF-8");
         PrintWriter writer = new PrintWriter(resp.getOutputStream());
@@ -29,10 +29,10 @@ public class HallServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        Integer phone = Integer.parseInt(req.getParameter("phone"));
+        Long phone = Long.parseLong(req.getParameter("phone"));
         String username = req.getParameter("username");
         Integer seat = Integer.parseInt(req.getParameter("place"));
         this.validate.add(new Account(username, phone), seat);
-        resp.sendRedirect(String.format("%s/cinema", req.getContextPath()));
+        resp.sendRedirect(String.format("%s/", req.getContextPath()));
     }
 }

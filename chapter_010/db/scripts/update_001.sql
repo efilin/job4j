@@ -19,14 +19,14 @@ CREATE TABLE IF NOT EXISTS cities (
   name       VARCHAR(100)
 );
 CREATE TABLE IF NOT EXISTS accounts (
-  phone_id INTEGER PRIMARY KEY,
+  phone_id BIGINT PRIMARY KEY,
   name     VARCHAR(100)
 );
 
 CREATE TABLE IF NOT EXISTS halls (
   id                  SERIAL PRIMARY KEY,
   seat                INTEGER,
-  occupied_account_id INTEGER REFERENCES accounts (phone_id)
+  occupied_account_id BIGINT REFERENCES accounts (phone_id)
 );
 
 INSERT INTO halls (seat) VALUES (1);

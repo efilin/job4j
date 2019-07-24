@@ -3,9 +3,9 @@ package ru.job4j.cinema;
 public class Account {
 
     private String name;
-    private int phone;
+    private long phone;
 
-    public Account(String name, int phone) {
+    public Account(String name, long phone) {
         this.name = name;
         this.phone = phone;
     }
@@ -18,7 +18,7 @@ public class Account {
         this.name = name;
     }
 
-    public int getPhone() {
+    public long getPhone() {
         return phone;
     }
 

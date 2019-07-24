@@ -4,9 +4,7 @@ import org.apache.commons.dbcp2.BasicDataSource;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class DbStore implements Store {
 
@@ -33,13 +31,13 @@ public class DbStore implements Store {
         Account result = null;
         try (PreparedStatement pStat = connection.prepareStatement(
                 "SELECT * FROM accounts WHERE phone_id=? AND name=?")) {
-            pStat.setInt(1, account.getPhone());
+            pStat.setLong(1, account.getPhone());
             pStat.setString(2, account.getName());
             ResultSet rs = pStat.executeQuery();
             while (rs.next()) {
                 result = new Account(
                         rs.getString("name"),
-                        rs.getInt("phone"));
+                        rs.getLong("phone_id"));
             }
         }
         return result != null;
@@ -56,6 +54,7 @@ public class DbStore implements Store {
                 }
                 addSeat(connection, account.getPhone(), seat);
                 connection.commit();
+                result = true;
             } catch (SQLException e) {
                 connection.rollback();
                 e.printStackTrace();
@@ -63,25 +62,24 @@ public class DbStore implements Store {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        result = true;
         return result;
     }
 
     public boolean addAccount(Connection connection, Account account) throws SQLException {
         try (PreparedStatement pStat = connection.prepareStatement(
                 "INSERT INTO accounts(phone_id, name) values (?,?);")) {
-            pStat.setInt(1, account.getPhone());
+            pStat.setLong(1, account.getPhone());
             pStat.setString(2, account.getName());
             pStat.executeUpdate();
         }
         return false;
     }
 
-    public boolean addSeat(Connection connection, int id, int seat) throws SQLException {
+    public boolean addSeat(Connection connection, long id, int seat) throws SQLException {
         boolean result = false;
         try (PreparedStatement ppStat = connection.prepareStatement(
                 "UPDATE halls SET occupied_account_id=? WHERE seat=?;")) {
-            ppStat.setInt(1, id);
+            ppStat.setLong(1, id);
             ppStat.setInt(2, seat);
             ppStat.executeUpdate();
             result = true;
