@@ -13,7 +13,6 @@ import java.util.concurrent.CopyOnWriteArrayList;
 
 public class HallServlet extends HttpServlet {
 
-    //private List<Boolean> hall = new CopyOnWriteArrayList<>();
     private final Validate validate = ValidateService.getInstance();
 
     @Override

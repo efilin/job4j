@@ -22,7 +22,27 @@ public class Account {
         return phone;
     }
 
-    public void setPhone(int phone) {
-        this.phone = phone;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+        if (!(o instanceof Account)) {
+            return false;
+        }
+
+        Account account = (Account) o;
+
+        if (phone != account.phone) {
+            return false;
+        }
+        return name != null ? name.equals(account.name) : account.name == null;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = name != null ? name.hashCode() : 0;
+        result = 31 * result + (int) (phone ^ (phone >>> 32));
+        return result;
     }
 }

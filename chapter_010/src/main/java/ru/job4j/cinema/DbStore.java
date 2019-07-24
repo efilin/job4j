@@ -26,33 +26,26 @@ public class DbStore implements Store {
         SOURCE.setMaxOpenPreparedStatements(100);
     }
 
-
-    public boolean isAccountExists(Connection connection, Account account) throws SQLException {
-        Account result = null;
-        try (PreparedStatement pStat = connection.prepareStatement(
-                "SELECT * FROM accounts WHERE phone_id=? AND name=?")) {
-            pStat.setLong(1, account.getPhone());
-            pStat.setString(2, account.getName());
-            ResultSet rs = pStat.executeQuery();
-            while (rs.next()) {
-                result = new Account(
-                        rs.getString("name"),
-                        rs.getLong("phone_id"));
-            }
-        }
-        return result != null;
-    }
-
     @Override
     public boolean add(Account account, int seat) {
         boolean result = false;
-        try (Connection connection = SOURCE.getConnection()) {
-            connection.setAutoCommit(false);
+        try (Connection connection = SOURCE.getConnection();
+             PreparedStatement pStat = connection.prepareStatement(
+                     "INSERT INTO accounts(phone_id, name) values (?,?) "
+                             + "ON CONFLICT(phone_id) "
+                             + "DO NOTHING;");
+             PreparedStatement ppStat = connection.prepareStatement(
+                     "UPDATE halls "
+                             + "SET occupied_account_id = COALESCE(occupied_account_id, ?) "
+                             + "WHERE seat=?;")) {
             try {
-                if (!isAccountExists(connection, account)) {
-                    addAccount(connection, account);
-                }
-                addSeat(connection, account.getPhone(), seat);
+                connection.setAutoCommit(false);
+                pStat.setLong(1, account.getPhone());
+                pStat.setString(2, account.getName());
+                pStat.executeUpdate();
+                ppStat.setLong(1, account.getPhone());
+                ppStat.setInt(2, seat);
+                ppStat.executeUpdate();
                 connection.commit();
                 result = true;
             } catch (SQLException e) {
@@ -65,35 +58,14 @@ public class DbStore implements Store {
         return result;
     }
 
-    public boolean addAccount(Connection connection, Account account) throws SQLException {
-        try (PreparedStatement pStat = connection.prepareStatement(
-                "INSERT INTO accounts(phone_id, name) values (?,?);")) {
-            pStat.setLong(1, account.getPhone());
-            pStat.setString(2, account.getName());
-            pStat.executeUpdate();
-        }
-        return false;
-    }
-
-    public boolean addSeat(Connection connection, long id, int seat) throws SQLException {
-        boolean result = false;
-        try (PreparedStatement ppStat = connection.prepareStatement(
-                "UPDATE halls SET occupied_account_id=? WHERE seat=?;")) {
-            ppStat.setLong(1, id);
-            ppStat.setInt(2, seat);
-            ppStat.executeUpdate();
-            result = true;
-        }
-        return result;
-    }
 
     @Override
     public List<Boolean> getSeats() {
         List<Boolean> result = new ArrayList<>();
         boolean occupancy;
         try (Connection connection = SOURCE.getConnection();
-             Statement stat = connection.createStatement()) {
-            ResultSet rs = stat.executeQuery("SELECT occupied_account_id FROM halls ORDER BY seat;");
+             Statement stat = connection.createStatement();
+             ResultSet rs = stat.executeQuery("SELECT occupied_account_id FROM halls ORDER BY seat;")) {
             while (rs.next()) {
                 occupancy = false;
                 if (rs.getObject("occupied_account_id") != null) {
