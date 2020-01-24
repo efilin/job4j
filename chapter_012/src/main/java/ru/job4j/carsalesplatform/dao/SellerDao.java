@@ -1,19 +1,11 @@
 package ru.job4j.carsalesplatform.dao;
 
+import org.springframework.data.repository.CrudRepository;
 import ru.job4j.carsalesplatform.model.Seller;
 
 import java.util.List;
 
-public interface SellerDao {
-    int addSeller(Seller seller);
+public interface SellerDao  extends CrudRepository<Seller, Integer> {
 
-    void updateSeller(Seller seller);
-
-    void deleteSeller(Seller seller);
-
-    List<Seller> findAllSellers();
-
-    Seller findSellerById(int id);
-
-    Seller findSellerByLogin(String login);
+    Seller findByLogin(String login);
 }

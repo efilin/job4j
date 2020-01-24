@@ -1,25 +1,19 @@
 package ru.job4j.carsalesplatform.dao;
 
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.CrudRepository;
 import ru.job4j.carsalesplatform.model.SellingCar;
 
+import java.sql.Timestamp;
 import java.util.List;
 
-public interface SellingCarDao {
-    int addCar(SellingCar car);
+public interface SellingCarDao extends CrudRepository<SellingCar, Integer> {
 
-    void updateCar(SellingCar car);
+    List<SellingCar> findSellingCarsByCreatedAfter(Timestamp timestamp);
 
-    void deleteCar(SellingCar car);
+    List<SellingCar> findAllByManufacturer(String manufacturer);
 
-    List<SellingCar> findAllCars();
-
+    @Query("from SellingCar sc where sc.photo <>''")
     List<SellingCar> findCarsWithPhoto();
 
-    List<SellingCar> findLastDayCars();
-
-    List<SellingCar> findCurrentManufacturerCars(String manufacturer);
-
-    SellingCar findCarById(int id);
-
-    void changeSaleStatus(int id);
 }

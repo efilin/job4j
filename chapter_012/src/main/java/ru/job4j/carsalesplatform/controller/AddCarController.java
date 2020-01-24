@@ -36,13 +36,15 @@ public class AddCarController {
     public String addCar(@ModelAttribute("photoFile") MultipartFile photoFile,
                          @ModelAttribute("car") SellingCar car,
                          @SessionAttribute String login) throws IOException {
-        String uploadString = System.getProperty("java.io.tmpdir") + File.separator + "photo";
-        String extension = FilenameUtils.getExtension(photoFile.getOriginalFilename());
-        String fileName = String.format("photo-%s.%s", String.valueOf(System.currentTimeMillis()), extension);
-        Path path = Paths.get(uploadString, fileName);
-        Files.write(path, photoFile.getBytes());
+        if (!photoFile.isEmpty()) {
+            String uploadString = System.getProperty("java.io.tmpdir") + File.separator + "photo";
+            String extension = FilenameUtils.getExtension(photoFile.getOriginalFilename());
+            String fileName = String.format("photo-%s.%s", String.valueOf(System.currentTimeMillis()), extension);
+            Path path = Paths.get(uploadString, fileName);
+            Files.write(path, photoFile.getBytes());
 
-        car.setPhoto(path.toString());
+            car.setPhoto(path.toString());
+        }
         car.setOnSale(true);
         car.setCreated(new Timestamp(System.currentTimeMillis()));
 

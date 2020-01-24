@@ -5,7 +5,7 @@ import ru.job4j.carsalesplatform.model.SellingCar;
 import java.util.List;
 
 public interface ValidateSellingCar {
-    int addCar(SellingCar car);
+    void addCar(SellingCar car);
 
     void updateCar(SellingCar car);
 

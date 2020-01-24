@@ -2,35 +2,43 @@ package ru.job4j.carsalesplatform.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import ru.job4j.carsalesplatform.dao.SellingCarDao;
 import ru.job4j.carsalesplatform.model.SellingCar;
 
+import java.sql.Timestamp;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
+@Transactional
 public class ValidateSellingCarImpl implements ValidateSellingCar {
 
     @Autowired
     SellingCarDao sellingCarDao;
 
     @Override
-    public int addCar(SellingCar car) {
-        return sellingCarDao.addCar(car);
+    public void addCar(SellingCar car) {
+        sellingCarDao.save(car);
     }
 
     @Override
     public void updateCar(SellingCar car) {
-        sellingCarDao.updateCar(car);
+        sellingCarDao.findById(car.getId()).ifPresent(s -> sellingCarDao.save(s));
     }
 
     @Override
     public void deleteCar(SellingCar car) {
-        sellingCarDao.deleteCar(car);
+        sellingCarDao.delete(car);
     }
 
     @Override
     public List<SellingCar> findAllCars() {
-        return sellingCarDao.findAllCars();
+        List<SellingCar> result = new ArrayList<>();
+        sellingCarDao.findAll().forEach(result::add);
+        return result;
     }
 
     @Override
@@ -40,21 +48,24 @@ public class ValidateSellingCarImpl implements ValidateSellingCar {
 
     @Override
     public List<SellingCar> findLastDayCars() {
-        return sellingCarDao.findLastDayCars();
+        LocalDate date = LocalDateTime.now().toLocalDate();
+        Timestamp currentDateTime = Timestamp.valueOf(date.atStartOfDay());
+        return sellingCarDao.findSellingCarsByCreatedAfter(currentDateTime);
     }
 
     @Override
     public List<SellingCar> findCurrentManufacturerCars(String manufacturer) {
-        return sellingCarDao.findCurrentManufacturerCars(manufacturer);
+        return sellingCarDao.findAllByManufacturer(manufacturer);
     }
 
     @Override
     public SellingCar findCarById(int id) {
-        return sellingCarDao.findCarById(id);
+        return sellingCarDao.findById(id).orElse(null);
     }
 
     @Override
     public void changeSaleStatus(int id) {
-        sellingCarDao.changeSaleStatus(id);
+        sellingCarDao.findById(id).orElse(null)
+                .setOnSale(!sellingCarDao.findById(id).orElse(null).isOnSale());
     }
 }
