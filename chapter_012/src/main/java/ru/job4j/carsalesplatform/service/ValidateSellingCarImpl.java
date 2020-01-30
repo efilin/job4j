@@ -36,9 +36,7 @@ public class ValidateSellingCarImpl implements ValidateSellingCar {
 
     @Override
     public List<SellingCar> findAllCars() {
-        List<SellingCar> result = new ArrayList<>();
-        sellingCarDao.findAll().forEach(result::add);
-        return result;
+        return sellingCarDao.findAllByOrderByIdAsc();
     }
 
     @Override

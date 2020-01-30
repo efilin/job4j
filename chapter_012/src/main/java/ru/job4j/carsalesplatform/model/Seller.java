@@ -19,9 +19,11 @@ public class Seller {
     private int id;
     private String name;
     @NaturalId
-    private String login;
+    private String username;
     private String password;
+    private String role;
     private long phone;
+    private boolean active;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "seller", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<SellingCar> carsForSale = null;
 }

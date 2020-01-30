@@ -3,7 +3,6 @@ package ru.job4j.carsalesplatform.config;
 import org.springframework.web.filter.CharacterEncodingFilter;
 import org.springframework.web.filter.HiddenHttpMethodFilter;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
-import ru.job4j.carsalesplatform.controller.AuthFilter;
 
 import javax.servlet.Filter;
 
@@ -13,7 +12,7 @@ public class WebDesc extends AbstractAnnotationConfigDispatcherServletInitialize
 
     @Override
     protected Class<?>[] getRootConfigClasses() {
-        return new Class[]{SpringRootConfig.class};
+        return new Class[]{SpringRootConfig.class, WebSecurityConfig.class};
     }
 
     @Override
@@ -32,6 +31,6 @@ public class WebDesc extends AbstractAnnotationConfigDispatcherServletInitialize
                 new CharacterEncodingFilter();
         cef.setEncoding("UTF-8");
         cef.setForceEncoding(true);
-        return new Filter[]{new HiddenHttpMethodFilter(), cef, new AuthFilter()};
+        return new Filter[]{new HiddenHttpMethodFilter(), cef};
     }
 }

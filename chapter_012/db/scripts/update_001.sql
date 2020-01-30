@@ -1,9 +1,11 @@
 CREATE TABLE seller (
   id       serial PRIMARY KEY,
   name     VARCHAR(2000),
-  login    VARCHAR(2000),
+  username VARCHAR(2000),
   password VARCHAR(2000),
-  phone    BIGINT
+  role     VARCHAR(2000),
+  phone    BIGINT,
+  active   BOOLEAN
 );
 
 CREATE TABLE s_car (
