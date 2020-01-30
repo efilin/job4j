@@ -26,8 +26,8 @@
             var result = false;
             if (!$('#name').val()) {
                 alert($('#name').attr('title'));
-            } else if (!$('#login').val()) {
-                alert($('#login').attr('title'));
+            } else if (!$('#username').val()) {
+                alert($('#username').attr('title'));
             } else if (!$('#password').val()) {
                 alert($('#password').attr('title'));
             } else if (!$('#phone').val()) {
@@ -56,8 +56,8 @@
         </div>
         <div class="form-group">
             <div class="col-md-3">
-                <label for="login">Login:</label>
-                <input type="text" class="form-control" name="login" title="Введите login пользователя" id="login">
+                <label for="username">Login:</label>
+                <input type="text" class="form-control" name="username" title="Введите login пользователя" id="username">
             </div>
         </div>
         <div class="form-group">

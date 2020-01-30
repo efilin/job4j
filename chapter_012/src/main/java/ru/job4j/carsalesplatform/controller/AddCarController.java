@@ -3,6 +3,7 @@ package ru.job4j.carsalesplatform.controller;
 
 import org.apache.commons.io.FilenameUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -35,20 +36,19 @@ public class AddCarController {
     @PostMapping("/add")
     public String addCar(@ModelAttribute("photoFile") MultipartFile photoFile,
                          @ModelAttribute("car") SellingCar car,
-                         @SessionAttribute String login) throws IOException {
+                         Authentication authentication) throws IOException {
         if (!photoFile.isEmpty()) {
             String uploadString = System.getProperty("java.io.tmpdir") + File.separator + "photo";
             String extension = FilenameUtils.getExtension(photoFile.getOriginalFilename());
             String fileName = String.format("photo-%s.%s", String.valueOf(System.currentTimeMillis()), extension);
             Path path = Paths.get(uploadString, fileName);
             Files.write(path, photoFile.getBytes());
-
             car.setPhoto(path.toString());
         }
+
         car.setOnSale(true);
         car.setCreated(new Timestamp(System.currentTimeMillis()));
-
-        Seller seller = validateSeller.findSellerByLogin(login);
+        Seller seller = validateSeller.findSellerByLogin(authentication.getName());
         car.setSeller(seller);
 
         validateSellingCar.addCar(car);

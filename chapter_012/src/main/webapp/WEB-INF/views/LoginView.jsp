@@ -30,22 +30,22 @@
 
 <div class="container">
     <h2>Enter user login & password</h2>
-    <form class="form form-horizontal" action="${pageContext.servletContext.contextPath}/signin" method="post">
+    <form class="form form-horizontal" action="/login" method="post">
         <div class="form-group">
             <div class="col-md-3">
-                <label for="login">Login:</label>
-                <input type="text" class="form-control" name="login" id="login" placeholder="Enter user login">
+                <label for="username">Login:</label>
+                <input type="text" class="form-control" name="username" id="username" placeholder="Enter user login">
             </div>
         </div>
         <div class="form-group">
             <div class="col-md-3">
-                <label for="pwd">Password:</label>
-                <input type="password" class="form-control" name="password" id="pwd" placeholder="Enter password">
+                <label for="password">Password:</label>
+                <input type="password" class="form-control" name="password" id="password" placeholder="Enter password">
             </div>
         </div>
         <button type="submit" class="btn btn-primary">Login</button>
     </form>
-    <form class="form-inline" action="${pageContext.servletContext.contextPath}/addseller" method="get"
+    <form class="form-inline" action="/addseller" method="get"
           title="Добавить пользователя"
           id="formAdd">
         <button type="submit" class="btn btn-primary">Добавить пользователя</button>

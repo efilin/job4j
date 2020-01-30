@@ -8,7 +8,6 @@ import ru.job4j.carsalesplatform.model.Seller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @Transactional
@@ -45,7 +44,7 @@ public class ValidateSellerImpl implements ValidateSeller {
     }
 
     @Override
-    public Seller findSellerByLogin(String login) {
-        return sellerDao.findByLogin(login);
+    public Seller findSellerByLogin(String username) {
+        return sellerDao.findByUsername(username);
     }
 }

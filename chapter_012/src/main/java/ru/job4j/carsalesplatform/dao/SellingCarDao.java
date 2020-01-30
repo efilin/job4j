@@ -9,6 +9,8 @@ import java.util.List;
 
 public interface SellingCarDao extends CrudRepository<SellingCar, Integer> {
 
+    List<SellingCar> findAllByOrderByIdAsc();
+
     List<SellingCar> findSellingCarsByCreatedAfter(Timestamp timestamp);
 
     List<SellingCar> findAllByManufacturer(String manufacturer);
