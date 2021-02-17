@@ -46,8 +46,8 @@
 Серверная сторона: PostgreSQL, JDBC, SQL, Servlet, Apache Tomcat. Клиентская сторона: JSP, AJAX, JSON, HTTP, CSS, JavaScript jQuery.
 
 
-[chapter_011](https://github.com/efilin/job4j/tree/master/chapter_011"),
-[chapter_012](https://github.com/efilin/job4j/tree/master/chapter_012") -  Hibernate, Spring Framework.(IoC, Spring MVC, Data, Security)
+[chapter_011](https://github.com/efilin/job4j/tree/master/chapter_011),
+[chapter_012](https://github.com/efilin/job4j/tree/master/chapter_012) -  Hibernate, Spring Framework.(IoC, Spring MVC, Data, Security)
 Мини-проекты: 
  + [TODO list](https://github.com/efilin/job4j_hibernate/tree/master/todolist) - Tomcat Servlet Container, Hibernate ORM, PostgreSQL, HTML, CSS, JavaScript, Ajax, JSON.
  + [Площадка продаж машин](https://car-sales-platform.herokuapp.com/) [(source code)](https://github.com/efilin/job4j-car-sales-platform) - Spring Framework.(IoC, Spring MVC, Data, Security, Boot), ORM Hibernate, PostgreSQL, Apache Commons FileUpload, JavaScript, HTML,Thymeleaf, jQuery, Ajax, Log4j, Heroku.
