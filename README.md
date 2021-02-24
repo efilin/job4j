@@ -39,7 +39,7 @@
 + [Программа поиска файлов по критерию.](https://github.com/efilin/job4j/tree/master/chapter_008/src/main/java/ru/job4j/finder)
 
                                                                                     
-[chapter_009](https://github.com/efilin/job4j/tree/master/chapter_009) - Garbage Collector, ООД(Принципы SOLID, Разработка через тестирование (TDD))
+[chapter_009](https://github.com/efilin/job4j/tree/master/chapter_009) - Garbage Collector, ООД (Принципы SOLID, Разработка через тестирование (TDD))
 
 [chapter_010](https://github.com/efilin/job4j/tree/master/chapter_010) -  Servlets, JSP, JSTL, JSON, AJAX, HTTP. HTML, JavaScript, CSS, Bootstrap.                                                                             
 Мини-проект: [Кинотеатр, бронирование свободных мест, покупка билетов.](https://github.com/efilin/job4j/tree/master/chapter_010)
@@ -47,7 +47,9 @@
 
 
 [chapter_011](https://github.com/efilin/job4j/tree/master/chapter_011),
-[chapter_012](https://github.com/efilin/job4j/tree/master/chapter_012) -  Hibernate, Spring Framework.(IoC, Spring MVC, Data, Security)
+[chapter_012](https://github.com/efilin/job4j/tree/master/chapter_012),
+[job4j_hibernate](https://github.com/efilin/job4j_hibernate),
+[job4j-car-sales-platform](https://github.com/efilin/job4j-car-sales-platform) -  Hibernate, Spring Framework.(IoC, Spring MVC, Data, Security)
 Мини-проекты: 
  + [TODO list](https://github.com/efilin/job4j_hibernate/tree/master/todolist) - Tomcat Servlet Container, Hibernate ORM, PostgreSQL, HTML, CSS, JavaScript, Ajax, JSON.
  + [Площадка продаж машин](https://car-sales-platform.herokuapp.com/) [(source code)](https://github.com/efilin/job4j-car-sales-platform) - Spring Framework.(IoC, Spring MVC, Data, Security, Boot), ORM Hibernate, PostgreSQL, Apache Commons FileUpload, JavaScript, HTML,Thymeleaf, jQuery, Ajax, Log4j, Heroku.
